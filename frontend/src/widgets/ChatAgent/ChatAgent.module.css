@@ -190,6 +190,11 @@
   gap: 0.5rem;
 }
 
+.controlButton {
+  padding: 0;
+  margin: 0;
+}
+
 @media (max-width: 480px) {
   .chatControls {
     gap: 0.25rem;
@@ -416,8 +421,8 @@
 }
 
 .sendButton {
-  width: 40px;
-  height: 40px;
+  width: fit-content;
+  height: 100%;
   border-radius: 8px;
   background: var(--gradient-primary);
   border: none;
@@ -429,14 +434,8 @@
   transition: all 0.3s ease;
   box-shadow: 0 2px 8px var(--shadow-purple);
   flex-shrink: 0;
-}
-
-@media (max-width: 480px) {
-  .sendButton {
-    width: 36px;
-    height: 36px;
-    border-radius: 6px;
-  }
+  padding: 0 10px;
+  margin: 0;
 }
 
 .sendButton:hover:not(:disabled) {
@@ -449,16 +448,4 @@
   cursor: not-allowed;
   transform: none;
   box-shadow: none;
-}
-
-.sendButton svg {
-  width: 18px;
-  height: 18px;
-}
-
-@media (max-width: 480px) {
-  .sendButton svg {
-    width: 16px;
-    height: 16px;
-  }
 }

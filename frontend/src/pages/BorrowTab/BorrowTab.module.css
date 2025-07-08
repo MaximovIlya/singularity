@@ -76,7 +76,7 @@
   background-color: var(--bg-interactive);
   border: 1px solid rgba(139, 92, 246, 0.3);
   border-radius: 8px;
-  color: var(--purple-primary);
+  color: var(--text-primary);
   margin-bottom: 0;
   box-shadow: none;
   transition: all 0.3s ease;
@@ -84,7 +84,6 @@
 
 .swapButton:hover {
   background-color: var(--purple-primary);
-  color: var(--text-primary);
   transform: rotate(180deg);
   box-shadow: none;
 }
