@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { PiggyBank, Percent, TrendingUp, BarChart3 } from 'lucide-react';
 import { InterestChart } from '../../widgets/InterestChart/InterestChart';
-import './InvestTab.css';
+import styles from './InvestTab.module.css';
 
 interface InvestmentOption {
   currency: string;
@@ -62,14 +62,14 @@ export const InvestTab: React.FC = () => {
   };
 
   return (
-    <div className='invest-tab'>
-      <div className='invest-form card'>
-        <h2 className='form-title'>
-          <PiggyBank className='title-icon' />
+    <div className={styles.investTab}>
+      <div className={`${styles.investForm} card`}>
+        <h2 className={styles.formTitle}>
+          <PiggyBank className={styles.titleIcon} />
           Инвестировать
         </h2>
 
-        <div className='currency-selection'>
+        <div className={styles.currencySelection}>
           <label>Валюта для инвестиций</label>
           <select
             value={selectedCurrency}
@@ -84,24 +84,24 @@ export const InvestTab: React.FC = () => {
         </div>
 
         {selectedOption && (
-          <div className='investment-info card'>
-            <div className='info-header'>
+          <div className={`${styles.investmentInfo} card`}>
+            <div className={styles.infoHeader}>
               <h3>{selectedOption.currency}</h3>
-              <div className='apy-badge'>
-                <Percent className='percent-icon' />
+              <div className={styles.apyBadge}>
+                <Percent className={styles.percentIcon} />
                 {selectedOption.apy}% APY
               </div>
             </div>
 
-            <div className='info-details'>
-              <div className='info-item'>
+            <div className={styles.infoDetails}>
+              <div className={styles.infoItem}>
                 <span>Общая ликвидность:</span>
                 <span>${selectedOption.totalLiquidity.toLocaleString()}</span>
               </div>
-              <div className='info-item'>
+              <div className={styles.infoItem}>
                 <span>Уровень риска:</span>
                 <span
-                  className='risk-label'
+                  className={styles.riskLabel}
                   style={{ color: getRiskColor(selectedOption.risk) }}
                 >
                   {getRiskLabel(selectedOption.risk)}
@@ -111,7 +111,7 @@ export const InvestTab: React.FC = () => {
           </div>
         )}
 
-        <div className='amount-input'>
+        <div className={styles.amountInput}>
           <label>Сумма инвестиций</label>
           <input
             type='number'
@@ -121,7 +121,7 @@ export const InvestTab: React.FC = () => {
           />
         </div>
 
-        <div className='duration-selection'>
+        <div className={styles.durationSelection}>
           <label>Срок инвестиций (дни)</label>
           <select value={duration} onChange={e => setDuration(e.target.value)}>
             <option value='7'>7 дней</option>
@@ -135,22 +135,22 @@ export const InvestTab: React.FC = () => {
         </div>
 
         {amount && (
-          <div className='returns-calculation card'>
+          <div className={`${styles.returnsCalculation} card`}>
             <h4>Ожидаемая доходность</h4>
-            <div className='returns-details'>
-              <div className='return-item'>
+            <div className={styles.returnsDetails}>
+              <div className={styles.returnItem}>
                 <span>Вложено:</span>
                 <span>
                   {amount} {selectedCurrency}
                 </span>
               </div>
-              <div className='return-item'>
+              <div className={styles.returnItem}>
                 <span>Прибыль за {duration} дней:</span>
-                <span className='profit'>
+                <span className={styles.profit}>
                   +{calculateReturns().toFixed(4)} {selectedCurrency}
                 </span>
               </div>
-              <div className='return-item total'>
+              <div className={`${styles.returnItem} ${styles.total}`}>
                 <span>Итого к получению:</span>
                 <span>
                   {(parseFloat(amount) + calculateReturns()).toFixed(4)}{' '}
@@ -161,16 +161,16 @@ export const InvestTab: React.FC = () => {
           </div>
         )}
 
-        <button className='invest-button'>
-          <TrendingUp className='button-icon' />
+        <button className={styles.investButton}>
+          <TrendingUp className={styles.buttonIcon} />
           Инвестировать
         </button>
       </div>
 
-      <div className='chart-section'>
-        <div className='chart-header'>
+      <div className={styles.chartSection}>
+        <div className={styles.chartHeader}>
           <h3>
-            <BarChart3 className='chart-icon' />
+            <BarChart3 className={styles.chartIcon} />
             Исторический график процентных ставок
           </h3>
         </div>

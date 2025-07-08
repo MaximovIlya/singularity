@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { TrendingUp, Calculator, Clock, ArrowDownUp } from 'lucide-react';
-import './BorrowTab.css';
+import styles from './BorrowTab.module.css';
 
 interface Quote {
   lender: string;
@@ -58,15 +58,15 @@ export const BorrowTab: React.FC = () => {
   };
 
   return (
-    <div className='borrow-tab'>
-      <div className='borrow-form card'>
-        <h2 className='form-title'>
-          <TrendingUp className='title-icon' />
+    <div className={styles.borrowTab}>
+      <div className={`${styles.borrowForm} card`}>
+        <h2 className={styles.formTitle}>
+          <TrendingUp className={styles.titleIcon} />
           Взять в долг
         </h2>
 
-        <div className='coin-selection'>
-          <div className='coin-group'>
+        <div className={styles.coinSelection}>
+          <div className={styles.coinGroup}>
             <label>Обеспечение</label>
             <select
               value={fromCoin}
@@ -80,11 +80,11 @@ export const BorrowTab: React.FC = () => {
             </select>
           </div>
 
-          <button className='swap-button' onClick={swapCoins}>
+          <button className={styles.swapButton} onClick={swapCoins}>
             <ArrowDownUp />
           </button>
 
-          <div className='coin-group'>
+          <div className={styles.coinGroup}>
             <label>Получить</label>
             <select value={toCoin} onChange={e => setToCoin(e.target.value)}>
               {coins.map(coin => (
@@ -96,7 +96,7 @@ export const BorrowTab: React.FC = () => {
           </div>
         </div>
 
-        <div className='amount-input'>
+        <div className={styles.amountInput}>
           <label>Сумма для получения</label>
           <input
             type='number'
@@ -106,9 +106,9 @@ export const BorrowTab: React.FC = () => {
           />
         </div>
 
-        <div className='duration-selection'>
+        <div className={styles.durationSelection}>
           <label>
-            <Clock className='label-icon' />
+            <Clock className={styles.labelIcon} />
             Срок займа (дни)
           </label>
           <select value={duration} onChange={e => setDuration(e.target.value)}>
@@ -121,44 +121,46 @@ export const BorrowTab: React.FC = () => {
         </div>
 
         <button
-          className='get-quotes-button'
+          className={styles.getQuotesButton}
           onClick={getQuotes}
           disabled={!amount || loading}
         >
-          <Calculator className='button-icon' />
+          <Calculator className={styles.buttonIcon} />
           {loading ? 'Получение котировок...' : 'Получить котировки'}
         </button>
       </div>
 
       {quotes.length > 0 && (
-        <div className='quotes-section'>
+        <div className={styles.quotesSection}>
           <h3>Доступные предложения</h3>
-          <div className='quotes-list'>
+          <div className={styles.quotesList}>
             {quotes.map((quote, index) => (
-              <div key={index} className='quote-card card'>
-                <div className='quote-header'>
-                  <span className='lender'>Кредитор: {quote.lender}</span>
-                  <span className='interest-rate'>
+              <div key={index} className={`${styles.quoteCard} card`}>
+                <div className={styles.quoteHeader}>
+                  <span className={styles.lender}>
+                    Кредитор: {quote.lender}
+                  </span>
+                  <span className={styles.interestRate}>
                     {quote.interestRate}% APR
                   </span>
                 </div>
-                <div className='quote-details'>
-                  <div className='detail'>
+                <div className={styles.quoteDetails}>
+                  <div className={styles.detail}>
                     <span>Сумма:</span>
                     <span>
                       {quote.amount} {toCoin}
                     </span>
                   </div>
-                  <div className='detail'>
+                  <div className={styles.detail}>
                     <span>Срок:</span>
                     <span>{quote.duration} дней</span>
                   </div>
-                  <div className='detail'>
+                  <div className={styles.detail}>
                     <span>Обеспечение:</span>
                     <span>{quote.collateralRatio}%</span>
                   </div>
                 </div>
-                <button className='accept-quote-button'>
+                <button className={styles.acceptQuoteButton}>
                   Принять предложение
                 </button>
               </div>

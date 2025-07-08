@@ -4,7 +4,7 @@ import { Header } from '../widgets/Header/Header';
 import { BorrowTab } from '../pages/BorrowTab/BorrowTab';
 import { InvestTab } from '../pages/InvestTab/InvestTab';
 import { ChatAgent } from '../widgets/ChatAgent/ChatAgent';
-import './App.css';
+import styles from './App.module.css';
 
 export type TabType = 'borrow' | 'invest';
 
@@ -13,27 +13,27 @@ function App() {
 
   return (
     <BrowserRouter>
-      <div className='app'>
+      <div className={styles.app}>
         <Header />
-        <main className='main-content'>
+        <main className={styles.mainContent}>
           <div className='container'>
-            <div className='tabs-container'>
-              <div className='tabs-header'>
+            <div className={styles.tabsContainer}>
+              <div className={styles.tabsHeader}>
                 <button
-                  className={`tab-button ${activeTab === 'borrow' ? 'active' : ''}`}
+                  className={`${styles.tabButton} ${activeTab === 'borrow' ? styles.active : ''}`}
                   onClick={() => setActiveTab('borrow')}
                 >
                   Взять в долг
                 </button>
                 <button
-                  className={`tab-button ${activeTab === 'invest' ? 'active' : ''}`}
+                  className={`${styles.tabButton} ${activeTab === 'invest' ? styles.active : ''}`}
                   onClick={() => setActiveTab('invest')}
                 >
                   Вложить
                 </button>
               </div>
 
-              <div className='tab-content'>
+              <div className={styles.tabContent}>
                 {activeTab === 'borrow' && <BorrowTab />}
                 {activeTab === 'invest' && <InvestTab />}
               </div>

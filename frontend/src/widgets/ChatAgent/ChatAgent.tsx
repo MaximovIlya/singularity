@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { MessageCircle, X, Maximize2, Minimize2, Send } from 'lucide-react';
-import './ChatAgent.css';
+import styles from './ChatAgent.module.css';
 
 interface Message {
   id: string;
@@ -108,28 +108,33 @@ export const ChatAgent: React.FC = () => {
     <>
       {/* Плавающая кнопка */}
       {!isOpen && (
-        <button className='chat-float-button' onClick={() => setIsOpen(true)}>
+        <button
+          className={styles.chatFloatButton}
+          onClick={() => setIsOpen(true)}
+        >
           <MessageCircle />
         </button>
       )}
 
       {/* Чат окно */}
       {isOpen && (
-        <div className={`chat-window ${isFullscreen ? 'fullscreen' : ''}`}>
-          <div className='chat-header'>
-            <div className='chat-title'>
-              <MessageCircle className='chat-icon' />
+        <div
+          className={`${styles.chatWindow} ${isFullscreen ? styles.fullscreen : ''}`}
+        >
+          <div className={styles.chatHeader}>
+            <div className={styles.chatTitle}>
+              <MessageCircle className={styles.chatIcon} />
               <span>AI Помощник</span>
             </div>
-            <div className='chat-controls'>
+            <div className={styles.chatControls}>
               <button
-                className='control-button'
+                className={styles.controlButton}
                 onClick={() => setIsFullscreen(!isFullscreen)}
               >
                 {isFullscreen ? <Minimize2 /> : <Maximize2 />}
               </button>
               <button
-                className='control-button'
+                className={styles.controlButton}
                 onClick={() => setIsOpen(false)}
               >
                 <X />
@@ -137,15 +142,15 @@ export const ChatAgent: React.FC = () => {
             </div>
           </div>
 
-          <div className='chat-messages'>
+          <div className={styles.chatMessages}>
             {messages.map(message => (
               <div
                 key={message.id}
-                className={`message ${message.isUser ? 'user' : 'agent'}`}
+                className={`${styles.message} ${message.isUser ? styles.user : styles.agent}`}
               >
-                <div className='message-content'>
+                <div className={styles.messageContent}>
                   <p>{message.text}</p>
-                  <span className='message-time'>
+                  <span className={styles.messageTime}>
                     {formatTime(message.timestamp)}
                   </span>
                 </div>
@@ -153,9 +158,9 @@ export const ChatAgent: React.FC = () => {
             ))}
 
             {isTyping && (
-              <div className='message agent'>
-                <div className='message-content'>
-                  <div className='typing-indicator'>
+              <div className={`${styles.message} ${styles.agent}`}>
+                <div className={styles.messageContent}>
+                  <div className={styles.typingIndicator}>
                     <span></span>
                     <span></span>
                     <span></span>
@@ -166,7 +171,7 @@ export const ChatAgent: React.FC = () => {
             <div ref={messagesEndRef} />
           </div>
 
-          <div className='chat-input'>
+          <div className={styles.chatInput}>
             <textarea
               value={inputText}
               onChange={e => setInputText(e.target.value)}
@@ -177,7 +182,7 @@ export const ChatAgent: React.FC = () => {
             <button
               onClick={sendMessage}
               disabled={!inputText.trim()}
-              className='send-button'
+              className={styles.sendButton}
             >
               <Send />
             </button>

@@ -1,0 +1,130 @@
+.app {
+  min-height: 100vh;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+.mainContent {
+  padding: var(--section-padding) 0;
+  min-height: calc(100vh - 80px);
+}
+
+.tabsContainer {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.tabsHeader {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 2rem;
+  background-color: var(--bg-secondary);
+  padding: 4px;
+  border-radius: 12px;
+  border: 1px solid rgba(139, 92, 246, 0.1);
+}
+
+/* Mobile: Stack tabs vertically on very small screens */
+@media (max-width: 480px) {
+  .tabsHeader {
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 1.5rem;
+  }
+
+  .mainContent {
+    min-height: calc(100vh - 70px);
+  }
+}
+
+.tabButton {
+  flex: 1;
+  padding: 12px 24px;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  color: var(--text-secondary);
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: none;
+}
+
+/* Responsive tab button sizing */
+@media (max-width: 767px) {
+  .tabButton {
+    padding: 14px 20px;
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .tabButton {
+    padding: 16px 24px;
+    font-size: 1rem;
+    border-radius: 10px;
+  }
+}
+
+.tabButton:hover {
+  color: var(--text-primary);
+  background-color: var(--bg-interactive);
+  transform: none;
+  box-shadow: none;
+}
+
+.tabButton.active {
+  background: var(--gradient-primary);
+  color: var(--text-primary);
+  box-shadow: 0 4px 12px var(--shadow-purple);
+}
+
+.tabButton.active:hover {
+  transform: none;
+  box-shadow: 0 4px 16px var(--glow-intense);
+}
+
+.tabContent {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Tablet adjustments */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .tabsContainer {
+    max-width: 90%;
+  }
+
+  .mainContent {
+    min-height: calc(100vh - 85px);
+  }
+}
+
+/* Desktop adjustments */
+@media (min-width: 1024px) {
+  .mainContent {
+    min-height: calc(100vh - 90px);
+  }
+
+  .tabsContainer {
+    max-width: 900px;
+  }
+}
+
+/* Large desktop adjustments */
+@media (min-width: 1440px) {
+  .tabsContainer {
+    max-width: 1000px;
+  }
+}

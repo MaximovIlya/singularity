@@ -1,4 +1,16 @@
 :root {
+  /* Responsive breakpoints */
+  --mobile-max: 767px;
+  --tablet-min: 768px;
+  --tablet-max: 1023px;
+  --desktop-min: 1024px;
+  --desktop-large-min: 1440px;
+
+  /* Spacing responsive variables */
+  --container-padding: 16px;
+  --section-padding: 16px;
+  --grid-gap: 16px;
+
   /* Фоновые цвета */
   --bg-primary: #0b0b0f;
   --bg-secondary: #1a1a24;
@@ -50,6 +62,23 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Responsive spacing updates */
+@media (min-width: 768px) {
+  :root {
+    --container-padding: 24px;
+    --section-padding: 32px;
+    --grid-gap: 24px;
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --container-padding: 32px;
+    --section-padding: 48px;
+    --grid-gap: 32px;
+  }
+}
+
 * {
   box-sizing: border-box;
 }
@@ -91,7 +120,7 @@ h6 {
 }
 
 h1 {
-  font-size: 2.5rem;
+  font-size: clamp(2rem, 4vw, 2.5rem);
   background: var(--gradient-header);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -99,20 +128,20 @@ h1 {
 }
 
 h2 {
-  font-size: 2rem;
+  font-size: clamp(1.5rem, 3vw, 2rem);
   color: var(--text-primary);
 }
 
 h3 {
-  font-size: 1.5rem;
+  font-size: clamp(1.25rem, 2.5vw, 1.5rem);
   color: var(--text-secondary);
 }
 
 button {
   border-radius: 12px;
   border: 1px solid transparent;
-  padding: 12px 24px;
-  font-size: 1rem;
+  padding: clamp(10px, 2vw, 12px) clamp(16px, 4vw, 24px);
+  font-size: clamp(0.875rem, 2vw, 1rem);
   font-weight: 500;
   font-family: inherit;
   background: var(--gradient-primary);
@@ -164,7 +193,7 @@ textarea:focus {
 .card {
   background-color: var(--bg-secondary);
   border-radius: 16px;
-  padding: 24px;
+  padding: var(--section-padding);
   border: 1px solid rgba(139, 92, 246, 0.1);
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
 }
@@ -172,7 +201,7 @@ textarea:focus {
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 var(--container-padding);
 }
 
 /* Utility classes */

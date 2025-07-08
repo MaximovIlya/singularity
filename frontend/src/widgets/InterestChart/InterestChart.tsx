@@ -11,7 +11,7 @@ import {
   Filler,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
-import './InterestChart.css';
+import styles from './InterestChart.module.css';
 
 ChartJS.register(
   CategoryScale,
@@ -171,22 +171,22 @@ export const InterestChart: React.FC<InterestChartProps> = ({ currency }) => {
 
   if (loading) {
     return (
-      <div className='chart-loading'>
-        <div className='loading-spinner'></div>
+      <div className={styles.chartLoading}>
+        <div className={styles.loadingSpinner}></div>
         <span>Загрузка данных...</span>
       </div>
     );
   }
 
   return (
-    <div className='interest-chart'>
-      <div className='chart-info'>
-        <span className='currency-label'>{currency}</span>
-        <span className='current-rate'>
+    <div className={styles.interestChart}>
+      <div className={styles.chartInfo}>
+        <span className={styles.currencyLabel}>{currency}</span>
+        <span className={styles.currentRate}>
           {chartData[chartData.length - 1]?.rate.toFixed(2)}% APY
         </span>
       </div>
-      <div className='chart-container'>
+      <div className={styles.chartContainer}>
         <Line data={data} options={chartOptions} />
       </div>
     </div>
