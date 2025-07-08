@@ -1,0 +1,26 @@
+{
+  "name": "singularity",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Децентрализованная платформа взаимного кредитования на Ethereum",
+  "scripts": {
+    "prepare": "husky",
+    "dev:frontend": "cd frontend && pnpm run dev",
+    "build:frontend": "cd frontend && pnpm run build",
+    "lint:frontend": "cd frontend && pnpm run lint",
+    "format:frontend": "cd frontend && pnpm run format",
+    "install:frontend": "cd frontend && pnpm install"
+  },
+  "devDependencies": {
+    "husky": "^9.1.7"
+  },
+  "workspaces": [
+    "frontend"
+  ],
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=8.0.0"
+  },
+  "packageManager": "pnpm@8.15.4"
+}

@@ -1,0 +1,211 @@
+.invest-tab {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+.invest-form {
+  max-width: 500px;
+}
+
+.form-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+  color: var(--text-primary);
+}
+
+.title-icon {
+  color: var(--purple-primary);
+}
+
+.currency-selection {
+  margin-bottom: 1.5rem;
+}
+
+.currency-selection label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.investment-info {
+  margin-bottom: 1.5rem;
+  background-color: var(--bg-interactive);
+  border: 1px solid rgba(139, 92, 246, 0.2);
+}
+
+.info-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.info-header h3 {
+  font-size: 1.2rem;
+  color: var(--text-primary);
+}
+
+.apy-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 6px 12px;
+  background: var(--gradient-primary);
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.percent-icon {
+  width: 14px;
+  height: 14px;
+}
+
+.info-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--text-secondary);
+}
+
+.info-item span:last-child {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.risk-label {
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+}
+
+.amount-input,
+.duration-selection {
+  margin-bottom: 1.5rem;
+}
+
+.amount-input label,
+.duration-selection label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.returns-calculation {
+  margin-bottom: 1.5rem;
+  background-color: var(--bg-interactive);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.returns-calculation h4 {
+  margin-bottom: 1rem;
+  color: var(--color-success);
+  font-size: 1.1rem;
+}
+
+.returns-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.return-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--text-secondary);
+}
+
+.return-item span:last-child {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.return-item.total {
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(139, 92, 246, 0.2);
+  font-weight: 600;
+}
+
+.return-item.total span {
+  color: var(--text-primary);
+  font-size: 1.1rem;
+}
+
+.profit {
+  color: var(--color-success) !important;
+  font-weight: 600;
+}
+
+.invest-button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 16px;
+  font-size: 1.1rem;
+}
+
+.button-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.chart-section {
+  height: fit-content;
+}
+
+.chart-header {
+  margin-bottom: 1rem;
+}
+
+.chart-header h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-primary);
+  font-size: 1.2rem;
+}
+
+.chart-icon {
+  color: var(--purple-primary);
+}
+
+@media (max-width: 1024px) {
+  .invest-tab {
+    grid-template-columns: 1fr;
+  }
+
+  .invest-form {
+    max-width: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .info-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+
+  .apy-badge {
+    align-self: center;
+  }
+}

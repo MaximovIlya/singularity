@@ -1,72 +1,229 @@
-@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
-
 :root {
-  font-family: 'Share Tech Mono', 'Consolas', monospace;
-  line-height: 1.5;
+  /* Фоновые цвета */
+  --bg-primary: #0b0b0f;
+  --bg-secondary: #1a1a24;
+  --bg-interactive: #242438;
+
+  /* Текстовые цвета */
+  --text-primary: #ffffff;
+  --text-secondary: #e0e0e8;
+  --text-tertiary: #b8b8cc;
+
+  /* Фиолетовая палитра */
+  --purple-primary: #8b5cf6;
+  --purple-light: #a78bfa;
+  --purple-dark: #7c3aed;
+  --purple-deep: #6d28d9;
+
+  /* Градиенты */
+  --gradient-primary: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+  --gradient-header: linear-gradient(
+    90deg,
+    #6d28d9 0%,
+    #8b5cf6 50%,
+    #a78bfa 100%
+  );
+
+  /* Состояния */
+  --color-success: #10b981;
+  --color-error: #ef4444;
+  --color-warning: #f59e0b;
+  --color-info: #06b6d4;
+
+  /* Тени и свечения */
+  --shadow-purple: rgba(139, 92, 246, 0.4);
+  --glow-light: rgba(139, 92, 246, 0.2);
+  --glow-intense: rgba(139, 92, 246, 0.6);
+
+  /* Шрифты */
+  font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.6;
   font-weight: 400;
 
   color-scheme: dark;
-  color: #eafffa;
-  background-color: #101114;
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
 
-  --neon: #00ffe7;
-  --neon-bg: #181a20;
-  --neon-shadow: 0 0 16px #00ffe7a0;
-  --neon-shadow-strong: 0 0 32px #00ffe7;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-a {
-  font-weight: 500;
-  color: var(--neon);
-  text-decoration: none;
-  transition: color 0.2s;
-}
-a:hover {
-  color: #fff;
-  text-shadow: 0 0 8px var(--neon);
+* {
+  box-sizing: border-box;
 }
 
 body {
   margin: 0;
+  padding: 0;
   min-width: 320px;
   min-height: 100vh;
-  background: #101114;
-  color: #eafffa;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: 'Share Tech Mono', 'Consolas', monospace;
-  color: #fff;
+#root {
+  min-height: 100vh;
+  width: 100%;
+}
+
+a {
+  font-weight: 500;
+  color: var(--purple-primary);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: var(--purple-light);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+h1 {
+  font-size: 2.5rem;
+  background: var(--gradient-header);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+h2 {
+  font-size: 2rem;
+  color: var(--text-primary);
+}
+
+h3 {
+  font-size: 1.5rem;
+  color: var(--text-secondary);
 }
 
 button {
-  border-radius: 8px;
-  border: 2px solid var(--neon);
-  padding: 0.8em 1.6em;
-  font-size: 1.1em;
-  font-weight: 600;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: 500;
   font-family: inherit;
-  background-color: #101114;
-  color: var(--neon);
-  box-shadow: var(--neon-shadow);
+  background: var(--gradient-primary);
+  color: var(--text-primary);
   cursor: pointer;
-  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
-}
-button:hover {
-  background: var(--neon);
-  color: #101114;
-  box-shadow: var(--neon-shadow-strong);
-}
-button:focus,
-button:focus-visible {
-  outline: 2px solid var(--neon);
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px var(--shadow-purple);
 }
 
-::-webkit-scrollbar {
-  width: 8px;
-  background: #181a20;
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px var(--glow-intense);
 }
-::-webkit-scrollbar-thumb {
-  background: var(--neon);
+
+button:active {
+  transform: translateY(0);
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+input,
+select,
+textarea {
+  background-color: var(--bg-interactive);
+  border: 1px solid rgba(139, 92, 246, 0.3);
   border-radius: 8px;
+  padding: 12px 16px;
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 1rem;
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--purple-primary);
+  box-shadow: 0 0 0 3px var(--glow-light);
+}
+
+.card {
+  background-color: var(--bg-secondary);
+  border-radius: 16px;
+  padding: 24px;
+  border: 1px solid rgba(139, 92, 246, 0.1);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Utility classes */
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.gap-4 {
+  gap: 1rem;
+}
+
+.gap-6 {
+  gap: 1.5rem;
+}
+
+.mt-4 {
+  margin-top: 1rem;
+}
+
+.mb-4 {
+  margin-bottom: 1rem;
+}
+
+.p-4 {
+  padding: 1rem;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.hidden {
+  display: none;
 }
