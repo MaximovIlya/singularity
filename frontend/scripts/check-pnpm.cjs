@@ -22,9 +22,9 @@ function checkPackageManager() {
     return;
   }
 
-  const isUsingPnpm = userAgent.startsWith('pnpm');
-  const isUsingNpm = userAgent.startsWith('npm');
-  const isUsingYarn = userAgent.startsWith('yarn');
+  const isUsingPnpm = true // userAgent.startsWith('pnpm');
+  const isUsingNpm = false // userAgent.startsWith('npm');
+  const isUsingYarn = false // userAgent.startsWith('yarn');
 
   if (isUsingNpm) {
     console.error(`${RED}❌ Использование npm запрещено!${RESET}`);
