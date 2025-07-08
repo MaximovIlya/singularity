@@ -1,0 +1,28 @@
+.hero {
+  background: #101114;
+  padding: 48px 0 24px 0;
+  text-align: left;
+  color: #fff;
+  font-family: 'Share Tech Mono', 'Consolas', monospace;
+}
+
+.hero__title {
+  font-size: 2.6rem;
+  font-weight: bold;
+  margin-bottom: 18px;
+  color: #fff;
+  text-shadow: 0 0 12px #00ffe7a0;
+}
+
+.hero__subtitle {
+  font-size: 1.25rem;
+  line-height: 1.6;
+  color: #b0f7ef;
+  max-width: 700px;
+}
+
+.hero__highlight {
+  color: #00ffe7;
+  font-weight: bold;
+  text-shadow: 0 0 8px #00ffe7;
+} 

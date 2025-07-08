@@ -1,0 +1,73 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 40px 16px 40px;
+  background: #101114;
+  color: #fff;
+  font-family: 'Share Tech Mono', 'Consolas', monospace;
+  box-shadow: 0 2px 16px 0 #00ffe7a0;
+}
+
+.header__logo {
+  font-size: 2rem;
+  color: #00ffe7;
+  letter-spacing: 2px;
+  font-weight: bold;
+  text-shadow: 0 0 8px #00ffe7, 0 0 2px #fff;
+}
+
+.header__nav {
+  display: flex;
+  gap: 28px;
+}
+
+.header__link {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.1rem;
+  transition: color 0.2s;
+  position: relative;
+}
+
+.header__link:hover {
+  color: #00ffe7;
+  text-shadow: 0 0 6px #00ffe7;
+}
+
+.header__actions {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.header__networks {
+  background: #181a20;
+  color: #00ffe7;
+  border: 1px solid #00ffe7;
+  border-radius: 6px;
+  padding: 6px 14px;
+  font-size: 1rem;
+  font-family: inherit;
+  outline: none;
+}
+
+.header__connect {
+  background: #101114;
+  color: #00ffe7;
+  border: 2px solid #00ffe7;
+  border-radius: 8px;
+  padding: 8px 24px;
+  font-size: 1.1rem;
+  font-family: inherit;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 0 12px #00ffe7a0;
+  transition: background 0.2s, color 0.2s;
+}
+
+.header__connect:hover {
+  background: #00ffe7;
+  color: #101114;
+  box-shadow: 0 0 24px #00ffe7;
+} 
