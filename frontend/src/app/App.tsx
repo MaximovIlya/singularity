@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { Header } from '../widgets/Header/Header';
 import { BorrowTab } from '../pages/BorrowTab/BorrowTab';
