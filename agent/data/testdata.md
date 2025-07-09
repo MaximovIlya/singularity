@@ -1,67 +1,43 @@
-# Data Loader Utility
+# Платформы взаимного кредитования
 
-## Function: `load_and_chunk_documents`
+## Что такое платформы взаимного кредитования?
 
-Loads a text document from a file and splits it into manageable chunks for further processing.
-
----
-
-### **Usage**
-
-```python
-from rag_components.data_loader import load_and_chunk_documents
-
-chunks = load_and_chunk_documents("path/to/your/file.md")
-for chunk in chunks:
-    print(chunk)
-```
+Платформы взаимного кредитования (P2P-кредитование) — это онлайн-сервисы, которые напрямую соединяют заемщиков и инвесторов, минуя традиционные банки. Такие платформы позволяют частным лицам и малым предприятиям получать займы, а инвесторам — зарабатывать на процентах от выданных кредитов.
 
 ---
 
-### **Parameters**
+### Преимущества P2P-кредитования
 
-- **`le_path`** (`str`):  
-  The path to the text or markdown file to be loaded.
-
----
-
-### **Returns**
-
-- **`List[Document]`**:  
-  A list of document chunks, each suitable for further processing (e.g., embedding, search, or LLM input).
+- **Доступность:** Заемщики могут получить финансирование быстрее и проще, чем в банке.
+- **Выгодные условия:** Инвесторы могут самостоятельно выбирать, кому выдавать займы, и получать более высокую доходность.
+- **Прозрачность:** Все условия кредитования и возврата средств фиксируются на платформе.
 
 ---
 
-### **Description**
+### Риски и безопасность
 
-This function:
-1. Loads the content of a text or markdown file using `TextLoader`.
-2. Splits the content into chunks using `RecursiveCharacterTextSplier` with a maximum chunk size of 1000 characters and an overlap of 200 characters.
-3. Returns the list of chunked documents.
-
----
-
-### **Example**
-
-```python
-chunks = load_and_chunk_documents("example.md")
-print(f"Number of chunks: {len(chunks)}")
-for i, chunk in enumerate(chunks):
-    print(f"Chunk {i+1}:")
-    print(chunk.page_content)
-```
+- **Кредитные риски:** Инвесторы могут потерять часть средств, если заемщик не вернет долг.
+- **Платформенные риски:** Надежность самой платформы также важна — стоит выбирать сервисы с хорошей репутацией и прозрачной политикой.
+- **Страхование:** Некоторые платформы предлагают страхование вкладов или используют фонды гарантирования.
 
 ---
 
-### **Notes**
+### Технологии
 
-- The function supports any plain text file, including `.txt` and `.md` (Markdown) formats.
-- You can adjust the chunk size and overlap by modifying the `RecursiveCharacterTextSplier` parameters.
+Современные P2P-платформы часто используют блокчейн и смарт-контракты для автоматизации процессов, повышения прозрачности и снижения операционных расходов.
 
 ---
 
-### **Dependencies**
+### Пример работы платформы
 
-- `langchain_community.document_loaders.TextLoader`
-- `langchain_text_spliers.RecursiveCharacterTextSplier`
-- `langchain_core.documents.Document`
+1. Заемщик подает заявку на кредит, указывая сумму и срок.
+2. Платформа оценивает кредитоспособность заемщика.
+3. Инвесторы выбирают заявки и инвестируют средства.
+4. Заемщик получает деньги и возвращает их с процентами по графику.
+5. Инвесторы получают выплаты по мере возврата займа.
+
+---
+
+### Заключение
+
+Платформы взаимного кредитования — это современный способ инвестирования и получения займов, который становится все более популярным благодаря удобству, прозрачности и технологичности.
