@@ -1,27 +1,11 @@
-import React, { useState } from 'react';
-import { Wallet, Globe } from 'lucide-react';
+import { Globe, Wallet } from 'lucide-react';
+import React from 'react';
+import { useWeb3 } from '../../shared/providers/Web3Context';
+import { connectWallet } from '../../utils/contract';
 import styles from './Header.module.css';
 
 export const Header: React.FC = () => {
-  const [isConnected, setIsConnected] = useState(false);
-  const [address, setAddress] = useState<string>('');
-
-  const connectWallet = async () => {
-    if (typeof window.ethereum !== 'undefined') {
-      try {
-        const accounts = await window.ethereum.request({
-          method: 'eth_requestAccounts',
-        });
-        setIsConnected(true);
-        setAddress(accounts[0]);
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.warn('Failed to connect wallet:', error);
-      }
-    } else {
-      alert('Пожалуйста, установите MetaMask!');
-    }
-  };
+  const { account } = useWeb3();
 
   const formatAddress = (addr: string) => {
     return `${addr.slice(0, 6)}...${addr.slice(-4)}`;
@@ -37,10 +21,10 @@ export const Header: React.FC = () => {
           </div>
 
           <div className={styles.headerActions}>
-            {isConnected ? (
+            {account ? (
               <div className={styles.walletInfo}>
                 <Wallet className={styles.walletIcon} />
-                <span className={styles.address}>{formatAddress(address)}</span>
+                <span className={styles.address}>{formatAddress(account)}</span>
               </div>
             ) : (
               <button className={styles.connectButton} onClick={connectWallet}>

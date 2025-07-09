@@ -403,7 +403,6 @@
   padding: 8px 12px;
   background-color: var(--bg-interactive);
   color: var(--text-primary);
-  font-family: inherit;
   font-size: clamp(0.875rem, 2vw, 0.95rem);
 }
 

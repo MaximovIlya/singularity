@@ -41,7 +41,6 @@
 
 .logoText {
   font-size: 1.5rem;
-  font-weight: 700;
   background: var(--gradient-header);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -152,7 +151,6 @@
 }
 
 .address {
-  font-family: 'Courier New', monospace;
   font-size: 0.9rem;
   color: var(--text-secondary);
 }

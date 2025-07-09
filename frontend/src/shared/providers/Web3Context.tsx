@@ -10,8 +10,8 @@ import {
   connectWallet as connectWalletUtil,
   contractABI,
   contractAddress,
-} from '../utils/contract';
-import { getStoredAccount, setStoredAccount } from '../utils/localStorage';
+} from '../../utils/contract';
+import { getStoredAccount, setStoredAccount } from '../../utils/localStorage';
 
 interface Web3ContextType {
   provider: ethers.BrowserProvider | null;
