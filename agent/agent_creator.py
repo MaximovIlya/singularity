@@ -1,9 +1,9 @@
 import os
 from langchain_core.tools import Tool
 from langchain_openai import ChatOpenAI
-from tools.qa_tool import create_qa_rag_chain
-from rag_components.data_loader import load_and_chunk_documents
-from rag_components.vector_store import create_vector_store
+from agent.tools.qa_tool import create_qa_rag_chain
+from agent.rag_components.data_loader import load_and_chunk_documents
+from agent.rag_components.vector_store import create_vector_store
 
 
 def create_p2p_agent():
@@ -14,7 +14,10 @@ def create_p2p_agent():
 
     # Инструмент для ответов на вопросы (RAG)
     print("Инициализация RAG-инструмента...")
-    chunked_docs = load_and_chunk_documents("agent/data/testdata.md")
+    import os
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    data_path = os.path.join(current_dir, "data", "testdata.md")
+    chunked_docs = load_and_chunk_documents(data_path)
     vector_store = create_vector_store(chunked_docs, "p2p_agent_db")
     agent_executor = create_qa_rag_chain(vector_store)
     

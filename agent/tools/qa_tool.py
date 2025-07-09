@@ -4,8 +4,8 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import RunnablePassthrough
 from langchain_together import ChatTogether
 from langchain_chroma import Chroma
-from rag_components.data_loader import load_and_chunk_documents
-from rag_components.vector_store import create_vector_store
+from agent.rag_components.data_loader import load_and_chunk_documents
+from agent.rag_components.vector_store import create_vector_store
 
 # Шаблон промпта, который инструктирует модель
 RAG_PROMPT_TEMPLATE = """
