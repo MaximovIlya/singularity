@@ -1,36 +1,44 @@
-import { useState } from 'react';
 import { BorrowTab } from '../../pages/BorrowTab/BorrowTab';
 import { InvestTab } from '../../pages/InvestTab/InvestTab';
+import { Contract } from '../../utils/contract';
 import styles from './LoanForm.module.css';
+import { TabType } from '../../app/App';
 
-enum Tabs {
-  Borrow,
-  Invest,
+interface LoanFormProps {
+  activeTab: TabType;
+  setActiveTab: (tab: TabType) => void;
+  writePoolManagerContract: Contract | null;
 }
 
-export const LoanForm = () => {
-  const [activeTab, setActiveTab] = useState<Tabs>(Tabs.Borrow);
+export const LoanForm: React.FC<LoanFormProps> = ({
+  activeTab,
+  setActiveTab,
+  writePoolManagerContract,
+}) => {
+  const TABS_MAP: Record<string, string> = {
+    borrow: 'Взять в долг',
+    invest: 'Вложить',
+  };
 
   return (
     <div className={styles.tabsContainer}>
       <div className={styles.tabsHeader}>
-        <button
-          className={`${styles.tabButton} ${activeTab === Tabs.Borrow ? styles.active : ''}`}
-          onClick={() => setActiveTab(Tabs.Borrow)}
-        >
-          Взять в долг
-        </button>
-        <button
-          className={`${styles.tabButton} ${activeTab === Tabs.Invest ? styles.active : ''}`}
-          onClick={() => setActiveTab(Tabs.Invest)}
-        >
-          Вложить
-        </button>
+        {Object.keys(TABS_MAP).map(tab => (
+          <button
+            key={tab}
+            className={`${styles.tabButton} ${activeTab === tab ? styles.active : ''}`}
+            onClick={() => setActiveTab(tab as TabType)}
+          >
+            {TABS_MAP[tab]}
+          </button>
+        ))}
       </div>
 
       <div className={styles.tabContent}>
-        {activeTab === Tabs.Borrow && <BorrowTab />}
-        {activeTab === Tabs.Invest && <InvestTab />}
+        {activeTab === 'borrow' && <BorrowTab />}
+        {activeTab === 'invest' && (
+          <InvestTab writeContract={writePoolManagerContract} />
+        )}
       </div>
     </div>
   );

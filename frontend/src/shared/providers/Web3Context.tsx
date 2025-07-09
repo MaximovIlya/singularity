@@ -8,10 +8,10 @@ import React, {
 import { ethers } from 'ethers';
 import {
   connectWallet as connectWalletUtil,
-  contractABI,
   contractAddress,
 } from '../../utils/contract';
 import { getStoredAccount, setStoredAccount } from '../../utils/localStorage';
+import { oracleABI } from '../../utils/contracts/oracleContract';
 
 interface Web3ContextType {
   provider: ethers.BrowserProvider | null;
@@ -94,7 +94,7 @@ export const Web3Provider = ({ children }: Web3ProviderProps) => {
     if (provider) {
       const contractInstance = new ethers.Contract(
         contractAddress,
-        contractABI,
+        oracleABI,
         signer || provider
       );
       setContract(contractInstance);

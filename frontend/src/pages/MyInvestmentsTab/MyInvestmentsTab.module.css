@@ -1,0 +1,68 @@
+.myInvestmentsTab {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.investmentsList {
+  padding: 1.5rem;
+}
+
+.formTitle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+  color: var(--text-primary);
+}
+
+.investmentItem {
+  border: 1px solid #ccc;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.investmentItem p {
+  margin: 5px 0;
+}
+
+.withdrawForm {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #eee;
+}
+
+.amountInput {
+  margin-bottom: 15px;
+}
+
+.amountInput label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.amountInput input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.withdrawButton {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background-color 0.3s;
+}
+
+.withdrawButton:hover {
+  background-color: #d32f2f;
+} 
