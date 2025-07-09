@@ -1,0 +1,1 @@
+{"root":["./src/vite-env.d.ts","./src/types/global.d.ts","./src/main.tsx","./src/app/app.tsx","./src/pages/borrowtab/borrowtab.tsx","./src/pages/investtab/investtab.tsx","./src/widgets/chatagent/chatagent.tsx","./src/widgets/header/header.tsx","./src/widgets/interestchart/interestchart.tsx"],"errors":true,"version":"5.8.3"}

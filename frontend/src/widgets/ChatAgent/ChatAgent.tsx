@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { MessageCircle, X, Maximize2, Minimize2, Send } from 'lucide-react';
+import { MessageCircle, X, Maximize, Minimize, Send } from 'lucide-react';
 import styles from './ChatAgent.module.css';
 
 interface Message {
@@ -131,7 +131,7 @@ export const ChatAgent: React.FC = () => {
                 className={styles.controlButton}
                 onClick={() => setIsFullscreen(!isFullscreen)}
               >
-                {isFullscreen ? <Minimize2 /> : <Maximize2 />}
+                {isFullscreen ? <Minimize /> : <Maximize />}
               </button>
               <button
                 className={styles.controlButton}
@@ -175,7 +175,7 @@ export const ChatAgent: React.FC = () => {
             <textarea
               value={inputText}
               onChange={e => setInputText(e.target.value)}
-              onKeyPress={handleKeyPress}
+              onKeyDown={handleKeyPress}
               placeholder='Задайте вопрос о платформе...'
               rows={1}
             />
