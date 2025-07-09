@@ -21,7 +21,7 @@ importers:
         specifier: ^2.1.1
         version: 2.1.1
       ethers:
-        specifier: ^6.13.4
+        specifier: ^6.15.0
         version: 6.15.0
       lucide-react:
         specifier: ^0.468.0

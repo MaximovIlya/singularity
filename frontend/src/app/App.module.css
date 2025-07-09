@@ -87,6 +87,10 @@
 
 .tabContent {
   animation: fadeIn 0.3s ease-in-out;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-top: none;
+  border-radius: 0 0 8px 8px;
 }
 
 @keyframes fadeIn {
@@ -98,6 +102,28 @@
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+.connectWalletContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px; /* Or any suitable height */
+}
+
+.connectWalletButton {
+  padding: 12px 24px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.connectWalletButton:hover {
+  background-color: #0056b3;
 }
 
 /* Tablet adjustments */
