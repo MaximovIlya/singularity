@@ -1,45 +1,47 @@
+import React from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { BorrowTab } from '../../pages/BorrowTab/BorrowTab';
 import { InvestTab } from '../../pages/InvestTab/InvestTab';
 import styles from './LoanForm.module.css';
-import { TabType } from '../../app/App';
 import { PoolManagerContract } from '../../contracts/PoolManager';
 import { MockTokenContract } from '../../contracts/MockToken';
 
 interface LoanFormProps {
-  activeTab: TabType;
-  setActiveTab: (tab: TabType) => void;
   poolManager: PoolManagerContract;
   mockToken: MockTokenContract | null;
 }
 
 export const LoanForm: React.FC<LoanFormProps> = ({
-  activeTab,
-  setActiveTab,
   poolManager,
   mockToken,
 }) => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  
   const TABS_MAP: Record<string, string> = {
-    borrow: 'Взять в долг',
-    invest: 'Вложить',
+    '/borrow': 'Взять в долг',
+    '/invest': 'Вложить',
   };
+
+  const currentTab = location.pathname;
 
   return (
     <div className={styles.tabsContainer}>
       <div className={styles.tabsHeader}>
-        {Object.keys(TABS_MAP).map(tab => (
+        {Object.keys(TABS_MAP).map(path => (
           <button
-            key={tab}
-            className={`${styles.tabButton} ${activeTab === tab ? styles.active : ''}`}
-            onClick={() => setActiveTab(tab as TabType)}
+            key={path}
+            className={`${styles.tabButton} ${currentTab === path ? styles.active : ''}`}
+            onClick={() => navigate(path)}
           >
-            {TABS_MAP[tab]}
+            {TABS_MAP[path]}
           </button>
         ))}
       </div>
 
       <div className={styles.tabContent}>
-        {activeTab === 'borrow' && <BorrowTab />}
-        {activeTab === 'invest' && (
+        {currentTab === '/borrow' && <BorrowTab />}
+        {currentTab === '/invest' && (
           <InvestTab poolManager={poolManager} mockToken={mockToken} />
         )}
       </div>

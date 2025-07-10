@@ -1,37 +1,31 @@
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useWeb3 } from '../shared/providers/Web3Context';
 import { ChatAgent } from '../widgets/ChatAgent/ChatAgent';
 import { Header } from '../widgets/Header/Header';
 import styles from './App.module.css';
-import { useState } from 'react';
 import { MyInvestmentsTab } from '../pages/MyInvestmentsTab/MyInvestmentsTab';
-import { BorrowTab } from '../pages/BorrowTab/BorrowTab';
-import { InvestTab } from '../pages/InvestTab/InvestTab';
 import { MyLoansTab } from '../pages/MyLoansTab/MyLoansTab';
+import { HomePage } from '../pages/HomePage/HomePage';
 
 export type TabType = 'borrow' | 'invest' | 'my-investments' | 'my-loans';
 
 function App() {
   const { connectWallet, account, poolManager, mockToken } = useWeb3();
-  const [activeTab, setActiveTab] = useState<TabType>('borrow');
 
   return (
     <BrowserRouter>
       <div className={styles.app}>
-        <Header setActiveTab={setActiveTab} />
+        <Header />
         <main className={styles.main}>
           <div className='container'>
             {account && poolManager ? (
-              <>
-                {activeTab === 'borrow' && <BorrowTab />}
-                {activeTab === 'invest' && (
-                  <InvestTab poolManager={poolManager} mockToken={mockToken} />
-                )}
-                {activeTab === 'my-investments' && (
-                  <MyInvestmentsTab poolManager={poolManager} />
-                )}
-                {activeTab === 'my-loans' && <MyLoansTab />}
-              </>
+              <Routes>
+                <Route path="/" element={<Navigate to="/borrow" replace />} />
+                <Route path="/borrow" element={<HomePage poolManager={poolManager} mockToken={mockToken} />} />
+                <Route path="/invest" element={<HomePage poolManager={poolManager} mockToken={mockToken} />} />
+                <Route path="/my-investments" element={<MyInvestmentsTab poolManager={poolManager} />} />
+                <Route path="/my-loans" element={<MyLoansTab />} />
+              </Routes>
             ) : (
               <div className={styles.connectWalletContainer}>
                 <button
