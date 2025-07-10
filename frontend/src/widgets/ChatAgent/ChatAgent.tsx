@@ -62,7 +62,7 @@ export const ChatAgent: React.FC = () => {
     try {
       // Получаем последние 20 сообщений (включая текущее)
       const recentMessages = [...messages, userMessage].slice(-20);
-      
+
       // Формируем историю в виде одной строки
       const messageHistory = recentMessages
         .map(msg => `${msg.isUser ? 'пользователь' : 'система'}: ${msg.text}`)
@@ -74,9 +74,9 @@ export const ChatAgent: React.FC = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ 
+        body: JSON.stringify({
           query: message,
-          messageHistory: messageHistory // Отправляем историю сообщений
+          messageHistory: messageHistory, // Отправляем историю сообщений
         }),
       });
 
@@ -88,7 +88,7 @@ export const ChatAgent: React.FC = () => {
 
       const agentResponse: Message = {
         id: (Date.now() + 1).toString(),
-        text: responseData.response,
+        text: responseData.result,
         isUser: false,
         timestamp: new Date(),
       };
