@@ -2,15 +2,21 @@
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import RunnablePassthrough
-from langchain_together import ChatTogether
+from langchain_openai import ChatOpenAI
+from dotenv import load_dotenv
+import os
 from langchain_chroma import Chroma
 from agent.rag_components.data_loader import load_and_chunk_documents
 from agent.rag_components.vector_store import create_vector_store
 
 # Шаблон промпта, который инструктирует модель
 RAG_PROMPT_TEMPLATE = """
-Используйте предоставленный ниже контекст, чтобы ответить на вопрос пользователя.
-Если вы не знаете ответа на основе предоставленного контекста, просто скажите, что вы не знаете. Не пытайтесь выдумывать ответ.
+Ты — дружелюбный ассистент, отвечающий по вопросам взаимного кредитования. 
+Используй предоставленный ниже контекст, чтобы ответить на вопрос пользователя. Ответь коротко и по существу, дружелюбным тоном. 
+Не пересказывай весь документ, а приведи только ту информацию, что отвечает на вопрос пользователя. 
+Не добавляй информацию вне предоставленного контекста.
+Не включай личные мнения, только факты
+Не повторяй вопрос и не перечисляй пункты, если об этом не просили. 
 
 Контекст:
 {context}
@@ -28,15 +34,16 @@ def format_docs(docs):
     return "\n\n".join(doc.page_content for doc in docs)
 
 def create_qa_rag_chain(vector_store: Chroma):
-    """
-    Создает и возвращает RAG-цепочку для ответов на вопросы.
-    """
-    retriever = vector_store.as_retriever(search_kwargs={"k": 3})
+    # Загрузка переменных окружения из .env
+    load_dotenv()
+    openai_api_key = os.getenv("OPENAI_API_KEY")
 
-    llm = ChatTogether(
-        model="deepseek-ai/DeepSeek-V3",
-        temperature=0,
-        together_api_key="5eb69efdc6d0b50e93018ea0f02f86710db98fb253ca58dd2541d033a3df3d8a"
+    retriever = vector_store.as_retriever(search_kwargs={"k": 2})
+
+    llm = ChatOpenAI(
+        model="gpt-3.5-turbo",
+        temperature=0.2,
+        openai_api_key=openai_api_key
     )
     prompt = ChatPromptTemplate.from_template(RAG_PROMPT_TEMPLATE)
 

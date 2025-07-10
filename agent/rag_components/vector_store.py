@@ -4,6 +4,7 @@ from typing import List
 from langchain_core.documents import Document
 import os
 import shutil
+from dotenv import load_dotenv
 
 def create_vector_store(chunked_docs: List, collection_name: str = "credit_platform_docs"):
     """
@@ -13,9 +14,8 @@ def create_vector_store(chunked_docs: List, collection_name: str = "credit_platf
     if os.path.exists(persist_dir):
         shutil.rmtree(persist_dir)
 
-    # Ввод API ключа OpenAI
-    openai_api_key = input("Введите ваш OpenAI API ключ: ")
-    os.environ["OPENAI_API_KEY"] = openai_api_key
+    # Загрузка переменных окружения из .env
+    load_dotenv()
 
     embeddings = OpenAIEmbeddings(
         model="text-embedding-3-small"
