@@ -77,7 +77,7 @@ export const ChatAgent: React.FC = () => {
 
       const agentResponse: Message = {
         id: (Date.now() + 1).toString(),
-        text: responseData.response,
+        text: responseData.result,
         isUser: false,
         timestamp: new Date(),
       };

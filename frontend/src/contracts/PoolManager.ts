@@ -281,6 +281,7 @@ export class PoolManagerContract {
   }
 
   async repay(token: string, amount: ethers.BigNumberish) {
+    console.log(token, amount);
     return this.writable.repay(token, amount);
   }
 

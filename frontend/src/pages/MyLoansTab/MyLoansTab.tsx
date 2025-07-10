@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { useWeb3 } from '../../shared/providers/Web3Context';
 import styles from './MyLoansTab.module.css';
 import { ethers } from 'ethers';
+import { Loader2 } from 'lucide-react';
 
 type Borrow = {
   amount: string;
@@ -14,16 +15,28 @@ type FormValues = {
 };
 
 export const MyLoansTab: React.FC = () => {
-  const { account, poolManager } = useWeb3();
+  const { account, poolManager, mockToken } = useWeb3();
   const [borrow, setBorrow] = useState<Borrow | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isRepaying, setIsRepaying] = useState(false);
   const [showRepayForm, setShowRepayForm] = useState(false);
   const { register, handleSubmit } = useForm<FormValues>();
 
   const repay = async (data: FormValues) => {
-    if (!poolManager) return;
-    const amount = ethers.parseUnits(data.amount, 18);
-    await poolManager.repay(import.meta.env.VITE_ASSEST_ADDRESS, amount);
+    if (!poolManager || !mockToken) return;
+    setIsRepaying(true);
+    const amount = BigInt(data.amount) * BigInt('1000000000000000000');
+    try {
+      await mockToken.approve(
+        import.meta.env.VITE_POOL_MANAGER_CONTRACT_ADDRESS,
+        amount.toString()
+      );
+      await poolManager.repay(import.meta.env.VITE_ASSEST_ADDRESS, amount);
+    } catch (error) {
+      console.error('Error repaying loan:', error);
+    } finally {
+      setIsRepaying(false);
+    }
   };
 
   useEffect(() => {
@@ -85,8 +98,21 @@ export const MyLoansTab: React.FC = () => {
                     placeholder='Введите сумму'
                   />
                 </div>
-                <button className={styles.repayButton} type='submit'>
-                  Возместить
+                <button
+                  className={styles.repayButton}
+                  type='submit'
+                  disabled={isRepaying}
+                >
+                  {isRepaying ? (
+                    <>
+                      <Loader2
+                        className={`${styles.buttonIcon} ${styles.spinner}`}
+                      />
+                      Возмещение...
+                    </>
+                  ) : (
+                    'Возместить'
+                  )}
                 </button>
               </form>
             )}
@@ -97,4 +123,4 @@ export const MyLoansTab: React.FC = () => {
       </div>
     </div>
   );
-}; 
+};
