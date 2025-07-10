@@ -1,4 +1,4 @@
-from langchain_community.embeddings import HuggingFaceEmbeddings
+from langchain_openai import OpenAIEmbeddings
 from langchain_chroma import Chroma
 from typing import List
 from langchain_core.documents import Document
@@ -13,8 +13,12 @@ def create_vector_store(chunked_docs: List, collection_name: str = "credit_platf
     if os.path.exists(persist_dir):
         shutil.rmtree(persist_dir)
 
-    embeddings = HuggingFaceEmbeddings(
-        model_name="sentence-transformers/all-MiniLM-L6-v2"
+    # Ввод API ключа OpenAI
+    openai_api_key = input("Введите ваш OpenAI API ключ: ")
+    os.environ["OPENAI_API_KEY"] = openai_api_key
+
+    embeddings = OpenAIEmbeddings(
+        model="text-embedding-3-small"
     )
 
     vector_store = Chroma.from_documents(
