@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, Request
-from api.schemas.query import QueryRequest
-from controllers.get_query_controller import get_query_controller
+from backend.src.api.schemas.query import QueryRequest
+from backend.src.controllers.get_query_controller import get_query_controller
 
 router = APIRouter(tags=["Agent"])
 

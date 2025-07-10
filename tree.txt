@@ -1,0 +1,69 @@
+.
+├── agent
+│   ├── __pycache__
+│   │   └── agent_creator.cpython-312.pyc
+│   ├── agent_creator.py
+│   ├── chroma_db
+│   │   ├── chroma.sqlite3
+│   │   └── f7ad4895-7c91-4be6-ac2f-ba65db5c1031
+│   │       ├── data_level0.bin
+│   │       ├── header.bin
+│   │       ├── length.bin
+│   │       └── link_lists.bin
+│   ├── data
+│   │   ├── docs.md
+│   │   ├── questions.txt
+│   │   └── testdata.md
+│   ├── helper.ipynb
+│   ├── main.py
+│   ├── platform_docs.txt
+│   ├── rag_components
+│   │   ├── __pycache__
+│   │   │   ├── data_loader.cpython-312.pyc
+│   │   │   ├── data_loader.cpython-313.pyc
+│   │   │   ├── vector_store.cpython-312.pyc
+│   │   │   └── vector_store.cpython-313.pyc
+│   │   ├── data_loader.py
+│   │   └── vector_store.py
+│   ├── requirements.txt
+│   ├── tools
+│   │   ├── __pycache__
+│   │   │   ├── qa_tool.cpython-312.pyc
+│   │   │   └── qa_tool.cpython-313.pyc
+│   │   └── qa_tool.py
+│   └── Отчет об оптимизации чат-бота LangChain_RAG.docx
+├── backend
+│   ├── empty.txt
+│   ├── requirements.txt
+│   └── src
+│       ├── __init__.py
+│       ├── __pycache__
+│       │   ├── __init__.cpython-312.pyc
+│       │   └── main.cpython-312.pyc
+│       ├── api
+│       │   ├── __init__.py
+│       │   ├── __pycache__
+│       │   │   └── __init__.cpython-312.pyc
+│       │   ├── routes
+│       │   │   └── agent
+│       │   │       ├── __pycache__
+│       │   │       │   └── get_query.cpython-312.pyc
+│       │   │       └── get_query.py
+│       │   └── schemas
+│       │       ├── __pycache__
+│       │       │   └── query.cpython-312.pyc
+│       │       └── query.py
+│       ├── chroma_db
+│       │   ├── chroma.sqlite3
+│       │   └── ef8e9113-0863-4b77-9594-c728fd2b5884
+│       │       ├── data_level0.bin
+│       │       ├── header.bin
+│       │       ├── length.bin
+│       │       └── link_lists.bin
+│       ├── controllers
+│       │   ├── __init__.py
+│       │   ├── __pycache__
+│       │   │   ├── __init__.cpython-312.pyc
+│       │   │   └── get_query_controller.cpython-312.pyc
+│       │   └── get_query_controller.py
+│       └── main.py

@@ -1,4 +1,4 @@
-from api.schemas.query import QueryRequest
+from  backend.src.api.schemas.query import QueryRequest
 from fastapi.responses import JSONResponse
 
 async def get_query_controller(request: QueryRequest, agent_executor=None):
