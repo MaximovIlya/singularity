@@ -19,7 +19,7 @@ def create_vector_store(chunked_docs: List, collection_name: str = "credit_platf
     load_dotenv()
 
     embeddings = OpenAIEmbeddings(
-        model="text-embedding-3-small"
+        model="text-embedding-3-small",
     )
 
     # Загружаем или создаём хранилище

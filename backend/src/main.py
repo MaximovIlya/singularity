@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 from backend.src.api.routes.agent import get_query
 import sys
@@ -21,6 +22,15 @@ app = FastAPI(
     description="Example FastAPI Project",
     version="1.0.0",
     lifespan=lifespan
+)
+
+# Добавляем CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Разрешаем запросы с фронтенда
+    allow_credentials=True,
+    allow_methods=["*"],  # Разрешаем все HTTP методы
+    allow_headers=["*"],  # Разрешаем все заголовки
 )
 
 app.include_router(get_query.router, prefix="/agent")
