@@ -448,3 +448,7 @@
   transform: none;
   box-shadow: none;
 }
+
+.chatIcon {
+  flex-shrink: 0;
+}
