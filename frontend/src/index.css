@@ -1,0 +1,257 @@
+:root {
+  /* Responsive breakpoints */
+  --mobile-max: 767px;
+  --tablet-min: 768px;
+  --tablet-max: 1023px;
+  --desktop-min: 1024px;
+  --desktop-large-min: 1440px;
+
+  /* Spacing responsive variables */
+  --container-padding: 16px;
+  --section-padding: 16px;
+  --grid-gap: 16px;
+
+  /* Фоновые цвета */
+  --bg-primary: #0b0b0f;
+  --bg-secondary: #1a1a24;
+  --bg-interactive: #242438;
+
+  /* Текстовые цвета */
+  --text-primary: #ffffff;
+  --text-secondary: #e0e0e8;
+  --text-tertiary: #b8b8cc;
+
+  /* Фиолетовая палитра */
+  --purple-primary: #8b5cf6;
+  --purple-light: #a78bfa;
+  --purple-dark: #7c3aed;
+  --purple-deep: #6d28d9;
+
+  /* Градиенты */
+  --gradient-primary: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+  --gradient-header: linear-gradient(
+    90deg,
+    #6d28d9 0%,
+    #8b5cf6 50%,
+    #a78bfa 100%
+  );
+
+  /* Состояния */
+  --color-success: #10b981;
+  --color-error: #ef4444;
+  --color-warning: #f59e0b;
+  --color-info: #06b6d4;
+
+  /* Тени и свечения */
+  --shadow-purple: rgba(139, 92, 246, 0.4);
+  --glow-light: rgba(139, 92, 246, 0.2);
+  --glow-intense: rgba(139, 92, 246, 0.6);
+
+  /* Шрифты */
+  font-family: 'Share Tech Mono', monospace;
+  line-height: 1.6;
+  font-weight: 400;
+
+  color-scheme: dark;
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Responsive spacing updates */
+@media (min-width: 768px) {
+  :root {
+    --container-padding: 24px;
+    --section-padding: 32px;
+    --grid-gap: 24px;
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --container-padding: 32px;
+    --section-padding: 48px;
+    --grid-gap: 32px;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+#root {
+  min-height: 100vh;
+  width: 100%;
+}
+
+a {
+  font-weight: 500;
+  color: var(--purple-primary);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: var(--purple-light);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+h1 {
+  font-size: clamp(2rem, 4vw, 2.5rem);
+  background: var(--gradient-header);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+h2 {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  color: var(--text-primary);
+}
+
+h3 {
+  font-size: clamp(1.25rem, 2.5vw, 1.5rem);
+  color: var(--text-secondary);
+}
+
+button {
+  border-radius: 12px;
+  border: 1px solid transparent;
+  padding: clamp(10px, 2vw, 12px) clamp(16px, 4vw, 24px);
+  font-size: clamp(0.875rem, 2vw, 1rem);
+  font-weight: 500;
+  background: var(--gradient-primary);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px var(--shadow-purple);
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px var(--glow-intense);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+input,
+select,
+textarea {
+  background-color: var(--bg-interactive);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  border-radius: 8px;
+  padding: 12px 16px;
+  color: var(--text-primary);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 1rem;
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--purple-primary);
+  box-shadow: 0 0 0 3px var(--glow-light);
+}
+
+.card {
+  background-color: var(--bg-secondary);
+  border-radius: 16px;
+  padding: var(--section-padding);
+  border: 1px solid rgba(139, 92, 246, 0.1);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--container-padding);
+}
+
+/* Utility classes */
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.gap-4 {
+  gap: 1rem;
+}
+
+.gap-6 {
+  gap: 1.5rem;
+}
+
+.mt-4 {
+  margin-top: 1rem;
+}
+
+.mb-4 {
+  margin-bottom: 1rem;
+}
+
+.p-4 {
+  padding: 1rem;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.hidden {
+  display: none;
+}

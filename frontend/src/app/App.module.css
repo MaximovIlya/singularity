@@ -1,0 +1,85 @@
+.app {
+  min-height: 100vh;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'Share Tech Mono', monospace;
+  font-style: normal;
+}
+
+.mainContent {
+  padding: var(--section-padding) 0;
+  min-height: calc(100vh - 80px);
+}
+
+.tabsContainer {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+@media (max-width: 480px) {
+  .mainContent {
+    min-height: calc(100vh - 70px);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.connectWalletContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px; /* Or any suitable height */
+}
+
+.connectWalletButton {
+  padding: 12px 24px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.connectWalletButton:hover {
+  background-color: #0056b3;
+}
+
+/* Tablet adjustments */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .tabsContainer {
+    max-width: 90%;
+  }
+
+  .mainContent {
+    min-height: calc(100vh - 85px);
+  }
+}
+
+/* Desktop adjustments */
+@media (min-width: 1024px) {
+  .mainContent {
+    min-height: calc(100vh - 90px);
+  }
+
+  .tabsContainer {
+    max-width: 900px;
+  }
+}
+
+/* Large desktop adjustments */
+@media (min-width: 1440px) {
+  .tabsContainer {
+    max-width: 1000px;
+  }
+}
