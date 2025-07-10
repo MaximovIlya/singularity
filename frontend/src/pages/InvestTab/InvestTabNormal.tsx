@@ -20,7 +20,6 @@ export const InvestTab: React.FC<InvestTab> = ({ writeContract }) => {
   const [amount, setAmount] = useState('');
   const [duration, setDuration] = useState('30');
 
-
   const investmentOptions: InvestmentOption[] = [
     { currency: 'USDC', apy: 8.2, totalLiquidity: 1250000, risk: 'low' },
     { currency: 'USDT', apy: 7.8, totalLiquidity: 980000, risk: 'low' },

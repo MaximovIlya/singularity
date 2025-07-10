@@ -1,0 +1,70 @@
+/* MyLoansTab.module.css */
+.myLoansTab {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .loansList {
+    padding: 20px;
+    border-radius: 8px;
+  }
+  
+  .formTitle {
+    margin-bottom: 20px;
+  }
+  
+  .loanItem {
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 10px;
+  }
+  
+  .loanItem:hover {
+    background-color: #f5f5f5;
+  }
+  
+  .repayForm {
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+  }
+  
+  .repayFormContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .amountInput {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .repayButton,
+  .closeButton {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .repayButton {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .closeButton {
+    background-color: #6c757d;
+    color: white;
+  }
+  
+  .card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 24px;
+  } 

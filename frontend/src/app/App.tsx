@@ -2,12 +2,14 @@ import { BrowserRouter } from 'react-router-dom';
 import { useWeb3 } from '../shared/providers/Web3Context';
 import { ChatAgent } from '../widgets/ChatAgent/ChatAgent';
 import { Header } from '../widgets/Header/Header';
-import { LoanForm } from '../widgets/LoanForm/LoanForm';
 import styles from './App.module.css';
 import { useState } from 'react';
 import { MyInvestmentsTab } from '../pages/MyInvestmentsTab/MyInvestmentsTab';
+import { BorrowTab } from '../pages/BorrowTab/BorrowTab';
+import { InvestTab } from '../pages/InvestTab/InvestTab';
+import { MyLoansTab } from '../pages/MyLoansTab/MyLoansTab';
 
-export type TabType = 'borrow' | 'invest' | 'my-investments';
+export type TabType = 'borrow' | 'invest' | 'my-investments' | 'my-loans';
 
 function App() {
   const { connectWallet, account, poolManager, mockToken } = useWeb3();
@@ -17,20 +19,18 @@ function App() {
     <BrowserRouter>
       <div className={styles.app}>
         <Header setActiveTab={setActiveTab} />
-        <main className={styles.mainContent}>
+        <main className={styles.main}>
           <div className='container'>
             {account && poolManager ? (
               <>
-                {activeTab === 'my-investments' ? (
-                  <MyInvestmentsTab poolManager={poolManager} />
-                ) : (
-                  <LoanForm
-                    activeTab={activeTab}
-                    setActiveTab={setActiveTab}
-                    poolManager={poolManager}
-                    mockToken={mockToken}
-                  />
+                {activeTab === 'borrow' && <BorrowTab />}
+                {activeTab === 'invest' && (
+                  <InvestTab poolManager={poolManager} mockToken={mockToken} />
                 )}
+                {activeTab === 'my-investments' && (
+                  <MyInvestmentsTab poolManager={poolManager} />
+                )}
+                {activeTab === 'my-loans' && <MyLoansTab />}
               </>
             ) : (
               <div className={styles.connectWalletContainer}>

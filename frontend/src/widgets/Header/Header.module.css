@@ -190,6 +190,25 @@
   }
 }
 
+.disconnectButton {
+  background-color: #f44336; /* Red */
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+  margin-left: 10px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.disconnectButton:hover {
+  background-color: #da190b;
+}
+
 /* Very small screens - hide logo text, keep only icon */
 @media (max-width: 360px) {
   .logoText {

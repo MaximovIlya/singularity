@@ -7,7 +7,7 @@ import { TabType } from '../../app/App';
 export const Header: React.FC<{
   setActiveTab: React.Dispatch<React.SetStateAction<TabType>>;
 }> = ({ setActiveTab }) => {
-  const { account, connectWallet } = useWeb3();
+  const { account, connectWallet, disconnectWallet } = useWeb3();
 
   const formatAddress = (addr: string) => {
     return `${addr.slice(0, 6)}...${addr.slice(-4)}`;
@@ -29,10 +29,22 @@ export const Header: React.FC<{
             >
               Мои вложения
             </button>
+            <button
+              className={styles.myInvestmentsButton}
+              onClick={() => setActiveTab('my-loans')}
+            >
+              Мои займы
+            </button>
             {account ? (
               <div className={styles.walletInfo}>
                 <Wallet className={styles.walletIcon} />
                 <span className={styles.address}>{formatAddress(account)}</span>
+                <button
+                  onClick={disconnectWallet}
+                  className={styles.disconnectButton}
+                >
+                  Disconnect
+                </button>
               </div>
             ) : (
               <button className={styles.connectButton} onClick={connectWallet}>

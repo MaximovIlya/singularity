@@ -318,13 +318,15 @@
 }
 
 .acceptQuoteButton:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px var(--glow-intense);
+  background-color: var(--purple-primary-dark);
+  box-shadow: 0 10px 35px var(--shadow-purple);
 }
 
 @media (max-width: 480px) {
   .acceptQuoteButton {
+    width: 100%;
     padding: 14px;
+    font-size: 1rem;
   }
 }
 
@@ -348,4 +350,19 @@
   .quotesSection {
     max-width: 900px;
   }
+}
+
+.successMessage {
+  color: var(--green-primary);
+  margin-top: 1rem;
+  word-break: break-all;
+  text-align: center;
+  font-weight: 500;
+}
+
+.errorMessage {
+  color: var(--red-primary);
+  margin-top: 1rem;
+  text-align: center;
+  font-weight: 500;
 }

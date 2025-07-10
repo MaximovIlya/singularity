@@ -259,8 +259,16 @@ export class PoolManagerContract {
   constructor(provider: BrowserProvider, signer: Signer) {
     const contractAddress = import.meta.env
       .VITE_POOL_MANAGER_CONTRACT_ADDRESS as string;
-    this.readOnly = new ethers.Contract(contractAddress, poolManagerABI, provider);
-    this.writable = new ethers.Contract(contractAddress, poolManagerABI, signer);
+    this.readOnly = new ethers.Contract(
+      contractAddress,
+      poolManagerABI,
+      provider
+    );
+    this.writable = new ethers.Contract(
+      contractAddress,
+      poolManagerABI,
+      signer
+    );
   }
 
   // Write methods
@@ -286,6 +294,7 @@ export class PoolManagerContract {
   }
 
   async deposits(userAddress: string, tokenAddress: string) {
+    console.log(userAddress, tokenAddress);
     return this.readOnly.deposits(userAddress, tokenAddress);
   }
 
@@ -312,4 +321,4 @@ export class PoolManagerContract {
   async totalDeposits(tokenAddress: string): Promise<bigint> {
     return this.readOnly.totalDeposits(tokenAddress);
   }
-} 
+}
