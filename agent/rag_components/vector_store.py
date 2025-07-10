@@ -10,9 +10,10 @@ def create_vector_store(chunked_docs: List, collection_name: str = "credit_platf
     """
     Создает векторное хранилище из чанков документов.
     """
-    persist_dir = "chroma_db"
-    if os.path.exists(persist_dir):
-        shutil.rmtree(persist_dir)
+    # Абсолютный путь к папке agent/chroma_db
+    agent_dir = os.path.dirname(os.path.abspath(__file__))
+    persist_dir = os.path.join(agent_dir, "../chroma_db")
+    persist_dir = os.path.abspath(persist_dir)
 
     # Загрузка переменных окружения из .env
     load_dotenv()
@@ -21,12 +22,18 @@ def create_vector_store(chunked_docs: List, collection_name: str = "credit_platf
         model="text-embedding-3-small"
     )
 
-    vector_store = Chroma.from_documents(
-        documents=chunked_docs,
-        embedding=embeddings,
+    # Загружаем или создаём хранилище
+    vector_store = Chroma(
         collection_name=collection_name,
-        persist_directory=persist_dir
+        persist_directory=persist_dir,
+        embedding_function=embeddings
     )
+    # Очищаем коллекцию, если она уже существует
+    existing_ids = vector_store.get()["ids"]
+    if existing_ids:
+        vector_store.delete(ids=existing_ids)
+    # Добавляем новые документы
+    vector_store.add_documents(chunked_docs)
 
-    print(f"Векторное хранилище '{collection_name}' создано и содержит {len(vector_store.get()['ids'])} документов.")
+    print(f"Векторное хранилище '{collection_name}' обновлено и содержит {len(vector_store.get()['ids'])} документов.")
     return vector_store

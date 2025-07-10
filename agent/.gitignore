@@ -2,3 +2,4 @@
 .env
 questions.txt
 debug.py
+chroma_db
