@@ -1,10 +1,9 @@
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
-from api.routes.agent import get_query
+from backend.src.api.routes.agent import get_query
 import sys
 import os
-sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..'))
-from agent.agent_creator import create_p2p_agent
+from  agent.agent_creator import create_p2p_agent
 import uvicorn
 
 agent_executor = None
