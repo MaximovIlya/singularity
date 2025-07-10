@@ -1,19 +1,22 @@
 import { BorrowTab } from '../../pages/BorrowTab/BorrowTab';
 import { InvestTab } from '../../pages/InvestTab/InvestTab';
-import { Contract } from '../../utils/contract';
 import styles from './LoanForm.module.css';
 import { TabType } from '../../app/App';
+import { PoolManagerContract } from '../../contracts/PoolManager';
+import { MockTokenContract } from '../../contracts/MockToken';
 
 interface LoanFormProps {
   activeTab: TabType;
   setActiveTab: (tab: TabType) => void;
-  writePoolManagerContract: Contract | null;
+  poolManager: PoolManagerContract;
+  mockToken: MockTokenContract | null;
 }
 
 export const LoanForm: React.FC<LoanFormProps> = ({
   activeTab,
   setActiveTab,
-  writePoolManagerContract,
+  poolManager,
+  mockToken,
 }) => {
   const TABS_MAP: Record<string, string> = {
     borrow: 'Взять в долг',
@@ -37,7 +40,7 @@ export const LoanForm: React.FC<LoanFormProps> = ({
       <div className={styles.tabContent}>
         {activeTab === 'borrow' && <BorrowTab />}
         {activeTab === 'invest' && (
-          <InvestTab writeContract={writePoolManagerContract} />
+          <InvestTab poolManager={poolManager} mockToken={mockToken} />
         )}
       </div>
     </div>

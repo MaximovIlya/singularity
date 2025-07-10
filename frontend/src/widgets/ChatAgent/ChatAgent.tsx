@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
 import { MessageCircle, X, Maximize, Minimize, Send } from 'lucide-react';
 import styles from './ChatAgent.module.css';
 
@@ -7,6 +8,10 @@ interface Message {
   text: string;
   isUser: boolean;
   timestamp: Date;
+}
+
+interface IFormInput {
+  message: string;
 }
 
 export const ChatAgent: React.FC = () => {
@@ -20,9 +25,16 @@ export const ChatAgent: React.FC = () => {
       timestamp: new Date(),
     },
   ]);
-  const [inputText, setInputText] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    watch,
+    formState: { isSubmitting },
+  } = useForm<IFormInput>();
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -32,68 +44,63 @@ export const ChatAgent: React.FC = () => {
     scrollToBottom();
   }, [messages]);
 
-  const generateResponse = (userMessage: string): string => {
-    const message = userMessage.toLowerCase();
-
-    if (
-      message.includes('займ') ||
-      message.includes('долг') ||
-      message.includes('кредит')
-    ) {
-      return 'Для получения займа вам нужно: 1) Выбрать валюту обеспечения, 2) Указать валюту для получения, 3) Ввести сумму и срок, 4) Нажать "Получить котировки". Система покажет лучшие предложения от кредиторов.';
-    }
-
-    if (
-      message.includes('инвест') ||
-      message.includes('вложить') ||
-      message.includes('доходность')
-    ) {
-      return 'В разделе "Вложить" вы можете инвестировать в различные валюты. Выберите валюту, сумму и срок. Система покажет ожидаемую доходность. Помните: высокая доходность связана с повышенным риском.';
-    }
-
-    if (message.includes('риск') || message.includes('безопасность')) {
-      return 'Уровни риска: Низкий (стейблкоины), Средний (популярные токены), Высокий (волатильные активы). Всегда используйте только средства, потерю которых можете себе позволить.';
-    }
-
-    if (message.includes('кошелек') || message.includes('подключить')) {
-      return 'Для работы с платформой подключите MetaMask или другой совместимый кошелек. Нажмите "Подключить кошелек" в правом верхнем углу.';
-    }
-
-    return 'Спасибо за ваш вопрос! Я помогу вам с займами, инвестициями и другими функциями платформы. Можете задать более конкретный вопрос?';
-  };
-
-  const sendMessage = async () => {
-    if (!inputText.trim()) return;
+  const onSubmit = async (data: IFormInput) => {
+    const { message } = data;
+    if (!message.trim()) return;
 
     const userMessage: Message = {
       id: Date.now().toString(),
-      text: inputText,
+      text: message,
       isUser: true,
       timestamp: new Date(),
     };
 
     setMessages(prev => [...prev, userMessage]);
-    setInputText('');
+    reset();
     setIsTyping(true);
 
-    // Симуляция ответа агента
-    setTimeout(() => {
-      const response: Message = {
+    try {
+      const backendUrl = `${import.meta.env.VITE_BACKEND_IP}/agent/get_query`;
+      const res = await fetch(backendUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ query: message }),
+      });
+
+      if (!res.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const responseData = await res.json();
+
+      const agentResponse: Message = {
         id: (Date.now() + 1).toString(),
-        text: generateResponse(inputText),
+        text: responseData.response,
         isUser: false,
         timestamp: new Date(),
       };
 
-      setMessages(prev => [...prev, response]);
+      setMessages(prev => [...prev, agentResponse]);
+    } catch (error) {
+      console.error("Failed to fetch agent's response:", error);
+      const errorMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        text: 'Sorry, I am having trouble connecting. Please try again later.',
+        isUser: false,
+        timestamp: new Date(),
+      };
+      setMessages(prev => [...prev, errorMessage]);
+    } finally {
       setIsTyping(false);
-    }, 1500);
+    }
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
-      sendMessage();
+      handleSubmit(onSubmit)();
     }
   };
 
@@ -103,6 +110,8 @@ export const ChatAgent: React.FC = () => {
       minute: '2-digit',
     });
   };
+
+  const messageValue = watch('message');
 
   return (
     <>
@@ -171,22 +180,22 @@ export const ChatAgent: React.FC = () => {
             <div ref={messagesEndRef} />
           </div>
 
-          <div className={styles.chatInput}>
+          <form onSubmit={handleSubmit(onSubmit)} className={styles.chatInput}>
             <textarea
-              value={inputText}
-              onChange={e => setInputText(e.target.value)}
+              {...register('message', { required: true })}
               onKeyDown={handleKeyPress}
               placeholder='Задайте вопрос о платформе...'
               rows={1}
+              disabled={isSubmitting}
             />
             <button
-              onClick={sendMessage}
-              disabled={!inputText.trim()}
+              type='submit'
+              disabled={!messageValue?.trim() || isSubmitting}
               className={styles.sendButton}
             >
               <Send />
             </button>
-          </div>
+          </form>
         </div>
       )}
     </>

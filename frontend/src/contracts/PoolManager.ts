@@ -1,5 +1,6 @@
-import { AContract } from '../AContract';
+import { ethers, BrowserProvider, Signer } from 'ethers';
 
+// TODO: move ABI to a dedicated file
 export const poolManagerABI = [
   {
     inputs: [
@@ -251,13 +252,64 @@ export const poolManagerABI = [
   },
 ];
 
-class PoolManagerContract extends AContract {
-  constructor() {
-    super(
-      import.meta.env.VITE_POOL_MANAGER_CONTRACT_ADDRESS as string,
-      poolManagerABI
-    );
-  }
-}
+export class PoolManagerContract {
+  public readonly readOnly: ethers.Contract;
+  public readonly writable: ethers.Contract;
 
-export const poolManagerContract = new PoolManagerContract();
+  constructor(provider: BrowserProvider, signer: Signer) {
+    const contractAddress = import.meta.env
+      .VITE_POOL_MANAGER_CONTRACT_ADDRESS as string;
+    this.readOnly = new ethers.Contract(contractAddress, poolManagerABI, provider);
+    this.writable = new ethers.Contract(contractAddress, poolManagerABI, signer);
+  }
+
+  // Write methods
+  async borrow(token: string, amount: ethers.BigNumberish) {
+    return this.writable.borrow(token, amount);
+  }
+
+  async deposit(token: string, amount: ethers.BigNumberish) {
+    return this.writable.deposit(token, amount);
+  }
+
+  async repay(token: string, amount: ethers.BigNumberish) {
+    return this.writable.repay(token, amount);
+  }
+
+  async withdraw(token: string, amount: ethers.BigNumberish) {
+    return this.writable.withdraw(token, amount);
+  }
+
+  // Read methods
+  async borrows(userAddress: string, tokenAddress: string) {
+    return this.readOnly.borrows(userAddress, tokenAddress);
+  }
+
+  async deposits(userAddress: string, tokenAddress: string) {
+    return this.readOnly.deposits(userAddress, tokenAddress);
+  }
+
+  async getBorrowRate(token: string): Promise<bigint> {
+    return this.readOnly.getBorrowRate(token);
+  }
+
+  async getUtilization(token: string): Promise<bigint> {
+    return this.readOnly.getUtilization(token);
+  }
+
+  async interestModel(): Promise<string> {
+    return this.readOnly.interestModel();
+  }
+
+  async oracle(): Promise<string> {
+    return this.readOnly.oracle();
+  }
+
+  async totalBorrows(tokenAddress: string): Promise<bigint> {
+    return this.readOnly.totalBorrows(tokenAddress);
+  }
+
+  async totalDeposits(tokenAddress: string): Promise<bigint> {
+    return this.readOnly.totalDeposits(tokenAddress);
+  }
+} 

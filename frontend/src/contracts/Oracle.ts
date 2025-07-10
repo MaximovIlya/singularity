@@ -1,5 +1,6 @@
-import { AContract } from '../AContract';
+import { ethers, BrowserProvider, Signer } from 'ethers';
 
+// TODO: move ABI to a dedicated file
 export const oracleABI = [
   {
     inputs: [],
@@ -119,10 +120,36 @@ export const oracleABI = [
   },
 ];
 
-class OracleContract extends AContract {
-  constructor() {
-    super(import.meta.env.VITE_ORACLE_CONTRACT_ADDRESS as string, oracleABI);
-  }
-}
+export class OracleContract {
+  public readonly readOnly: ethers.Contract;
+  public readonly writable: ethers.Contract;
 
-export const oracleContract = new OracleContract();
+  constructor(provider: BrowserProvider, signer: Signer) {
+    const contractAddress = import.meta.env
+      .VITE_ORACLE_CONTRACT_ADDRESS as string;
+    this.readOnly = new ethers.Contract(contractAddress, oracleABI, provider);
+    this.writable = new ethers.Contract(contractAddress, oracleABI, signer);
+  }
+
+  // Write methods
+  async renounceOwnership() {
+    return this.writable.renounceOwnership();
+  }
+
+  async setPrice(asset: string, price: ethers.BigNumberish) {
+    return this.writable.setPrice(asset, price);
+  }
+
+  async transferOwnership(newOwner: string) {
+    return this.writable.transferOwnership(newOwner);
+  }
+
+  // Read methods
+  async getPrice(asset: string): Promise<bigint> {
+    return this.readOnly.getPrice(asset);
+  }
+
+  async owner(): Promise<string> {
+    return this.readOnly.owner();
+  }
+} 

@@ -1,10 +1,6 @@
 import { ethers } from 'ethers';
-import { oracleABI } from './contracts/oracleContract';
-
-export const contractAddress = '0x23A6517Bc37195fEc7D2cD655398aE5E1515bd24';
 
 export type Web3Provider = ethers.BrowserProvider;
-export type Contract = ethers.Contract;
 
 export const connectWallet = async (): Promise<{
   provider: Web3Provider | null;
@@ -49,33 +45,4 @@ export const connectWallet = async (): Promise<{
     console.log('MetaMask is not installed');
     return { provider: null, signer: null, account: null };
   }
-};
-
-export const getReadOnlyContract = (
-  contractAddress: string,
-  provider: ethers.BrowserProvider
-): ethers.Contract | null => {
-  if (!contractAddress || !provider) return null;
-
-  try {
-    return new ethers.Contract(contractAddress, oracleABI, provider);
-  } catch (error) {
-    console.error('Error getting read-only contract:', error);
-    return null;
-  }
-};
-
-// Get a contract instance that can perform write operations
-export const getSigningContract = (
-  contractAddress: string,
-  signer: ethers.Signer
-): ethers.Contract | null => {
-  if (!contractAddress || !signer) return null;
-
-  try {
-    return new ethers.Contract(contractAddress, oracleABI, signer);
-  } catch (error) {
-    console.error('Error getting signing contract:', error);
-    return null;
-  }
-};
+}; 

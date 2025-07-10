@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useWeb3 } from '../../shared/providers/Web3Context';
-import { Contract } from '../../utils/contract';
 import styles from './MyInvestmentsTab.module.css';
+import { PoolManagerContract } from '../../contracts/PoolManager';
 
 type Investment = {
   amount: string;
@@ -14,13 +14,11 @@ type FormValues = {
 };
 
 type MyInvestmentsTabProps = {
-  readContract: Contract | null;
-  writePoolManagerContract: Contract | null;
+  poolManager: PoolManagerContract;
 };
 
 export const MyInvestmentsTab: React.FC<MyInvestmentsTabProps> = ({
-  readContract,
-  writePoolManagerContract,
+  poolManager,
 }) => {
   const { account } = useWeb3();
   const [investment, setInvestment] = useState<Investment | null>(null);
@@ -29,9 +27,9 @@ export const MyInvestmentsTab: React.FC<MyInvestmentsTabProps> = ({
   const { register, handleSubmit } = useForm<FormValues>();
 
   const withdraw = (data: FormValues) => {
-    if (!writePoolManagerContract) return;
+    if (!poolManager) return;
     const amount = BigInt(data.amount) * BigInt('1000000000000000000');
-    writePoolManagerContract.withdraw(
+    poolManager.withdraw(
       import.meta.env.VITE_ASSEST_ADDRESS,
       amount.toString()
     );
@@ -39,12 +37,12 @@ export const MyInvestmentsTab: React.FC<MyInvestmentsTabProps> = ({
 
   useEffect(() => {
     const fetchInvestment = async () => {
-      if (!readContract || !account) {
+      if (!poolManager || !account) {
         return;
       }
       try {
         setLoading(true);
-        const result = await readContract.deposits(
+        const result = await poolManager.deposits(
           account,
           import.meta.env.VITE_ASSEST_ADDRESS
         );
@@ -67,7 +65,7 @@ export const MyInvestmentsTab: React.FC<MyInvestmentsTabProps> = ({
     };
 
     fetchInvestment();
-  }, [readContract, account]);
+  }, [poolManager, account]);
 
   return (
     <div className={styles.myInvestmentsTab}>
@@ -91,12 +89,12 @@ export const MyInvestmentsTab: React.FC<MyInvestmentsTabProps> = ({
                 <div className={styles.amountInput}>
                   <label>Сумма для вывода</label>
                   <input
-                    type='number'
+                    type="number"
                     {...register('amount')}
-                    placeholder='Введите сумму'
+                    placeholder="Введите сумму"
                   />
                 </div>
-                <button className={styles.withdrawButton} type='submit'>
+                <button className={styles.withdrawButton} type="submit">
                   Вывести
                 </button>
               </form>

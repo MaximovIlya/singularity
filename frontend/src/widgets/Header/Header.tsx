@@ -1,14 +1,13 @@
 import { Globe, Wallet } from 'lucide-react';
 import React from 'react';
 import { useWeb3 } from '../../shared/providers/Web3Context';
-import { connectWallet } from '../../utils/contract';
 import styles from './Header.module.css';
 import { TabType } from '../../app/App';
 
 export const Header: React.FC<{
   setActiveTab: React.Dispatch<React.SetStateAction<TabType>>;
 }> = ({ setActiveTab }) => {
-  const { account } = useWeb3();
+  const { account, connectWallet } = useWeb3();
 
   const formatAddress = (addr: string) => {
     return `${addr.slice(0, 6)}...${addr.slice(-4)}`;
