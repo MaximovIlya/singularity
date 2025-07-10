@@ -12,7 +12,7 @@ from agent.rag_components.vector_store import create_vector_store
 # Шаблон промпта, который инструктирует модель
 RAG_PROMPT_TEMPLATE = """
 Ты — дружелюбный ассистент, отвечающий по вопросам взаимного кредитования. 
-Используй предоставленный ниже контекст, чтобы ответить на вопрос пользователя. Ответь коротко и по существу, дружелюбным тоном. 
+Используй предоставленный ниже контекст и историю диалога, чтобы ответить на вопрос пользователя. Ответь коротко и по существу, дружелюбным тоном. 
 Не пересказывай весь документ, а приведи только ту информацию, что отвечает на вопрос пользователя. 
 Не добавляй информацию вне предоставленного контекста.
 Не включай личные мнения, только факты
@@ -23,6 +23,9 @@ RAG_PROMPT_TEMPLATE = """
 
 Вопрос:
 {question}
+
+История диалога:
+{chat_history}
 
 Ответ:
 """
@@ -47,8 +50,10 @@ def create_qa_rag_chain(vector_store: Chroma):
     )
     prompt = ChatPromptTemplate.from_template(RAG_PROMPT_TEMPLATE)
 
-    rag_chain = (
-        {"context": retriever | format_docs, "question": RunnablePassthrough()}
+    rag_chain = ({
+        "context": retriever | format_docs, 
+        "question": RunnablePassthrough(),
+        "chat_history": RunnablePassthrough()}
         | prompt
         | llm
         | StrOutputParser()

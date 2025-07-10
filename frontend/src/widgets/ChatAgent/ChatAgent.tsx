@@ -65,7 +65,7 @@ export const ChatAgent: React.FC = () => {
       
       // Формируем историю в виде одной строки
       const messageHistory = recentMessages
-        .map(msg => `${msg.isUser ? 'пользователь' : 'система'}: ${msg.text}`)
+        .map(msg => `${msg.isUser ? 'пользователь' : 'ассистент'}: ${msg.text}`)
         .join(' ');
 
       const backendUrl = `${import.meta.env.VITE_BACKEND_IP}/agent/get_query`;
