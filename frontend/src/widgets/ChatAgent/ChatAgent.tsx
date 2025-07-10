@@ -121,7 +121,7 @@ export const ChatAgent: React.FC = () => {
           className={styles.chatFloatButton}
           onClick={() => setIsOpen(true)}
         >
-          <MessageCircle />
+          <MessageCircle className={styles.chatIcon} />
         </button>
       )}
 
