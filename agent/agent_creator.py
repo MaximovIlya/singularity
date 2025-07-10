@@ -14,9 +14,8 @@ def create_p2p_agent():
 
     # Инструмент для ответов на вопросы (RAG)
     print("Инициализация RAG-инструмента...")
-    import os
     current_dir = os.path.dirname(os.path.abspath(__file__))
-    data_path = os.path.join(current_dir, "data", "data.md")
+    data_path = os.path.join(current_dir, "data", "docs.md")
     chunked_docs = load_and_chunk_documents(data_path)
     vector_store = create_vector_store(chunked_docs, "p2p_agent_db")
     agent_executor = create_qa_rag_chain(vector_store)
