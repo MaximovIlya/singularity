@@ -21,11 +21,24 @@ export const HomePage: React.FC<HomePageProps> = ({
   const heroRef = useRef<HTMLElement>(null);
   const tradingRef = useRef<HTMLElement>(null);
 
-  const scrollToTrading = () => {
-    const tradingSection = document.getElementById('trading-section');
-    if (tradingSection) {
-      tradingSection.scrollIntoView({ behavior: 'smooth' });
-    }
+  const scrollToBorrow = () => {
+    navigate('/borrow');
+    setTimeout(() => {
+      const tradingSection = document.getElementById('trading-section');
+      if (tradingSection) {
+        tradingSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 100);
+  };
+
+  const scrollToInvest = () => {
+    navigate('/invest');
+    setTimeout(() => {
+      const tradingSection = document.getElementById('trading-section');
+      if (tradingSection) {
+        tradingSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 100);
   };
 
   useEffect(() => {
@@ -66,14 +79,14 @@ export const HomePage: React.FC<HomePageProps> = ({
       title: 'Займы под залог',
       description: 'Мгновенные займы в USDT под обеспечение ETH с прозрачными условиями',
       color: '#8b5cf6',
-      action: scrollToTrading
+      action: scrollToBorrow
     },
     {
       icon: PiggyBank,
       title: 'Инвестиции',
       description: 'Инвестируйте USDT в пулы ликвидности и получайте стабильную доходность',
       color: '#ec4899',
-      action: scrollToTrading
+      action: scrollToInvest
     },
     {
       icon: Shield,
@@ -113,7 +126,7 @@ export const HomePage: React.FC<HomePageProps> = ({
             <div className={styles.heroActions}>
               <button 
                 className={styles.ctaButton}
-                onClick={scrollToTrading}
+                onClick={scrollToBorrow}
               >
                 <TrendingUp className={styles.buttonIcon} />
                 Получить займ
@@ -121,7 +134,7 @@ export const HomePage: React.FC<HomePageProps> = ({
               </button>
               <button 
                 className={styles.secondaryButton}
-                onClick={scrollToTrading}
+                onClick={scrollToInvest}
               >
                 <PiggyBank className={styles.buttonIcon} />
                 Инвестировать
