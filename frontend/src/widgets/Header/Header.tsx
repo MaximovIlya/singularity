@@ -68,7 +68,7 @@ export const Header: React.FC = () => {
   };
 
   return (
-    <header className={styles.header}>
+    <header className={`${styles.header} ${isBurgerMenuOpen ? styles.headerBlurred : ''}`}>
       <div className='container'>
         <div className={styles.headerContent}>
           <Link className={styles.logo} to="/" aria-label="Главная страница">
