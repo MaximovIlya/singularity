@@ -1,0 +1,171 @@
+.currencySelect {
+  position: relative;
+  width: 100%;
+}
+
+.selectButton {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--bg-interactive);
+  border: 2px solid rgba(139, 92, 246, 0.3);
+  border-radius: 12px;
+  padding: 16px 20px;
+  color: var(--text-primary);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  gap: 12px;
+}
+
+.selectButton:hover {
+  border-color: var(--purple-light);
+  transform: translateY(-1px);
+}
+
+.selectButton:focus {
+  outline: none;
+  border-color: var(--purple-primary);
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
+  transform: translateY(-1px);
+}
+
+.selectButton.open {
+  border-color: var(--purple-primary);
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.selectedOption {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+
+.currencyIcon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.currencyName {
+  font-weight: 600;
+}
+
+
+
+.chevronIcon {
+  width: 18px;
+  height: 18px;
+  color: var(--purple-primary);
+  transition: transform 0.3s ease;
+  flex-shrink: 0;
+}
+
+.chevronIcon.open {
+  transform: rotate(180deg);
+}
+
+.dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--bg-interactive);
+  border: 2px solid var(--purple-primary);
+  border-top: none;
+  border-radius: 0 0 12px 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  z-index: 1000;
+  max-height: 200px;
+  overflow-y: auto;
+  backdrop-filter: blur(10px);
+}
+
+.dropdown.hidden {
+  display: none;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-bottom: 1px solid rgba(139, 92, 246, 0.1);
+}
+
+.option:last-child {
+  border-bottom: none;
+}
+
+.option:hover {
+  background: rgba(139, 92, 246, 0.1);
+  color: var(--purple-light);
+}
+
+.option:hover .currencyName {
+  color: var(--purple-light);
+}
+
+.option.selected {
+  background: rgba(139, 92, 246, 0.2);
+  color: var(--purple-light);
+}
+
+.option.selected .currencyName {
+  color: var(--purple-light);
+}
+
+/* Анимация появления dropdown */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dropdown:not(.hidden) {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* Responsive design */
+@media (max-width: 767px) {
+  .selectButton {
+    padding: 14px 16px;
+    font-size: 0.9rem;
+  }
+  
+  .currencyIcon {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .option {
+    padding: 14px 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .selectButton {
+    padding: 12px 14px;
+    font-size: 0.85rem;
+  }
+  
+  .currencyIcon {
+    width: 18px;
+    height: 18px;
+  }
+  
+
+} 

@@ -19,7 +19,7 @@ export const LoanForm: React.FC<LoanFormProps> = ({
   const location = useLocation();
   
   const TABS_MAP: Record<string, string> = {
-    '/borrow': 'Взять в долг',
+    '/borrow': 'Займ под обеспечение',
     '/invest': 'Вложить',
   };
 
