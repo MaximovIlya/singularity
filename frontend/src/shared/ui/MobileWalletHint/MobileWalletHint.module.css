@@ -1,0 +1,82 @@
+.mobileHint {
+  background: linear-gradient(135deg, #3B82F6, #8B5CF6);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  color: white;
+  text-align: center;
+}
+
+.hintTitle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+.hintText {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  opacity: 0.9;
+}
+
+.walletLinks {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+.walletLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  color: white;
+  text-decoration: none;
+  font-size: 0.75rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.walletLink:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
+}
+
+.detectedWallet {
+  background: linear-gradient(135deg, #10B981, #059669);
+  border-color: rgba(16, 185, 129, 0.3);
+}
+
+@media (max-width: 480px) {
+  .mobileHint {
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .hintTitle {
+    font-size: 0.9rem;
+  }
+  
+  .hintText {
+    font-size: 0.8rem;
+  }
+  
+  .walletLinks {
+    gap: 0.5rem;
+  }
+  
+  .walletLink {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.7rem;
+  }
+} 

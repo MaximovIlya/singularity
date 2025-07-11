@@ -12,7 +12,7 @@ import {
   Plus,
   Minus
 } from 'lucide-react';
-import { CurrencySelect, CURRENCIES, CurrencyId } from '../../shared/ui';
+import { CurrencySelect, CURRENCIES, CurrencyId, MobileWalletHint } from '../../shared/ui';
 
 const MOCK_TOKEN_ADDRESS_ERROR =
   'Mock token address not found in environment variables.';
@@ -152,6 +152,7 @@ export const BorrowTab: React.FC = () => {
 
   return (
     <div className={styles.borrowTab}>
+      <MobileWalletHint />
       <div className={`${styles.borrowForm} card`}>
         <div className={styles.formHeader}>
           <h2 className={styles.formTitle}>
