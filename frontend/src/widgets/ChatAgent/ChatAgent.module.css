@@ -411,6 +411,7 @@
   font-family: inherit;
   transition: all 0.2s ease;
   overflow-y: auto;
+  text-align: left;
 }
 
 @media (max-width: 480px) {
@@ -424,7 +425,7 @@
 .chatInput textarea:focus {
   outline: none;
   border-color: var(--purple-primary);
-  box-shadow: 0 0 0 2px var(--glow-light);
+  box-shadow: -3px 0 0 0 var(--purple-primary);
 }
 
 .chatInput textarea::placeholder {
