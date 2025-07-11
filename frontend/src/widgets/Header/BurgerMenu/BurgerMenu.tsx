@@ -20,7 +20,56 @@ export const BurgerMenu: React.FC<BurgerMenuProps> = ({
   const { account, connectWallet, disconnectWallet } = useWeb3();
   const navigate = useNavigate();
   const menuRef = useRef<HTMLDivElement>(null);
+  const walletAddressRef = useRef<HTMLSpanElement>(null);
   const [copied, setCopied] = useState(false);
+  const [availableWidth, setAvailableWidth] = useState(0);
+
+  // Функция для форматирования адреса кошелька с учетом доступного пространства
+  const formatWalletAddress = (address: string, containerWidth: number): string => {
+    if (!address) return '';
+    
+    // Если контейнер еще не измерен, возвращаем стандартный формат
+    if (containerWidth === 0) {
+      return `${address.slice(0, 6)}∙∙∙${address.slice(-4)}`;
+    }
+    
+    // Примерная ширина одного символа в пикселях (для monospace шрифта 16px)
+    const charWidth = 9.6; // более точное значение для monospace
+    // Учитываем padding элемента (2px * 2 = 4px)
+    const availableWidth = containerWidth - 8;
+    
+    // Ширина трех точек
+    const dotsWidth = 3 * charWidth;
+    
+    // Вычисляем максимальное количество символов, которое поместится
+    const maxChars = Math.floor((availableWidth - dotsWidth) / charWidth);
+    
+    // Минимальное количество символов для отображения (начало + конец)
+    const minChars = 8;
+    
+    if (maxChars < minChars || address.length <= maxChars + 3) {
+      return address;
+    }
+    
+    // Распределяем символы: больше в начале, меньше в конце
+    const startLength = Math.ceil(maxChars * 0.6);
+    const endLength = Math.floor(maxChars * 0.4);
+    
+    // Убеждаемся, что не показываем меньше минимума
+    const actualStart = Math.max(startLength, 4);
+    const actualEnd = Math.max(endLength, 4);
+    
+    return `${address.slice(0, actualStart)}∙∙∙${address.slice(-actualEnd)}`;
+  };
+
+  // Функция для измерения доступной ширины
+  const measureAvailableWidth = () => {
+    if (walletAddressRef.current) {
+      const element = walletAddressRef.current;
+      const containerWidth = element.offsetWidth || element.parentElement?.offsetWidth || 0;
+      setAvailableWidth(containerWidth);
+    }
+  };
 
   // Функция для копирования адреса
   const copyAddress = async () => {
@@ -35,7 +84,27 @@ export const BurgerMenu: React.FC<BurgerMenuProps> = ({
     }
   };
 
+  // Измерение ширины при открытии меню и изменении размера
+  useEffect(() => {
+    if (isOpen && account) {
+      // Небольшая задержка для завершения анимации
+      setTimeout(() => {
+        measureAvailableWidth();
+      }, 100);
+    }
+  }, [isOpen, account]);
 
+  // Обработка изменения размера окна
+  useEffect(() => {
+    const handleResize = () => {
+      if (isOpen && account) {
+        measureAvailableWidth();
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [isOpen, account]);
 
   // Закрытие меню при клике вне его
   useEffect(() => {
@@ -137,11 +206,12 @@ export const BurgerMenu: React.FC<BurgerMenuProps> = ({
                     <div className={styles.walletText}>
                       <span className={styles.walletLabel}>Кошелек</span>
                       <span 
+                        ref={walletAddressRef}
                         className={styles.walletAddress} 
                         title={copied ? 'Скопировано!' : 'Нажмите для копирования'}
                         onClick={copyAddress}
                       >
-                        {account}
+                        {formatWalletAddress(account, availableWidth)}
                       </span>
                     </div>
                   </div>
