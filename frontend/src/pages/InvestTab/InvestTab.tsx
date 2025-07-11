@@ -2,15 +2,15 @@ import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { ethers } from 'ethers';
 import { useWeb3 } from '../../shared/providers/Web3Context';
 import styles from './InvestTab.module.css';
-import { 
-  PiggyBank, 
-  TrendingUp, 
-  Clock, 
+import {
+  PiggyBank,
+  TrendingUp,
+  Clock,
   Info,
   Zap,
   Plus,
   Minus,
-  Loader2
+  Loader2,
 } from 'lucide-react';
 import { MobileWalletHint, getCurrencyById } from '../../shared/ui';
 
@@ -30,10 +30,12 @@ export const InvestTab: React.FC = () => {
 
   const handleInvest = async () => {
     if (!poolManager || !mockToken) {
-      setError('PoolManager или MockToken недоступны. Пожалуйста, подключите кошелек.');
+      setError(
+        'PoolManager или MockToken недоступны. Пожалуйста, подключите кошелек.'
+      );
       return;
     }
-    
+
     if (!amount || parseFloat(amount) <= 0) {
       setError('Пожалуйста, введите корректную сумму больше нуля.');
       return;
@@ -49,9 +51,9 @@ export const InvestTab: React.FC = () => {
         throw new Error(MOCK_TOKEN_ADDRESS_ERROR);
       }
 
-      const parsedAmount = ethers.parseUnits(amount, 18);
+      const parsedAmount = ethers.parseUnits(amount, 6);
       const amountAsString = parsedAmount.toString();
-      
+
       // Сначала одобряем токены
       setTransaction('Подтверждение разрешения на использование токенов...');
       const approveTx = await mockToken.approve(
@@ -62,7 +64,7 @@ export const InvestTab: React.FC = () => {
 
       // Затем выполняем депозит
       setTransaction('Выполнение инвестиции...');
-      const depositTx = await poolManager.deposit(tokenAddress, amountAsString);
+      const depositTx = await poolManager.deposit(amountAsString);
       setTransaction('Транзакция отправлена! Ожидание подтверждения...');
 
       await depositTx.wait();
@@ -117,14 +119,17 @@ export const InvestTab: React.FC = () => {
     });
   }, []);
 
-  const startRepeating = useCallback((action: () => void) => {
-    clearTimers(); // Очищаем предыдущие таймеры
-    action(); // Первое выполнение сразу
-    
-    timeoutRef.current = window.setTimeout(() => {
-      intervalRef.current = window.setInterval(action, 100);
-    }, 500);
-  }, [clearTimers]);
+  const startRepeating = useCallback(
+    (action: () => void) => {
+      clearTimers(); // Очищаем предыдущие таймеры
+      action(); // Первое выполнение сразу
+
+      timeoutRef.current = window.setTimeout(() => {
+        intervalRef.current = window.setInterval(action, 100);
+      }, 500);
+    },
+    [clearTimers]
+  );
 
   const stopRepeating = useCallback(() => {
     clearTimers();
@@ -164,13 +169,15 @@ export const InvestTab: React.FC = () => {
             <Clock className={styles.infoIcon} />
             <div className={styles.infoContent}>
               <span className={styles.infoLabel}>Период инвестиций</span>
-              <span className={styles.infoValue}>{INVESTMENT_DURATION} дней</span>
+              <span className={styles.infoValue}>
+                {INVESTMENT_DURATION} дней
+              </span>
             </div>
           </div>
           <div className={styles.infoCard}>
-            <img 
-              src={getCurrencyById('USDT')?.icon} 
-              alt="USDT" 
+            <img
+              src={getCurrencyById('USDT')?.icon}
+              alt='USDT'
               className={styles.infoIcon}
               style={{ width: '20px', height: '20px' }}
             />
@@ -185,8 +192,8 @@ export const InvestTab: React.FC = () => {
           <div className={styles.amountInput}>
             <label className={styles.inputLabel}>
               Сумма инвестиций
-              <span 
-                title="Укажите сумму USDT, которую хотите инвестировать. Средства будут заблокированы на указанный период"
+              <span
+                title='Укажите сумму USDT, которую хотите инвестировать. Средства будут заблокированы на указанный период'
                 style={{ cursor: 'help' }}
               >
                 <Info className={styles.labelIcon} />
@@ -194,7 +201,7 @@ export const InvestTab: React.FC = () => {
             </label>
             <div className={styles.inputWrapper}>
               <button
-                type="button"
+                type='button'
                 className={styles.decrementButton}
                 onMouseDown={handleDecrementStart}
                 onMouseUp={stopRepeating}
@@ -202,9 +209,9 @@ export const InvestTab: React.FC = () => {
                 onTouchStart={handleDecrementStart}
                 onTouchEnd={stopRepeating}
                 disabled={loading || !amount || parseFloat(amount) <= 0}
-                title="-1 (hold)"
+                title='-1 (hold)'
               >
-                <Minus className="icon" />
+                <Minus className='icon' />
               </button>
               <input
                 type='number'
@@ -213,11 +220,11 @@ export const InvestTab: React.FC = () => {
                 placeholder='0.00'
                 disabled={loading}
                 className={styles.amountField}
-                min="0"
-                step="0.01"
+                min='0'
+                step='0.01'
               />
               <button
-                type="button"
+                type='button'
                 className={styles.incrementButton}
                 onMouseDown={handleIncrementStart}
                 onMouseUp={stopRepeating}
@@ -225,9 +232,9 @@ export const InvestTab: React.FC = () => {
                 onTouchStart={handleIncrementStart}
                 onTouchEnd={stopRepeating}
                 disabled={loading}
-                title="+1 (hold)"
+                title='+1 (hold)'
               >
-                <Plus className="icon" />
+                <Plus className='icon' />
               </button>
             </div>
           </div>

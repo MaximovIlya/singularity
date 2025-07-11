@@ -3,7 +3,13 @@ import { ethers, BrowserProvider, Signer } from 'ethers';
 // TODO: move ABI to a dedicated file
 export const oracleABI = [
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: 'address',
+        name: 'initialOwner',
+        type: 'address',
+      },
+    ],
     stateMutability: 'nonpayable',
     type: 'constructor',
   },
@@ -47,6 +53,57 @@ export const oracleABI = [
     ],
     name: 'OwnershipTransferred',
     type: 'event',
+  },
+  {
+    inputs: [],
+    name: 'ETH_ADDRESS',
+    outputs: [
+      {
+        internalType: 'address',
+        name: '',
+        type: 'address',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'address',
+        name: 'asset',
+        type: 'address',
+      },
+    ],
+    name: 'getDecimals',
+    outputs: [
+      {
+        internalType: 'uint8',
+        name: '',
+        type: 'uint8',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'address',
+        name: 'asset',
+        type: 'address',
+      },
+    ],
+    name: 'getNormalizedPrice',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
   },
   {
     inputs: [
@@ -95,12 +152,12 @@ export const oracleABI = [
         type: 'address',
       },
       {
-        internalType: 'uint256',
-        name: 'price',
-        type: 'uint256',
+        internalType: 'address',
+        name: 'feedAddress',
+        type: 'address',
       },
     ],
-    name: 'setPrice',
+    name: 'setFeed',
     outputs: [],
     stateMutability: 'nonpayable',
     type: 'function',
@@ -152,4 +209,4 @@ export class OracleContract {
   async owner(): Promise<string> {
     return this.readOnly.owner();
   }
-} 
+}

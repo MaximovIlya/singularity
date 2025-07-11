@@ -7,7 +7,7 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
  * @title MyToken (pUSDT)
  * @notice ERC-20 receipt token minted/burned exclusively by PoolManager.
  */
-contract MyToken is ERC20 {
+contract MyToken is ERC20 { // <--- This must be 'contract' not 'abstract contract'
     address public immutable pool;
 
     constructor(

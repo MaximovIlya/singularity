@@ -1,12 +1,6 @@
 const mockTokenABI = [
   {
-    inputs: [
-      {
-        internalType: 'uint256',
-        name: 'initialSupply',
-        type: 'uint256',
-      },
-    ],
+    inputs: [],
     stateMutability: 'nonpayable',
     type: 'constructor',
   },
@@ -223,7 +217,25 @@ const mockTokenABI = [
         type: 'uint8',
       },
     ],
-    stateMutability: 'view',
+    stateMutability: 'pure',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'address',
+        name: 'to',
+        type: 'address',
+      },
+      {
+        internalType: 'uint256',
+        name: 'amount',
+        type: 'uint256',
+      },
+    ],
+    name: 'mint',
+    outputs: [],
+    stateMutability: 'nonpayable',
     type: 'function',
   },
   {
@@ -337,7 +349,6 @@ export class MockTokenContract {
 
   async approve(spender: string, amount: string) {
     console.log(spender, amount);
-    const tx = await this.contract.approve(spender, amount);
-    return await tx.wait();
+    return this.contract.approve(spender, amount);
   }
 }

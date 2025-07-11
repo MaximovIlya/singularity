@@ -6,12 +6,22 @@ export const poolManagerABI = [
     inputs: [
       {
         internalType: 'address',
-        name: '_oracle',
+        name: 'stable_',
         type: 'address',
       },
       {
         internalType: 'address',
-        name: '_interestModel',
+        name: 'oracle_',
+        type: 'address',
+      },
+      {
+        internalType: 'address',
+        name: 'irm_',
+        type: 'address',
+      },
+      {
+        internalType: 'address',
+        name: 'initialOwner',
         type: 'address',
       },
     ],
@@ -22,12 +32,224 @@ export const poolManagerABI = [
     inputs: [
       {
         internalType: 'address',
+        name: 'owner',
+        type: 'address',
+      },
+    ],
+    name: 'OwnableInvalidOwner',
+    type: 'error',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'address',
+        name: 'account',
+        type: 'address',
+      },
+    ],
+    name: 'OwnableUnauthorizedAccount',
+    type: 'error',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'address',
         name: 'token',
         type: 'address',
       },
+    ],
+    name: 'SafeERC20FailedOperation',
+    type: 'error',
+  },
+  {
+    anonymous: false,
+    inputs: [
       {
+        indexed: true,
+        internalType: 'address',
+        name: 'user',
+        type: 'address',
+      },
+      {
+        indexed: false,
         internalType: 'uint256',
         name: 'amount',
+        type: 'uint256',
+      },
+    ],
+    name: 'Borrow',
+    type: 'event',
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: 'address',
+        name: 'user',
+        type: 'address',
+      },
+      {
+        indexed: false,
+        internalType: 'uint256',
+        name: 'amount',
+        type: 'uint256',
+      },
+      {
+        indexed: false,
+        internalType: 'uint256',
+        name: 'shares',
+        type: 'uint256',
+      },
+    ],
+    name: 'Deposit',
+    type: 'event',
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: 'address',
+        name: 'keeper',
+        type: 'address',
+      },
+      {
+        indexed: true,
+        internalType: 'address',
+        name: 'borrower',
+        type: 'address',
+      },
+      {
+        indexed: false,
+        internalType: 'uint256',
+        name: 'repayAmount',
+        type: 'uint256',
+      },
+      {
+        indexed: false,
+        internalType: 'uint256',
+        name: 'seizedCollateral',
+        type: 'uint256',
+      },
+    ],
+    name: 'Liquidate',
+    type: 'event',
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: 'address',
+        name: 'previousOwner',
+        type: 'address',
+      },
+      {
+        indexed: true,
+        internalType: 'address',
+        name: 'newOwner',
+        type: 'address',
+      },
+    ],
+    name: 'OwnershipTransferred',
+    type: 'event',
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: 'address',
+        name: 'payer',
+        type: 'address',
+      },
+      {
+        indexed: true,
+        internalType: 'address',
+        name: 'borrower',
+        type: 'address',
+      },
+      {
+        indexed: false,
+        internalType: 'uint256',
+        name: 'amount',
+        type: 'uint256',
+      },
+    ],
+    name: 'Repay',
+    type: 'event',
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: 'address',
+        name: 'user',
+        type: 'address',
+      },
+      {
+        indexed: false,
+        internalType: 'uint256',
+        name: 'shares',
+        type: 'uint256',
+      },
+      {
+        indexed: false,
+        internalType: 'uint256',
+        name: 'amount',
+        type: 'uint256',
+      },
+    ],
+    name: 'Withdraw',
+    type: 'event',
+  },
+  {
+    inputs: [],
+    name: 'MANTISSA',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'SECONDS_PER_YEAR',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'accrueInterest',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'addCollateral',
+    outputs: [],
+    stateMutability: 'payable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'uint256',
+        name: 'amt',
         type: 'uint256',
       },
     ],
@@ -37,28 +259,12 @@ export const poolManagerABI = [
     type: 'function',
   },
   {
-    inputs: [
-      {
-        internalType: 'address',
-        name: '',
-        type: 'address',
-      },
-      {
-        internalType: 'address',
-        name: '',
-        type: 'address',
-      },
-    ],
-    name: 'borrows',
+    inputs: [],
+    name: 'borrowIndex',
     outputs: [
       {
         internalType: 'uint256',
-        name: 'amount',
-        type: 'uint256',
-      },
-      {
-        internalType: 'uint256',
-        name: 'lastUpdated',
+        name: '',
         type: 'uint256',
       },
     ],
@@ -68,13 +274,8 @@ export const poolManagerABI = [
   {
     inputs: [
       {
-        internalType: 'address',
-        name: 'token',
-        type: 'address',
-      },
-      {
         internalType: 'uint256',
-        name: 'amount',
+        name: 'amt',
         type: 'uint256',
       },
     ],
@@ -90,56 +291,8 @@ export const poolManagerABI = [
         name: '',
         type: 'address',
       },
-      {
-        internalType: 'address',
-        name: '',
-        type: 'address',
-      },
     ],
-    name: 'deposits',
-    outputs: [
-      {
-        internalType: 'uint256',
-        name: 'amount',
-        type: 'uint256',
-      },
-      {
-        internalType: 'uint256',
-        name: 'lastUpdated',
-        type: 'uint256',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'address',
-        name: 'token',
-        type: 'address',
-      },
-    ],
-    name: 'getBorrowRate',
-    outputs: [
-      {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'address',
-        name: 'token',
-        type: 'address',
-      },
-    ],
-    name: 'getUtilization',
+    name: 'ethCollateral',
     outputs: [
       {
         internalType: 'uint256',
@@ -152,12 +305,129 @@ export const poolManagerABI = [
   },
   {
     inputs: [],
-    name: 'interestModel',
+    name: 'exchangeRate',
     outputs: [
       {
-        internalType: 'contract IInterestRateModel',
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'irm',
+    outputs: [
+      {
+        internalType: 'contract InterestRateModel',
         name: '',
         type: 'address',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'lastAccrual',
+    outputs: [
+      {
+        internalType: 'uint40',
+        name: '',
+        type: 'uint40',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'address',
+        name: 'borrower',
+        type: 'address',
+      },
+      {
+        internalType: 'uint256',
+        name: 'repayAmount',
+        type: 'uint256',
+      },
+    ],
+    name: 'liquidate',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'liquidationBonus',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'liquidationThres',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'address',
+        name: '',
+        type: 'address',
+      },
+    ],
+    name: 'loans',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: 'principal',
+        type: 'uint256',
+      },
+      {
+        internalType: 'uint256',
+        name: 'borrowIndexSnap',
+        type: 'uint256',
+      },
+      {
+        internalType: 'uint40',
+        name: 'start',
+        type: 'uint40',
+      },
+      {
+        internalType: 'uint40',
+        name: 'maturity',
+        type: 'uint40',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'maxLTV',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
       },
     ],
     stateMutability: 'view',
@@ -168,7 +438,7 @@ export const poolManagerABI = [
     name: 'oracle',
     outputs: [
       {
-        internalType: 'contract IOracleAggregator',
+        internalType: 'contract OracleAggregator',
         name: '',
         type: 'address',
       },
@@ -177,15 +447,48 @@ export const poolManagerABI = [
     type: 'function',
   },
   {
+    inputs: [],
+    name: 'owner',
+    outputs: [
+      {
+        internalType: 'address',
+        name: '',
+        type: 'address',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'pToken',
+    outputs: [
+      {
+        internalType: 'contract MyToken',
+        name: '',
+        type: 'address',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'renounceOwnership',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
     inputs: [
       {
         internalType: 'address',
-        name: 'token',
+        name: 'borrower',
         type: 'address',
       },
       {
         internalType: 'uint256',
-        name: 'amount',
+        name: 'amtMax',
         type: 'uint256',
       },
     ],
@@ -195,13 +498,68 @@ export const poolManagerABI = [
     type: 'function',
   },
   {
+    inputs: [],
+    name: 'reserveFactor',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
     inputs: [
       {
-        internalType: 'address',
+        internalType: 'uint256',
+        name: 'maxLTV_',
+        type: 'uint256',
+      },
+      {
+        internalType: 'uint256',
+        name: 'liqThres_',
+        type: 'uint256',
+      },
+      {
+        internalType: 'uint256',
+        name: 'bonus_',
+        type: 'uint256',
+      },
+      {
+        internalType: 'uint256',
+        name: 'reserveFactor_',
+        type: 'uint256',
+      },
+    ],
+    name: 'setRiskParams',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'stable',
+    outputs: [
+      {
+        internalType: 'contract IERC20',
         name: '',
         type: 'address',
       },
     ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'supplyCollateral',
+    outputs: [],
+    stateMutability: 'payable',
+    type: 'function',
+  },
+  {
+    inputs: [],
     name: 'totalBorrows',
     outputs: [
       {
@@ -214,14 +572,21 @@ export const poolManagerABI = [
     type: 'function',
   },
   {
-    inputs: [
+    inputs: [],
+    name: 'totalCash',
+    outputs: [
       {
-        internalType: 'address',
+        internalType: 'uint256',
         name: '',
-        type: 'address',
+        type: 'uint256',
       },
     ],
-    name: 'totalDeposits',
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'totalReserves',
     outputs: [
       {
         internalType: 'uint256',
@@ -236,12 +601,20 @@ export const poolManagerABI = [
     inputs: [
       {
         internalType: 'address',
-        name: 'token',
+        name: 'newOwner',
         type: 'address',
       },
+    ],
+    name: 'transferOwnership',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
       {
         internalType: 'uint256',
-        name: 'amount',
+        name: 'shares',
         type: 'uint256',
       },
     ],
@@ -249,6 +622,10 @@ export const poolManagerABI = [
     outputs: [],
     stateMutability: 'nonpayable',
     type: 'function',
+  },
+  {
+    stateMutability: 'payable',
+    type: 'receive',
   },
 ];
 
@@ -276,8 +653,8 @@ export class PoolManagerContract {
     return this.writable.borrow(token, amount);
   }
 
-  async deposit(token: string, amount: ethers.BigNumberish) {
-    return this.writable.deposit(token, amount);
+  async deposit(amount: ethers.BigNumberish) {
+    return this.writable.deposit(amount);
   }
 
   async repay(token: string, amount: ethers.BigNumberish) {
