@@ -176,6 +176,7 @@ textarea {
   color: var(--text-primary);
   font-family: 'Share Tech Mono', monospace;
   font-size: 1rem;
+  text-align: center;
   transition:
     border-color 0.3s ease,
     box-shadow 0.3s ease;
@@ -254,4 +255,8 @@ textarea:focus {
 
 .hidden {
   display: none;
+}
+
+.icon {
+  flex-shrink: 0;
 }

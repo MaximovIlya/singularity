@@ -56,7 +56,7 @@ export const Header: React.FC = () => {
   const shouldShowBurgerButton = !isDesktop; // На tablet и mobile показываем burger
   
   // Что показывать в burger меню
-  const burgerShowNavButtons = isTablet || isMobile; // В планшетном и мобильном формате
+  const burgerShowNavButtons = (isTablet || isMobile) && !!account; // В планшетном и мобильном формате только если кошелек подключен
   const burgerShowWalletInfo = isTablet || isMobile; // В планшетном и мобильном формате
 
   const handleBurgerMenuToggle = () => {
@@ -68,7 +68,7 @@ export const Header: React.FC = () => {
   };
 
   return (
-    <header className={styles.header}>
+    <header className={`${styles.header} ${isBurgerMenuOpen ? styles.headerBlurred : ''}`}>
       <div className='container'>
         <div className={styles.headerContent}>
           <Link className={styles.logo} to="/" aria-label="Главная страница">
@@ -77,8 +77,8 @@ export const Header: React.FC = () => {
           </Link>
 
           <div className={styles.headerActions}>
-            {/* Навигационные кнопки (только на desktop) */}
-            {shouldShowNavButtons && (
+            {/* Навигационные кнопки (только на desktop и если кошелек подключен) */}
+            {shouldShowNavButtons && !!account && (
               <>
                 <button
                   className={styles.myInvestmentsButton}

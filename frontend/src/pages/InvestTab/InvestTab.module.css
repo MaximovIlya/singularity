@@ -1,292 +1,337 @@
+/* Main Container */
 .investTab {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2rem;
-  align-items: start;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  padding: var(--section-padding);
+  max-width: 800px;
+  margin: 0 auto;
+  width: 100%;
 }
 
-/* Responsive layout adjustments */
-@media (max-width: 1024px) {
-  .investTab {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
-}
-
-@media (max-width: 767px) {
-  .investTab {
-    gap: 1rem;
-  }
-}
-
+/* Form Section */
 .investForm {
-  max-width: 500px;
+  max-width: 600px;
+  margin: 0 auto;
+  background: linear-gradient(135deg, var(--bg-secondary) 0%, rgba(26, 26, 36, 0.8) 100%);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  border-radius: 20px;
+  padding: 2.5rem;
+  position: relative;
+  backdrop-filter: blur(10px);
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(139, 92, 246, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
 }
 
-@media (max-width: 1024px) {
-  .investForm {
-    max-width: none;
-  }
+.investForm:hover {
+  border-color: rgba(139, 92, 246, 0.5);
+  box-shadow: 
+    0 25px 50px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(139, 92, 246, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+/* Form Header */
+.formHeader {
+  text-align: center;
+  margin-bottom: 2rem;
 }
 
 .formTitle {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 1.5rem;
-  font-size: clamp(1.25rem, 3vw, 1.5rem);
-  color: var(--text-primary);
+  justify-content: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  font-weight: 700;
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .titleIcon {
+  width: clamp(24px, 5vw, 32px);
+  height: clamp(24px, 5vw, 32px);
   color: var(--purple-primary);
-  width: clamp(20px, 4vw, 24px);
-  height: clamp(20px, 4vw, 24px);
+  filter: drop-shadow(0 2px 8px rgba(139, 92, 246, 0.4));
 }
 
-.currencySelection {
-  margin-bottom: 1.5rem;
-}
-
-@media (max-width: 480px) {
-  .currencySelection {
-    margin-bottom: 1rem;
-  }
-}
-
-.currencySelection label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-size: clamp(0.8rem, 2vw, 0.9rem);
+.formSubtitle {
   color: var(--text-secondary);
-  font-weight: 500;
+  font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+  line-height: 1.6;
+  opacity: 0.9;
 }
 
-.investmentInfo {
-  margin-bottom: 1.5rem;
-  background-color: var(--bg-interactive);
-  border: 1px solid rgba(139, 92, 246, 0.2);
-}
-
-@media (max-width: 480px) {
-  .investmentInfo {
-    margin-bottom: 1rem;
-  }
-}
-
-.infoHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1rem;
+/* Investment Information Cards */
+.investInfo {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 1rem;
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: rgba(139, 92, 246, 0.05);
+  border: 1px solid rgba(139, 92, 246, 0.15);
+  border-radius: 16px;
+  position: relative;
 }
 
-/* Mobile: Stack header elements vertically */
-@media (max-width: 767px) {
-  .infoHeader {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 1rem;
-  }
+.investInfo::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.08) 0%, rgba(236, 72, 153, 0.03) 100%);
+  border-radius: 16px;
+  z-index: -1;
 }
 
-@media (max-width: 480px) {
-  .infoHeader {
-    gap: 0.75rem;
-    margin-bottom: 0.75rem;
-  }
-}
-
-.infoHeader h3 {
-  font-size: clamp(1rem, 2.5vw, 1.2rem);
-  color: var(--text-primary);
-  margin: 0;
-}
-
-.apyBadge {
+.infoCard {
   display: flex;
   align-items: center;
-  gap: 0.3rem;
-  padding: 6px 12px;
-  background: var(--gradient-primary);
-  border-radius: 20px;
-  font-size: clamp(0.8rem, 2vw, 0.9rem);
-  font-weight: 600;
-  color: var(--text-primary);
+  gap: 0.75rem;
+  padding: 1rem;
+  background: var(--bg-interactive);
+  border: 1px solid rgba(139, 92, 246, 0.2);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.infoCard:hover {
+  border-color: var(--purple-primary);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2);
+}
+
+.infoIcon {
+  width: 20px;
+  height: 20px;
+  color: var(--purple-primary);
   flex-shrink: 0;
 }
 
-@media (max-width: 767px) {
-  .apyBadge {
-    align-self: center;
-  }
-}
-
-@media (max-width: 480px) {
-  .apyBadge {
-    padding: 8px 14px;
-  }
-}
-
-.percentIcon {
-  width: 14px;
-  height: 14px;
-  flex-shrink: 0;
-}
-
-.infoDetails {
+.infoContent {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.25rem;
 }
 
-@media (max-width: 480px) {
-  .infoDetails {
-    gap: 0.4rem;
-  }
-}
-
-.infoItem {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  color: var(--text-secondary);
-  gap: 1rem;
-}
-
-.infoItem span:last-child {
-  color: var(--text-primary);
-  font-weight: 500;
-  text-align: right;
-}
-
-@media (max-width: 480px) {
-  .infoItem {
-    gap: 0.5rem;
-    font-size: 0.9rem;
-  }
-}
-
-.riskLabel {
-  font-weight: 600;
+.infoLabel {
+  font-size: 0.8rem;
+  color: var(--text-tertiary);
   text-transform: uppercase;
-  font-size: clamp(0.7rem, 1.5vw, 0.8rem);
-}
-
-.amountInput,
-.durationSelection {
-  margin-bottom: 1.5rem;
-}
-
-@media (max-width: 480px) {
-  .amountInput,
-  .durationSelection {
-    margin-bottom: 1rem;
-  }
-}
-
-.amountInput label,
-.durationSelection label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-size: clamp(0.8rem, 2vw, 0.9rem);
-  color: var(--text-secondary);
+  letter-spacing: 0.5px;
   font-weight: 500;
 }
 
-.returnsCalculation {
-  margin-bottom: 1.5rem;
-  background-color: var(--bg-interactive);
-  border: 1px solid rgba(16, 185, 129, 0.3);
+.infoValue {
+  font-size: 1rem;
+  color: var(--text-primary);
+  font-weight: 600;
 }
 
-@media (max-width: 480px) {
-  .returnsCalculation {
-    margin-bottom: 1rem;
-  }
+/* Input Group */
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
 }
 
-.returnsCalculation h4 {
-  margin-bottom: 1rem;
-  color: var(--color-success);
-  font-size: clamp(1rem, 2.5vw, 1.1rem);
-}
-
-@media (max-width: 480px) {
-  .returnsCalculation h4 {
-    margin-bottom: 0.75rem;
-  }
-}
-
-.returnsDetails {
+.amountInput {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
 }
 
-@media (max-width: 480px) {
-  .returnsDetails {
-    gap: 0.5rem;
-  }
-}
-
-.returnItem {
+.inputLabel {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  gap: 0.5rem;
+  font-size: clamp(0.9rem, 2vw, 1rem);
   color: var(--text-secondary);
-  gap: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
 }
 
-.returnItem span:last-child {
+.labelIcon {
+  width: 16px;
+  height: 16px;
+  color: var(--purple-light);
+  opacity: 0.7;
+  cursor: help;
+  transition: all 0.3s ease;
+  margin-top: 8px;
+}
+
+.labelIcon:hover {
+  opacity: 1;
+  transform: scale(1.1);
+  color: var(--purple-primary);
+}
+
+.inputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: var(--bg-interactive);
+  border: 2px solid rgba(139, 92, 246, 0.3);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.inputWrapper:focus-within {
+  border-color: var(--purple-primary);
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
+  transform: translateY(-1px);
+}
+
+.inputWrapper:hover {
+  border-color: var(--purple-light);
+}
+
+.decrementButton,
+.incrementButton {
+  background: rgba(139, 92, 246, 0.1);
+  border: none;
+  color: var(--purple-primary);
+  width: 44px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  user-select: none;
+  margin: 2px;
+  border-radius: 8px;
+  box-shadow: none;
+}
+
+.decrementButton:hover,
+.incrementButton:hover {
+  background: rgba(139, 92, 246, 0.2);
+  color: var(--purple-light);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(139, 92, 246, 0.3);
+}
+
+.decrementButton:active,
+.incrementButton:active {
+  background: rgba(139, 92, 246, 0.3);
+  transform: translateY(0);
+  box-shadow: 0 1px 4px rgba(139, 92, 246, 0.2);
+}
+
+.decrementButton:disabled,
+.incrementButton:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.decrementButton:disabled:hover,
+.incrementButton:disabled:hover {
+  background: rgba(139, 92, 246, 0.1);
+  color: var(--purple-primary);
+  transform: none;
+  box-shadow: none;
+}
+
+.amountField {
+  flex: 1;
+  background: transparent;
+  border: none;
+  padding: 16px 52px 16px 52px;
   color: var(--text-primary);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: clamp(1rem, 2.5vw, 1.2rem);
   font-weight: 500;
-  text-align: right;
+  outline: none;
+  text-align: center;
 }
 
-.returnItem.total {
-  padding-top: 0.75rem;
-  border-top: 1px solid rgba(139, 92, 246, 0.2);
-  font-weight: 600;
+/* Убираем стандартные стрелки у input type="number" */
+.amountField::-webkit-outer-spin-button,
+.amountField::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
-.returnItem.total span {
-  color: var(--text-primary);
-  font-size: clamp(1rem, 2.5vw, 1.1rem);
+/* Для Firefox */
+.amountField[type="number"] {
+  -moz-appearance: textfield;
 }
 
-@media (max-width: 480px) {
-  .returnItem {
-    gap: 0.5rem;
-    font-size: 0.9rem;
-  }
-
-  .returnItem.total {
-    padding-top: 0.5rem;
-  }
+.amountField::placeholder {
+  color: var(--text-tertiary);
+  opacity: 0.7;
 }
 
-.profit {
-  color: var(--color-success) !important;
-  font-weight: 600;
-}
-
+/* Investment Button */
 .investButton {
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  padding: 16px;
-  font-size: clamp(0.95rem, 2.5vw, 1.1rem);
+  gap: 0.75rem;
+  padding: 18px 24px;
+  font-size: clamp(1rem, 2.5vw, 1.2rem);
+  font-weight: 600;
+  background: var(--gradient-primary);
+  border: none;
+  border-radius: 16px;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 
+    0 8px 24px rgba(139, 92, 246, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
-@media (max-width: 480px) {
-  .investButton {
-    padding: 14px;
-    gap: 0.25rem;
-  }
+.investButton::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.6s;
+}
+
+.investButton:hover::before {
+  left: 100%;
+}
+
+.investButton:hover {
+  transform: translateY(-3px);
+  box-shadow: 
+    0 15px 35px rgba(139, 92, 246, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.investButton:active {
+  transform: translateY(-1px);
+}
+
+.investButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2);
 }
 
 .buttonIcon {
@@ -295,60 +340,8 @@
   flex-shrink: 0;
 }
 
-@media (max-width: 480px) {
-  .buttonIcon {
-    width: 18px;
-    height: 18px;
-  }
-}
-
-.chartSection {
-  height: fit-content;
-}
-
-.chartHeader {
-  margin-bottom: 1rem;
-}
-
-@media (max-width: 480px) {
-  .chartHeader {
-    margin-bottom: 0.75rem;
-  }
-}
-
-.chartHeader h3 {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  color: var(--text-primary);
-  font-size: clamp(1.1rem, 2.5vw, 1.2rem);
-  margin: 0;
-}
-
-.chartIcon {
-  color: var(--purple-primary);
-  width: clamp(18px, 3vw, 20px);
-  height: clamp(18px, 3vw, 20px);
-  flex-shrink: 0;
-}
-
-/* Tablet specific adjustments */
-@media (min-width: 768px) and (max-width: 1023px) {
-  .investForm {
-    max-width: 600px;
-    margin: 0 auto;
-  }
-}
-
-/* Large desktop adjustments */
-@media (min-width: 1440px) {
-  .investTab {
-    gap: 3rem;
-  }
-
-  .investForm {
-    max-width: 550px;
-  }
+.spinner {
+  animation: spin 1s linear infinite;
 }
 
 @keyframes spin {
@@ -360,6 +353,166 @@
   }
 }
 
-.spinner {
-  animation: spin 1s linear infinite;
+/* Messages */
+.successMessage,
+.errorMessage {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+  padding: 16px 20px;
+  border-radius: 12px;
+  font-weight: 500;
+  font-size: clamp(0.9rem, 2vw, 1rem);
+  word-break: break-word;
+  animation: messageSlideIn 0.4s ease-out;
+}
+
+.successMessage {
+  color: var(--color-success);
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.errorMessage {
+  color: var(--color-error);
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.messageIcon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+@keyframes messageSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 767px) {
+  .investTab {
+    gap: 2rem;
+    padding: 1rem;
+  }
+
+  .investForm {
+    max-width: 100%;
+    padding: 1.5rem;
+    border-radius: 16px;
+  }
+
+  .formHeader {
+    margin-bottom: 1.5rem;
+  }
+
+  .formTitle {
+    font-size: 1.5rem;
+    gap: 0.5rem;
+  }
+
+  .investInfo {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    padding: 1rem;
+  }
+
+  .infoCard {
+    padding: 0.75rem;
+  }
+
+  .inputGroup {
+    gap: 1rem;
+  }
+
+  .amountField {
+    padding: 14px 46px 14px 46px;
+    font-size: 1rem;
+  }
+
+  .decrementButton,
+  .incrementButton {
+    width: 38px;
+    height: 44px;
+    margin: 1px;
+  }
+
+  .investButton {
+    padding: 16px 20px;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .investTab {
+    padding: 0.75rem;
+    gap: 1.5rem;
+  }
+
+  .investForm {
+    padding: 1.25rem;
+  }
+
+  .formTitle {
+    font-size: 1.25rem;
+  }
+
+  .investInfo {
+    padding: 0.75rem;
+    gap: 0.5rem;
+  }
+
+  .infoCard {
+    padding: 0.5rem;
+    gap: 0.5rem;
+  }
+
+  .infoIcon {
+    width: 16px;
+    height: 16px;
+  }
+
+  .infoValue {
+    font-size: 0.9rem;
+  }
+
+  .amountField {
+    padding: 12px 42px 12px 42px;
+  }
+
+  .decrementButton,
+  .incrementButton {
+    width: 34px;
+    height: 40px;
+    margin: 1px;
+  }
+
+  .buttonIcon {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+/* Large Desktop */
+@media (min-width: 1440px) {
+  .investForm {
+    max-width: 650px;
+    padding: 3rem;
+  }
+
+  .investInfo {
+    padding: 2rem;
+  }
+
+  .infoCard {
+    padding: 1.25rem;
+  }
 }

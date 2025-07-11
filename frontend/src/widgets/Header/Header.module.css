@@ -7,6 +7,10 @@
   backdrop-filter: blur(10px);
 }
 
+.headerBlurred {
+  backdrop-filter: none;
+}
+
 .headerContent {
   display: flex;
   align-items: center;

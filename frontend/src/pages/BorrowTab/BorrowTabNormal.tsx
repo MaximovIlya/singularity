@@ -62,7 +62,7 @@ export const BorrowTab: React.FC = () => {
       <div className={`${styles.borrowForm} card`}>
         <h2 className={styles.formTitle}>
           <TrendingUp className={styles.titleIcon} />
-          Взять в долг
+          Займ под обеспечение
         </h2>
 
         <div className={styles.coinSelection}>

@@ -6,7 +6,7 @@ import {
   useEffect,
   useState,
 } from 'react';
-import { connectWallet as connectWalletUtil } from '../../utils/wallet';
+import { connectWallet as connectWalletUtil, isMobile, detectMobileWallet } from '../../utils/wallet';
 import { getStoredAccount, setStoredAccount } from '../../utils/localStorage';
 import { PoolManagerContract } from '../../contracts/PoolManager';
 import { InterestRateContract } from '../../contracts/InterestRate';
@@ -23,6 +23,9 @@ interface Web3ContextType {
   mockToken: MockTokenContract | null;
   connectWallet: () => Promise<void>;
   disconnectWallet: () => void;
+  // Мобильная информация
+  isMobileDevice: boolean;
+  detectedMobileWallet: string | null;
 }
 
 const Web3Context = createContext<Web3ContextType | undefined>(undefined);
@@ -51,6 +54,10 @@ export const Web3Provider = ({ children }: Web3ProviderProps) => {
   );
   const [oracle, setOracle] = useState<OracleContract | null>(null);
   const [mockToken, setMockToken] = useState<MockTokenContract | null>(null);
+  
+  // Мобильная информация
+  const [isMobileDevice] = useState(() => isMobile());
+  const [detectedMobileWallet] = useState(() => detectMobileWallet());
 
   useEffect(() => {
     const init = async () => {
@@ -131,6 +138,8 @@ export const Web3Provider = ({ children }: Web3ProviderProps) => {
         mockToken,
         connectWallet,
         disconnectWallet,
+        isMobileDevice,
+        detectedMobileWallet,
       }}
     >
       {children}

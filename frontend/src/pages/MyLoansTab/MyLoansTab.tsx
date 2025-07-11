@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 import { useWeb3 } from '../../shared/providers/Web3Context';
 import styles from './MyLoansTab.module.css';
 import { ethers } from 'ethers';
-import { Loader2 } from 'lucide-react';
+import { Loader2, Plus, Minus } from 'lucide-react';
 
 type Borrow = {
   amount: string;
@@ -20,7 +20,12 @@ export const MyLoansTab: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [isRepaying, setIsRepaying] = useState(false);
   const [showRepayForm, setShowRepayForm] = useState(false);
-  const { register, handleSubmit } = useForm<FormValues>();
+  const [repayAmount, setRepayAmount] = useState('');
+  const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm<FormValues>();
+
+  // Refs для управления повторяющимися действиями
+  const timeoutRef = useRef<number | null>(null);
+  const intervalRef = useRef<number | null>(null);
 
   const repay = async (data: FormValues) => {
     if (!poolManager || !mockToken) return;
@@ -36,8 +41,81 @@ export const MyLoansTab: React.FC = () => {
       console.error('Error repaying loan:', error);
     } finally {
       setIsRepaying(false);
+      setShowRepayForm(false);
+      setRepayAmount('');
     }
   };
+
+  // Очистка таймеров
+  const clearTimers = useCallback(() => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
+  }, []);
+
+  // Функции для кнопок с ускорением при удержании
+  const incrementAmount = useCallback(() => {
+    setRepayAmount(prev => {
+      const currentValue = parseFloat(prev) || 0;
+      const maxAmount = parseFloat(borrow?.amount || '0');
+      const newValue = Math.min(maxAmount, currentValue + 1).toString();
+      setValue('amount', newValue, { shouldValidate: true });
+      return newValue;
+    });
+  }, [setValue, borrow?.amount]);
+
+  const decrementAmount = useCallback(() => {
+    setRepayAmount(prev => {
+      const currentValue = parseFloat(prev) || 0;
+      const newValue = Math.max(0, currentValue - 1).toString();
+      setValue('amount', newValue, { shouldValidate: true });
+      return newValue;
+    });
+  }, [setValue]);
+
+  const startRepeating = useCallback((action: () => void) => {
+    clearTimers(); // Очищаем предыдущие таймеры
+    action(); // Первое выполнение сразу
+    
+    timeoutRef.current = window.setTimeout(() => {
+      intervalRef.current = window.setInterval(action, 100);
+    }, 500);
+  }, [clearTimers]);
+
+  const stopRepeating = useCallback(() => {
+    clearTimers();
+  }, [clearTimers]);
+
+  const handleIncrementStart = useCallback(() => {
+    startRepeating(incrementAmount);
+  }, [startRepeating, incrementAmount]);
+
+  const handleDecrementStart = useCallback(() => {
+    startRepeating(decrementAmount);
+  }, [startRepeating, decrementAmount]);
+
+  const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    const maxAmount = parseFloat(borrow?.amount || '0');
+    
+    // Предотвращаем ввод отрицательных значений и значений больше доступной суммы
+    if (value === '' || (parseFloat(value) >= 0 && !value.includes('-'))) {
+      setRepayAmount(value);
+      setValue('amount', value, { shouldValidate: true });
+    }
+  };
+
+  // Очистка таймеров при размонтировании компонента
+  useEffect(() => {
+    return () => {
+      clearTimers();
+    };
+  }, [clearTimers]);
 
   useEffect(() => {
     const fetchBorrow = async () => {
@@ -76,14 +154,16 @@ export const MyLoansTab: React.FC = () => {
       <div className={`${styles.loansList} card`}>
         <h2 className={styles.formTitle}>Мои займы</h2>
         {loading ? (
-          <p>Loading...</p>
+          <div className={styles.loadingState}>
+            Загрузка...
+          </div>
         ) : borrow ? (
           <div
             className={styles.loanItem}
             onClick={() => setShowRepayForm(!showRepayForm)}
           >
-            <p>Amount: {borrow.amount}</p>
-            <p>Last Updated: {borrow.lastUpdated}</p>
+            <p>Сумма: {borrow.amount} ETH</p>
+            <p>Последнее обновление: {borrow.lastUpdated}</p>
             {showRepayForm && (
               <form
                 className={styles.repayForm}
@@ -92,16 +172,72 @@ export const MyLoansTab: React.FC = () => {
               >
                 <div className={styles.amountInput}>
                   <label>Сумма для возмещения</label>
-                  <input
-                    type='number'
-                    {...register('amount')}
-                    placeholder='Введите сумму'
-                  />
+                  <div className={styles.inputWrapper}>
+                    <button
+                      type="button"
+                      className={styles.decrementButton}
+                      onMouseDown={handleDecrementStart}
+                      onMouseUp={stopRepeating}
+                      onMouseLeave={stopRepeating}
+                      onTouchStart={handleDecrementStart}
+                      onTouchEnd={stopRepeating}
+                      disabled={isRepaying || !repayAmount || parseFloat(repayAmount) <= 0}
+                      title="-1 (hold)"
+                    >
+                      <Minus className="icon" />
+                    </button>
+                    <input
+                      type="number"
+                      {...register('amount', {
+                        required: 'Введите сумму для возмещения',
+                        min: {
+                          value: 0.01,
+                          message: 'Минимальная сумма для возмещения: 0.01 ETH'
+                        },
+                        max: {
+                          value: parseFloat(borrow?.amount || '0'),
+                          message: `Максимальная сумма для возмещения: ${borrow?.amount} ETH`
+                        },
+                        validate: (value) => {
+                          const numValue = parseFloat(value);
+                          const maxAmount = parseFloat(borrow?.amount || '0');
+                          if (numValue > maxAmount) {
+                            return `Сумма не может превышать ${borrow?.amount} ETH`;
+                          }
+                          return true;
+                        }
+                      })}
+                      value={repayAmount}
+                      onChange={handleAmountChange}
+                      placeholder="0.00"
+                      step="0.01"
+                      min="0"
+                      className={`${styles.amountField} ${errors.amount ? styles.inputError : ''}`}
+                    />
+                    <button
+                      type="button"
+                      className={styles.incrementButton}
+                      onMouseDown={handleIncrementStart}
+                      onMouseUp={stopRepeating}
+                      onMouseLeave={stopRepeating}
+                      onTouchStart={handleIncrementStart}
+                      onTouchEnd={stopRepeating}
+                      disabled={isRepaying || parseFloat(repayAmount || '0') >= parseFloat(borrow?.amount || '0')}
+                      title="+1 (hold)"
+                    >
+                      <Plus className="icon" />
+                    </button>
+                  </div>
+                  {errors.amount && (
+                    <div className={styles.errorMessage}>
+                      {errors.amount.message}
+                    </div>
+                  )}
                 </div>
                 <button
                   className={styles.repayButton}
-                  type='submit'
-                  disabled={isRepaying}
+                  type="submit"
+                  disabled={isRepaying || !!errors.amount || !repayAmount}
                 >
                   {isRepaying ? (
                     <>
@@ -118,7 +254,11 @@ export const MyLoansTab: React.FC = () => {
             )}
           </div>
         ) : (
-          <p>No loans found.</p>
+          <div className={styles.noLoans}>
+            У вас пока нет активных займов.
+            <br />
+            Перейдите на вкладку "Займы" для создания нового займа.
+          </div>
         )}
       </div>
     </div>
