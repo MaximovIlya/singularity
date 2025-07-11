@@ -60,13 +60,24 @@ export const ChatAgent: React.FC = () => {
     setIsTyping(true);
 
     try {
+      // Получаем последние 20 сообщений (включая текущее)
+      const recentMessages = [...messages, userMessage].slice(-20);
+
+      // Формируем историю в виде одной строки
+      const messageHistory = recentMessages
+        .map(msg => `${msg.isUser ? 'пользователь' : 'ассистент'}: ${msg.text}`)
+        .join(' ');
+
       const backendUrl = `${import.meta.env.VITE_BACKEND_IP}/agent/get_query`;
       const res = await fetch(backendUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ query: message }),
+        body: JSON.stringify({
+          query: message,
+          messageHistory: messageHistory, // Отправляем историю сообщений
+        }),
       });
 
       if (!res.ok) {
@@ -124,6 +135,7 @@ export const ChatAgent: React.FC = () => {
           <MessageCircle className={styles.chatIcon} />
         </button>
       )}
+
 
       {/* Чат окно */}
       {isOpen && (
