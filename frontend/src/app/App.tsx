@@ -17,16 +17,24 @@ function App() {
       <div className={styles.app}>
         <Header />
         <main className={styles.main}>
-          <div className='container'>
-            {account && poolManager ? (
-              <Routes>
-                <Route path="/" element={<Navigate to="/borrow" replace />} />
-                <Route path="/borrow" element={<HomePage poolManager={poolManager} mockToken={mockToken} />} />
-                <Route path="/invest" element={<HomePage poolManager={poolManager} mockToken={mockToken} />} />
-                <Route path="/my-investments" element={<MyInvestmentsTab poolManager={poolManager} />} />
-                <Route path="/my-loans" element={<MyLoansTab />} />
-              </Routes>
-            ) : (
+          {account && poolManager ? (
+            <Routes>
+              <Route path="/" element={<Navigate to="/borrow" replace />} />
+              <Route path="/borrow" element={<HomePage poolManager={poolManager} mockToken={mockToken} />} />
+              <Route path="/invest" element={<HomePage poolManager={poolManager} mockToken={mockToken} />} />
+              <Route path="/my-investments" element={
+                <div className='container'>
+                  <MyInvestmentsTab poolManager={poolManager} />
+                </div>
+              } />
+              <Route path="/my-loans" element={
+                <div className='container'>
+                  <MyLoansTab />
+                </div>
+              } />
+            </Routes>
+          ) : (
+            <div className='container'>
               <div className={styles.connectWalletContainer}>
                 <button
                   className={styles.connectWalletButton}
@@ -35,8 +43,8 @@ function App() {
                   Подключить кошелек
                 </button>
               </div>
-            )}
-          </div>
+            </div>
+          )}
         </main>
         <ChatAgent />
       </div>
