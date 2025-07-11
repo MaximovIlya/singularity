@@ -379,6 +379,7 @@
   padding: 1rem;
   border-top: 1px solid rgba(139, 92, 246, 0.1);
   background: var(--bg-secondary);
+  border-radius: 0 0 16px 16px;
 }
 
 @media (max-width: 767px) {
@@ -424,7 +425,6 @@
   outline: none;
   border-color: var(--purple-primary);
   box-shadow: 0 0 0 2px var(--glow-light);
-  transform: translateY(-1px);
 }
 
 .chatInput textarea::placeholder {
@@ -432,9 +432,23 @@
   opacity: 1;
 }
 
+.chatInput textarea::-webkit-scrollbar {
+  width: 6px;
+}
+
+.chatInput textarea::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 3px;
+}
+
+.chatInput textarea::-webkit-scrollbar-thumb {
+  background: var(--purple-primary);
+  border-radius: 3px;
+}
+
 .sendButton {
   min-width: 40px;
-  min-height: 40px;
+  height: 40px;
   border-radius: 10px;
   background: var(--gradient-primary);
   border: none;
