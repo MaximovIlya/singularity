@@ -144,6 +144,12 @@ export const MyInvestmentsTab: React.FC<MyInvestmentsTabProps> = ({
     }
   };
 
+  const setMaxAmount = useCallback(() => {
+    const maxAmount = investment?.amount || '0';
+    setWithdrawAmount(maxAmount);
+    setValue('amount', maxAmount, { shouldValidate: true });
+  }, [setValue, investment?.amount]);
+
   // Очистка таймеров при размонтировании компонента
   useEffect(() => {
     return () => {
@@ -224,7 +230,16 @@ export const MyInvestmentsTab: React.FC<MyInvestmentsTabProps> = ({
                       className={`${styles.amountField} ${errors.amount ? styles.inputError : ''}`}
                     />
                     <button
-                      type='button'
+                      type="button"
+                      className={styles.maxButton}
+                      onClick={setMaxAmount}
+                      disabled={loading || parseFloat(withdrawAmount || '0') >= parseFloat(investment?.amount || '0')}
+                      title="Установить максимальную сумму"
+                    >
+                      MAX
+                    </button>
+                    <button
+                      type="button"
                       className={styles.incrementButton}
                       onMouseDown={handleIncrementStart}
                       onMouseUp={stopRepeating}

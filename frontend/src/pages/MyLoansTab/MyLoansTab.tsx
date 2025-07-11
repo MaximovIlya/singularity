@@ -110,6 +110,12 @@ export const MyLoansTab: React.FC = () => {
     }
   };
 
+  const setMaxAmount = useCallback(() => {
+    const maxAmount = borrow?.amount || '0';
+    setRepayAmount(maxAmount);
+    setValue('amount', maxAmount, { shouldValidate: true });
+  }, [setValue, borrow?.amount]);
+
   // Очистка таймеров при размонтировании компонента
   useEffect(() => {
     return () => {
@@ -214,6 +220,15 @@ export const MyLoansTab: React.FC = () => {
                       min="0"
                       className={`${styles.amountField} ${errors.amount ? styles.inputError : ''}`}
                     />
+                    <button
+                      type="button"
+                      className={styles.maxButton}
+                      onClick={setMaxAmount}
+                      disabled={isRepaying || parseFloat(repayAmount || '0') >= parseFloat(borrow?.amount || '0')}
+                      title="Установить максимальную сумму"
+                    >
+                      MAX
+                    </button>
                     <button
                       type="button"
                       className={styles.incrementButton}

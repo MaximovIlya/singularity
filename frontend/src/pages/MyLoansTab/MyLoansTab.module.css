@@ -151,10 +151,12 @@
   position: relative;
   display: flex;
   align-items: center;
+  flex-wrap: nowrap;
   background: var(--bg-interactive);
   border: 2px solid rgba(236, 72, 153, 0.3);
   border-radius: 12px;
   transition: all 0.3s ease;
+  min-width: 0;
 }
 
 .inputWrapper:focus-within {
@@ -172,22 +174,52 @@
   background: rgba(236, 72, 153, 0.1);
   border: none;
   color: var(--pink-primary, #ec4899);
-  width: 44px;
+  width: 40px;
   height: 48px;
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   transition: all 0.3s ease;
   user-select: none;
-  margin: 2px;
+  margin: 1px;
   border-radius: 8px;
   box-shadow: none;
+}
+
+.maxButton {
+  background: rgba(236, 72, 153, 0.15);
+  border: none;
+  color: var(--pink-primary, #ec4899);
+  height: 48px;
+  padding: 0 8px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  user-select: none;
+  margin: 1px;
+  border-radius: 8px;
+  box-shadow: none;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  min-width: 42px;
 }
 
 .decrementButton:hover,
 .incrementButton:hover {
   background: rgba(236, 72, 153, 0.2);
+  color: var(--pink-light, #f472b6);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(236, 72, 153, 0.3);
+}
+
+.maxButton:hover {
+  background: rgba(236, 72, 153, 0.25);
   color: var(--pink-light, #f472b6);
   transform: translateY(-1px);
   box-shadow: 0 2px 8px rgba(236, 72, 153, 0.3);
@@ -200,8 +232,22 @@
   box-shadow: 0 1px 4px rgba(236, 72, 153, 0.2);
 }
 
+.maxButton:active {
+  background: rgba(236, 72, 153, 0.35);
+  transform: translateY(0);
+  box-shadow: 0 1px 4px rgba(236, 72, 153, 0.2);
+}
+
 .decrementButton:disabled,
 .incrementButton:disabled {
+  background: rgba(156, 163, 175, 0.1);
+  color: var(--text-muted, #9ca3af);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.maxButton:disabled {
   background: rgba(156, 163, 175, 0.1);
   color: var(--text-muted, #9ca3af);
   cursor: not-allowed;
@@ -217,11 +263,19 @@
   box-shadow: none;
 }
 
+.maxButton:disabled:hover {
+  background: rgba(156, 163, 175, 0.1);
+  color: var(--text-muted, #9ca3af);
+  transform: none;
+  box-shadow: none;
+}
+
 .amountField {
-  flex: 1;
+  flex: 1 1 auto;
+  min-width: 0;
   background: transparent;
   border: none;
-  padding: 0.75rem 1rem;
+  padding: 16px 90px 16px 48px;
   font-size: clamp(1rem, 2vw, 1.125rem);
   font-weight: 500;
   color: var(--text-primary);
@@ -487,13 +541,20 @@
 
   .amountField {
     font-size: 1rem;
-    padding: 0.625rem 0.75rem;
+    padding: 14px 82px 14px 40px;
   }
 
   .decrementButton,
   .incrementButton {
-    width: 40px;
+    width: 36px;
     height: 44px;
+  }
+  
+  .maxButton {
+    height: 44px;
+    padding: 0 6px;
+    font-size: 0.65rem;
+    min-width: 36px;
   }
 
   .repayButton {
@@ -522,12 +583,19 @@
 
   .amountField {
     font-size: 0.9rem;
-    padding: 0.5rem;
+    padding: 12px 76px 12px 36px;
   }
 
   .decrementButton,
   .incrementButton {
-    width: 36px;
+    width: 32px;
     height: 40px;
+  }
+  
+  .maxButton {
+    height: 40px;
+    padding: 0 6px;
+    font-size: 0.6rem;
+    min-width: 32px;
   }
 } 
