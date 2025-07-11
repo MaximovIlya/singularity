@@ -1,69 +1,59 @@
-# React + TypeScript + Vite
+# Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Этот проект представляет собой децентрализованное приложение для кредитования, созданное с использованием React, TypeScript и Vite.
 
-Currently, two official plugins are available:
+## Предварительные требования
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Node.js > 22.*
+- pnpm
 
-## Expanding the ESLint configuration
+## Начало работы
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+1.  **Клонируйте репозиторий**
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+2.  **Установите зависимости**
+    Перейдите в директорию `frontend` и установите необходимые пакеты с помощью pnpm:
+    ```bash
+    cd frontend
+    pnpm install
+    ```
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+3.  **Настройте переменные окружения**
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+    Создайте файл `.env` в директории `frontend`. Вы можете скопировать пример ниже. 
+    Этот файл будет содержать адреса смарт-контрактов и IP-адрес backend-сервиса для чат-бота.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+    ```
+    VITE_BACKEND_IP=http://127.0.0.1:8000
+    VITE_POOL_MANAGER_CONTRACT_ADDRESS=
+    VITE_INTEREST_RATE_CONTRACT_ADDRESS=
+    VITE_ORACLE_CONTRACT_ADDRESS=
+    VITE_ASSEST_ADDRESS=
+    VITE_P_TOKEN_ADDRESS=
+    ```
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+4.  **Запустите сервер разработки**
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+    ```bash
+    pnpm run dev
+    ```
+
+    Приложение будет доступно по адресу `http://localhost:5173` (или на другом порту, если 5173 занят).
+
+## Доступные скрипты
+
+В директории проекта вы можете выполнить:
+
+- `pnpm run dev`: Запускает приложение в режиме разработки.
+- `pnpm run build`: Собирает приложение для продакшена в папку `dist`.
+- `pnpm run lint`: Проверяет файлы проекта на наличие ошибок линтинга.
+- `pnpm run format`: Форматирует файлы проекта с помощью Prettier.
+- `pnpm run preview`: Локально запускает продакшн-сборку.
+
+
+
+
+
+
+
+
