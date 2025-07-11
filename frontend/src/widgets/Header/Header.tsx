@@ -1,17 +1,23 @@
 import { Globe, Wallet } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { BREAKPOINTS, SCREEN_QUERIES } from '../../shared/constants/breakpoints';
+import {
+  BREAKPOINTS,
+  SCREEN_QUERIES,
+} from '../../shared/constants/breakpoints';
 import { useWeb3 } from '../../shared/providers/Web3Context';
 import { MobileWalletHint } from '../../shared/ui';
 import { BurgerButton, BurgerMenu } from './BurgerMenu';
 import styles from './Header.module.css';
 
 export const Header: React.FC = () => {
-  const { account, connectWallet, disconnectWallet, isMobileDevice } = useWeb3();
+  const { account, connectWallet, disconnectWallet, isMobileDevice } =
+    useWeb3();
   const navigate = useNavigate();
-  
-  const [screenWidth, setScreenWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1024);
+
+  const [screenWidth, setScreenWidth] = useState(
+    typeof window !== 'undefined' ? window.innerWidth : 1024
+  );
   const [isBurgerMenuOpen, setIsBurgerMenuOpen] = useState(false);
 
   // Отслеживаем размер экрана
@@ -26,7 +32,7 @@ export const Header: React.FC = () => {
 
     handleResize(); // Проверяем при первом рендере
     window.addEventListener('resize', handleResize);
-    
+
     return () => window.removeEventListener('resize', handleResize);
   }, [isBurgerMenuOpen]);
 
@@ -55,7 +61,7 @@ export const Header: React.FC = () => {
   const shouldShowNavButtons = isDesktop; // На desktop показываем кнопки навигации
   const shouldShowWalletInfo = isDesktop; // Только на desktop показываем info кошелька в header
   const shouldShowBurgerButton = !isDesktop; // На tablet и mobile показываем burger
-  
+
   // Что показывать в burger меню
   const burgerShowNavButtons = (isTablet || isMobile) && !!account; // В планшетном и мобильном формате только если кошелек подключен
   const burgerShowWalletInfo = isTablet || isMobile; // В планшетном и мобильном формате
@@ -69,17 +75,19 @@ export const Header: React.FC = () => {
   };
 
   return (
-    <header className={`${styles.header} ${isBurgerMenuOpen ? styles.headerBlurred : ''}`}>
+    <header
+      className={`${styles.header} ${isBurgerMenuOpen ? styles.headerBlurred : ''}`}
+    >
       {/* Показываем подсказку для мобильных устройств без подключенного кошелька */}
       {isMobileDevice && !account && (
-        <div className="container">
+        <div className='container'>
           <MobileWalletHint />
         </div>
       )}
-      
+
       <div className='container'>
         <div className={styles.headerContent}>
-          <Link className={styles.logo} to="/" aria-label="Главная страница">
+          <Link className={styles.logo} to='/' aria-label='Главная страница'>
             <Globe className={styles.logoIcon} />
             <span className={styles.logoText}>Astro DeFi</span>
           </Link>
@@ -91,14 +99,14 @@ export const Header: React.FC = () => {
                 <button
                   className={styles.myInvestmentsButton}
                   onClick={() => navigate('/my-investments')}
-                  title="Перейти к моим вложениям"
+                  title='Перейти к моим вложениям'
                 >
                   {getButtonText('Мои вложения', 'Вложения')}
                 </button>
                 <button
                   className={styles.myInvestmentsButton}
                   onClick={() => navigate('/my-loans')}
-                  title="Перейти к моим займам"
+                  title='Перейти к моим займам'
                 >
                   {getButtonText('Мои займы', 'Займы')}
                 </button>
@@ -109,24 +117,29 @@ export const Header: React.FC = () => {
             {shouldShowWalletInfo && (
               <>
                 {account ? (
-                  <div className={styles.walletInfo} title={`Кошелек подключен: ${account}`}>
+                  <div
+                    className={styles.walletInfo}
+                    title={`Кошелек подключен: ${account}`}
+                  >
                     <Wallet className={styles.walletIcon} />
-                    <span className={styles.address}>{formatAddress(account)}</span>
+                    <span className={styles.address}>
+                      {formatAddress(account)}
+                    </span>
                     <button
                       onClick={disconnectWallet}
                       className={styles.disconnectButton}
-                      title="Отключить кошелек"
-                      aria-label="Отключить кошелек"
+                      title='Отключить кошелек'
+                      aria-label='Отключить кошелек'
                     >
                       {isPhone ? '×' : 'Disconnect'}
                     </button>
                   </div>
                 ) : (
-                  <button 
-                    className={styles.connectButton} 
+                  <button
+                    className={styles.connectButton}
                     onClick={connectWallet}
-                    title="Подключить Web3 кошелек"
-                    aria-label="Подключить кошелек"
+                    title='Подключить Web3 кошелек'
+                    aria-label='Подключить кошелек'
                   >
                     <Wallet className={styles.walletIcon} />
                     <span>Подключить кошелек</span>
@@ -137,7 +150,7 @@ export const Header: React.FC = () => {
 
             {/* Burger кнопка (на tablet и mobile) */}
             {shouldShowBurgerButton && (
-              <BurgerButton 
+              <BurgerButton
                 onClick={handleBurgerMenuToggle}
                 className={styles.burgerButtonCustom}
               />

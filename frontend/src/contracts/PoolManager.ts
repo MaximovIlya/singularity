@@ -662,8 +662,14 @@ export class PoolManagerContract {
     return this.writable.repay(token, amount);
   }
 
-  async withdraw(token: string, amount: ethers.BigNumberish) {
-    return this.writable.withdraw(token, amount);
+  async withdraw(amount: ethers.BigNumberish) {
+    try {
+      const tx = await this.writable.withdraw(amount);
+      await tx.wait();
+    } catch (error) {
+      console.error('Error withdrawing funds:', error);
+      throw error;
+    }
   }
 
   // Read methods

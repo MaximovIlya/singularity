@@ -6,12 +6,17 @@ import {
   useEffect,
   useState,
 } from 'react';
-import { connectWallet as connectWalletUtil, isMobile, detectMobileWallet } from '../../utils/wallet';
+import {
+  connectWallet as connectWalletUtil,
+  isMobile,
+  detectMobileWallet,
+} from '../../utils/wallet';
 import { getStoredAccount, setStoredAccount } from '../../utils/localStorage';
 import { PoolManagerContract } from '../../contracts/PoolManager';
 import { InterestRateContract } from '../../contracts/InterestRate';
 import { OracleContract } from '../../contracts/Oracle';
 import { MockTokenContract } from '../../contracts/MockToken';
+import { PTokenContract } from '../../contracts/PToken';
 
 interface Web3ContextType {
   provider: ethers.BrowserProvider | null;
@@ -21,6 +26,7 @@ interface Web3ContextType {
   interestRate: InterestRateContract | null;
   oracle: OracleContract | null;
   mockToken: MockTokenContract | null;
+  pToken: PTokenContract | null;
   connectWallet: () => Promise<void>;
   disconnectWallet: () => void;
   // Мобильная информация
@@ -54,6 +60,7 @@ export const Web3Provider = ({ children }: Web3ProviderProps) => {
   );
   const [oracle, setOracle] = useState<OracleContract | null>(null);
   const [mockToken, setMockToken] = useState<MockTokenContract | null>(null);
+  const [pToken, setPToken] = useState<PTokenContract | null>(null);
   
   // Мобильная информация
   const [isMobileDevice] = useState(() => isMobile());
@@ -93,11 +100,13 @@ export const Web3Provider = ({ children }: Web3ProviderProps) => {
       setInterestRate(new InterestRateContract(provider, signer));
       setOracle(new OracleContract(provider, signer));
       setMockToken(new MockTokenContract(signer));
+      setPToken(new PTokenContract(signer));
     } else {
       setPoolManager(null);
       setInterestRate(null);
       setOracle(null);
       setMockToken(null);
+      setPToken(null);
     }
   }, [provider, signer]);
 
@@ -123,6 +132,7 @@ export const Web3Provider = ({ children }: Web3ProviderProps) => {
     setInterestRate(null);
     setOracle(null);
     setMockToken(null);
+    setPToken(null);
     setStoredAccount(null);
   };
 
@@ -136,6 +146,7 @@ export const Web3Provider = ({ children }: Web3ProviderProps) => {
         interestRate,
         oracle,
         mockToken,
+        pToken,
         connectWallet,
         disconnectWallet,
         isMobileDevice,

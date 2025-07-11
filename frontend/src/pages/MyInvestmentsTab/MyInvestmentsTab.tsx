@@ -4,10 +4,10 @@ import { useWeb3 } from '../../shared/providers/Web3Context';
 import styles from './MyInvestmentsTab.module.css';
 import { PoolManagerContract } from '../../contracts/PoolManager';
 import { Plus, Minus } from 'lucide-react';
+import { ethers } from 'ethers';
 
 type Investment = {
   amount: string;
-  lastUpdated: string;
 };
 
 type FormValues = {
@@ -21,24 +21,61 @@ type MyInvestmentsTabProps = {
 export const MyInvestmentsTab: React.FC<MyInvestmentsTabProps> = ({
   poolManager,
 }) => {
-  const { account } = useWeb3();
+  const { account, pToken } = useWeb3();
   const [investment, setInvestment] = useState<Investment | null>(null);
   const [loading, setLoading] = useState(true);
   const [showWithdrawForm, setShowWithdrawForm] = useState(false);
   const [withdrawAmount, setWithdrawAmount] = useState('');
-  const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm<FormValues>();
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm<FormValues>();
 
   // Refs для управления повторяющимися действиями
   const timeoutRef = useRef<number | null>(null);
   const intervalRef = useRef<number | null>(null);
 
-  const withdraw = (data: FormValues) => {
+  const fetchInvestment = useCallback(async () => {
+    if (!account || !pToken) {
+      setInvestment(null);
+      return;
+    }
+    try {
+      setLoading(true);
+      const balance = await pToken.balanceOf(account);
+
+      if (balance > 0n) {
+        setInvestment({
+          amount: ethers.formatUnits(balance, 6),
+        });
+      } else {
+        setInvestment(null);
+      }
+    } catch (error) {
+      console.error('Error fetching pToken balance:', error);
+      setInvestment(null);
+    } finally {
+      setLoading(false);
+    }
+  }, [account, pToken]);
+
+  const withdraw = async (data: FormValues) => {
     if (!poolManager) return;
-    const amount = BigInt(data.amount) * BigInt('1000000000000000000');
-    poolManager.withdraw(
-      import.meta.env.VITE_ASSEST_ADDRESS,
-      amount.toString()
-    );
+
+    setLoading(true);
+    try {
+      const amount = ethers.parseUnits(data.amount, 6);
+      await poolManager.withdraw(amount);
+      await fetchInvestment();
+      setWithdrawAmount('');
+      setShowWithdrawForm(false);
+    } catch (error) {
+      console.error('Failed to withdraw:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   // Очистка таймеров
@@ -73,14 +110,17 @@ export const MyInvestmentsTab: React.FC<MyInvestmentsTabProps> = ({
     });
   }, [setValue]);
 
-  const startRepeating = useCallback((action: () => void) => {
-    clearTimers(); // Очищаем предыдущие таймеры
-    action(); // Первое выполнение сразу
-    
-    timeoutRef.current = window.setTimeout(() => {
-      intervalRef.current = window.setInterval(action, 100);
-    }, 500);
-  }, [clearTimers]);
+  const startRepeating = useCallback(
+    (action: () => void) => {
+      clearTimers(); // Очищаем предыдущие таймеры
+      action(); // Первое выполнение сразу
+
+      timeoutRef.current = window.setTimeout(() => {
+        intervalRef.current = window.setInterval(action, 100);
+      }, 500);
+    },
+    [clearTimers]
+  );
 
   const stopRepeating = useCallback(() => {
     clearTimers();
@@ -96,8 +136,7 @@ export const MyInvestmentsTab: React.FC<MyInvestmentsTabProps> = ({
 
   const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    const maxAmount = parseFloat(investment?.amount || '0');
-    
+
     // Предотвращаем ввод отрицательных значений и значений больше доступной суммы
     if (value === '' || (parseFloat(value) >= 0 && !value.includes('-'))) {
       setWithdrawAmount(value);
@@ -113,52 +152,21 @@ export const MyInvestmentsTab: React.FC<MyInvestmentsTabProps> = ({
   }, [clearTimers]);
 
   useEffect(() => {
-    const fetchInvestment = async () => {
-      if (!poolManager || !account) {
-        return;
-      }
-      try {
-        setLoading(true);
-        const result = await poolManager.deposits(
-          account,
-          import.meta.env.VITE_ASSEST_ADDRESS
-        );
-
-        if (result && result.amount.toString() !== '0') {
-          setInvestment({
-            amount: (result.amount / 10n ** 18n).toString(),
-            lastUpdated: new Date(
-              Number(result.lastUpdated) * 1000
-            ).toLocaleString(),
-          });
-        } else {
-          setInvestment(null);
-        }
-      } catch (error) {
-        console.error('Error fetching investment:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchInvestment();
-  }, [poolManager, account]);
+  }, [fetchInvestment]);
 
   return (
     <div className={styles.myInvestmentsTab}>
       <div className={`${styles.investmentsList} card`}>
         <h2 className={styles.formTitle}>Мои вложения</h2>
         {loading ? (
-          <div className={styles.loadingState}>
-            Загрузка...
-          </div>
+          <div className={styles.loadingState}>Загрузка...</div>
         ) : investment ? (
           <div
             className={styles.investmentItem}
             onClick={() => setShowWithdrawForm(!showWithdrawForm)}
           >
-            <p>Сумма: {investment.amount} ETH</p>
-            <p>Последнее обновление: {investment.lastUpdated}</p>
+            <p>Сумма: {investment.amount} PToken</p>
             {showWithdrawForm && (
               <form
                 className={styles.withdrawForm}
@@ -169,58 +177,68 @@ export const MyInvestmentsTab: React.FC<MyInvestmentsTabProps> = ({
                   <label>Сумма для вывода</label>
                   <div className={styles.inputWrapper}>
                     <button
-                      type="button"
+                      type='button'
                       className={styles.decrementButton}
                       onMouseDown={handleDecrementStart}
                       onMouseUp={stopRepeating}
                       onMouseLeave={stopRepeating}
                       onTouchStart={handleDecrementStart}
                       onTouchEnd={stopRepeating}
-                      disabled={loading || !withdrawAmount || parseFloat(withdrawAmount) <= 0}
-                      title="-1 (hold)"
+                      disabled={
+                        loading ||
+                        !withdrawAmount ||
+                        parseFloat(withdrawAmount) <= 0
+                      }
+                      title='-1 (hold)'
                     >
-                      <Minus className="icon" />
+                      <Minus className='icon' />
                     </button>
                     <input
-                      type="number"
+                      type='number'
                       {...register('amount', {
                         required: 'Введите сумму для вывода',
                         min: {
                           value: 0.01,
-                          message: 'Минимальная сумма для вывода: 0.01 ETH'
+                          message: 'Минимальная сумма для вывода: 0.01',
                         },
                         max: {
                           value: parseFloat(investment?.amount || '0'),
-                          message: `Максимальная сумма для вывода: ${investment?.amount} ETH`
+                          message: `Максимальная сумма для вывода: ${investment?.amount}`,
                         },
-                        validate: (value) => {
+                        validate: value => {
                           const numValue = parseFloat(value);
-                          const maxAmount = parseFloat(investment?.amount || '0');
+                          const maxAmount = parseFloat(
+                            investment?.amount || '0'
+                          );
                           if (numValue > maxAmount) {
-                            return `Сумма не может превышать ${investment?.amount} ETH`;
+                            return `Сумма не может превышать ${investment?.amount}`;
                           }
                           return true;
-                        }
+                        },
                       })}
                       value={withdrawAmount}
                       onChange={handleAmountChange}
-                      placeholder="0.00"
-                      step="0.01"
-                      min="0"
+                      placeholder='0.00'
+                      step='0.01'
+                      min='0'
                       className={`${styles.amountField} ${errors.amount ? styles.inputError : ''}`}
                     />
                     <button
-                      type="button"
+                      type='button'
                       className={styles.incrementButton}
                       onMouseDown={handleIncrementStart}
                       onMouseUp={stopRepeating}
                       onMouseLeave={stopRepeating}
                       onTouchStart={handleIncrementStart}
                       onTouchEnd={stopRepeating}
-                      disabled={loading || parseFloat(withdrawAmount || '0') >= parseFloat(investment?.amount || '0')}
-                      title="+1 (hold)"
+                      disabled={
+                        loading ||
+                        parseFloat(withdrawAmount || '0') >=
+                          parseFloat(investment?.amount || '0')
+                      }
+                      title='+1 (hold)'
                     >
-                      <Plus className="icon" />
+                      <Plus className='icon' />
                     </button>
                   </div>
                   {errors.amount && (
@@ -229,22 +247,18 @@ export const MyInvestmentsTab: React.FC<MyInvestmentsTabProps> = ({
                     </div>
                   )}
                 </div>
-                <button 
-                  className={styles.withdrawButton} 
-                  type="submit"
-                  disabled={loading || !!errors.amount || !withdrawAmount}
+                <button
+                  className={styles.withdrawButton}
+                  type='submit'
+                  disabled={loading || !withdrawAmount}
                 >
-                  Вывести средства
+                  {loading ? 'Вывод...' : 'Вывести'}
                 </button>
               </form>
             )}
           </div>
         ) : (
-          <div className={styles.noInvestments}>
-            У вас пока нет активных инвестиций.
-            <br />
-            Перейдите на вкладку "Инвестиции" для создания нового вложения.
-          </div>
+          <div className={styles.noInvestments}>Нет активных вложений</div>
         )}
       </div>
     </div>

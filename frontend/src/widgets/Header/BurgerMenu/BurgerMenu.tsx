@@ -25,40 +25,43 @@ export const BurgerMenu: React.FC<BurgerMenuProps> = ({
   const [availableWidth, setAvailableWidth] = useState(0);
 
   // Функция для форматирования адреса кошелька с учетом доступного пространства
-  const formatWalletAddress = (address: string, containerWidth: number): string => {
+  const formatWalletAddress = (
+    address: string,
+    containerWidth: number
+  ): string => {
     if (!address) return '';
-    
+
     // Если контейнер еще не измерен, возвращаем стандартный формат
     if (containerWidth === 0) {
       return `${address.slice(0, 6)}∙∙∙${address.slice(-4)}`;
     }
-    
+
     // Примерная ширина одного символа в пикселях (для monospace шрифта 16px)
     const charWidth = 9.6; // более точное значение для monospace
     // Учитываем padding элемента (2px * 2 = 4px)
     const availableWidth = containerWidth - 8;
-    
+
     // Ширина трех точек
     const dotsWidth = 3 * charWidth;
-    
+
     // Вычисляем максимальное количество символов, которое поместится
     const maxChars = Math.floor((availableWidth - dotsWidth) / charWidth);
-    
+
     // Минимальное количество символов для отображения (начало + конец)
     const minChars = 8;
-    
+
     if (maxChars < minChars || address.length <= maxChars + 3) {
       return address;
     }
-    
+
     // Распределяем символы: больше в начале, меньше в конце
     const startLength = Math.ceil(maxChars * 0.6);
     const endLength = Math.floor(maxChars * 0.4);
-    
+
     // Убеждаемся, что не показываем меньше минимума
     const actualStart = Math.max(startLength, 4);
     const actualEnd = Math.max(endLength, 4);
-    
+
     return `${address.slice(0, actualStart)}∙∙∙${address.slice(-actualEnd)}`;
   };
 
@@ -66,7 +69,8 @@ export const BurgerMenu: React.FC<BurgerMenuProps> = ({
   const measureAvailableWidth = () => {
     if (walletAddressRef.current) {
       const element = walletAddressRef.current;
-      const containerWidth = element.offsetWidth || element.parentElement?.offsetWidth || 0;
+      const containerWidth =
+        element.offsetWidth || element.parentElement?.offsetWidth || 0;
       setAvailableWidth(containerWidth);
     }
   };
@@ -74,7 +78,7 @@ export const BurgerMenu: React.FC<BurgerMenuProps> = ({
   // Функция для копирования адреса
   const copyAddress = async () => {
     if (!account) return;
-    
+
     try {
       await navigator.clipboard.writeText(account);
       setCopied(true);
@@ -163,14 +167,14 @@ export const BurgerMenu: React.FC<BurgerMenuProps> = ({
     <>
       {/* Backdrop */}
       <div className={styles.backdrop} onClick={onClose} />
-      
+
       {/* Menu */}
       <div ref={menuRef} className={styles.menu}>
         <div className={styles.menuHeader}>
-          <button 
+          <button
             className={styles.closeButton}
             onClick={onClose}
-            aria-label="Закрыть меню"
+            aria-label='Закрыть меню'
           >
             <X className={styles.closeButtonIcon} />
           </button>
@@ -186,7 +190,7 @@ export const BurgerMenu: React.FC<BurgerMenuProps> = ({
               >
                 <span className={styles.menuItemText}>Мои вложения</span>
               </button>
-              
+
               <button
                 className={styles.menuItem}
                 onClick={() => handleNavigation('/my-loans')}
@@ -205,10 +209,12 @@ export const BurgerMenu: React.FC<BurgerMenuProps> = ({
                     <Wallet className={styles.walletIcon} />
                     <div className={styles.walletText}>
                       <span className={styles.walletLabel}>Кошелек</span>
-                      <span 
+                      <span
                         ref={walletAddressRef}
-                        className={styles.walletAddress} 
-                        title={copied ? 'Скопировано!' : 'Нажмите для копирования'}
+                        className={styles.walletAddress}
+                        title={
+                          copied ? 'Скопировано!' : 'Нажмите для копирования'
+                        }
                         onClick={copyAddress}
                       >
                         {formatWalletAddress(account, availableWidth)}
@@ -223,12 +229,11 @@ export const BurgerMenu: React.FC<BurgerMenuProps> = ({
                   </button>
                 </div>
               ) : (
-                <button
-                  className={styles.menuItem}
-                  onClick={handleConnect}
-                >
+                <button className={styles.menuItem} onClick={handleConnect}>
                   <Wallet className={styles.walletIcon} />
-                  <span className={styles.menuItemText}>Подключить кошелек</span>
+                  <span className={styles.menuItemText}>
+                    Подключить кошелек
+                  </span>
                 </button>
               )}
             </div>
@@ -245,15 +250,18 @@ interface BurgerButtonProps {
   className?: string;
 }
 
-export const BurgerButton: React.FC<BurgerButtonProps> = ({ onClick, className }) => {
+export const BurgerButton: React.FC<BurgerButtonProps> = ({
+  onClick,
+  className,
+}) => {
   return (
-    <button 
+    <button
       className={`${styles.burgerButton} ${className || ''}`}
       onClick={onClick}
-      aria-label="Открыть меню"
-      aria-expanded="false"
+      aria-label='Открыть меню'
+      aria-expanded='false'
     >
       <Menu className={styles.burgerIcon} />
     </button>
   );
-}; 
+};
