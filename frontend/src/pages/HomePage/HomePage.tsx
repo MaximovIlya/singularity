@@ -101,15 +101,6 @@ export const HomePage: React.FC<HomePageProps> = ({
     <div className={styles.homePage}>
       {/* Hero Section */}
       <section ref={heroRef} className={styles.hero}>
-        <div className={styles.heroBackground}>
-          <img 
-            src="/galaxy.gif" 
-            alt="" 
-            className={`${styles.galaxyBackground} ${heroVisible ? styles.galaxyVisible : ''}`}
-          />
-          <div className={styles.heroOverlay} />
-        </div>
-        
         <div className={styles.heroContent}>
           <div className={styles.heroText}>
             <h1 className={styles.heroTitle}>
@@ -137,24 +128,24 @@ export const HomePage: React.FC<HomePageProps> = ({
               </button>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* Stats Section */}
-      <section className={styles.stats}>
-        <div className={styles.statsGrid}>
-          {stats.map((stat, index) => {
-            const IconComponent = stat.icon;
-            return (
-              <div key={index} className={styles.statCard}>
-                <IconComponent className={styles.statIcon} />
-                <div className={styles.statContent}>
-                  <div className={styles.statValue}>{stat.value}</div>
-                  <div className={styles.statLabel}>{stat.label}</div>
-                </div>
-              </div>
-            );
-          })}
+          
+          {/* Stats Section */}
+          <div className={styles.stats}>
+            <div className={styles.statsGrid}>
+              {stats.map((stat, index) => {
+                const IconComponent = stat.icon;
+                return (
+                  <div key={index} className={styles.statCard}>
+                    <IconComponent className={styles.statIcon} />
+                    <div className={styles.statContent}>
+                      <div className={styles.statValue}>{stat.value}</div>
+                      <div className={styles.statLabel}>{stat.label}</div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
         </div>
       </section>
 
