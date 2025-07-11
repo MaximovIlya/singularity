@@ -482,6 +482,18 @@
   .featureCard {
     padding: 1.5rem;
   }
+
+  .trading {
+    padding: 2rem 0.5rem;
+  }
+
+  .tradingInner {
+    padding: 0 0.25rem;
+  }
+
+  .tradingContainer {
+    max-width: 100%;
+  }
 }
 
 @media (max-width: 480px) {
@@ -504,7 +516,16 @@
   }
 
   .trading {
-    padding: 2rem 1rem;
+    padding: 2rem 0rem;
+  }
+
+  .tradingInner {
+    padding: 0;
+  }
+
+  .tradingContainer {
+    max-width: 100%;
+    padding: 0;
   }
 
   .sectionTitle {
@@ -513,6 +534,28 @@
 
   .sectionSubtitle {
     font-size: 1rem;
+  }
+}
+
+/* Ultra-wide for very small screens */
+@media (max-width: 360px) {
+  .trading {
+    padding: 1.5rem 0;
+  }
+
+  .tradingInner {
+    padding: 0;
+  }
+
+  .tradingContainer {
+    max-width: 100%;
+    padding: 0;
+    margin: 0;
+  }
+
+  .tradingHeader {
+    margin-bottom: 2rem;
+    padding: 0 0.5rem;
   }
 }
 

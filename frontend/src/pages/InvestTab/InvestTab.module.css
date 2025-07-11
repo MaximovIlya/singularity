@@ -400,14 +400,15 @@
 /* Responsive Design */
 @media (max-width: 767px) {
   .investTab {
-    gap: 2rem;
-    padding: 1rem;
+    gap: 1.5rem;
+    padding: 0.25rem;
   }
 
   .investForm {
     max-width: 100%;
-    padding: 1.5rem;
-    border-radius: 16px;
+    padding: 1.25rem;
+    border-radius: 12px;
+    margin: 0;
   }
 
   .formHeader {
@@ -453,12 +454,13 @@
 
 @media (max-width: 480px) {
   .investTab {
-    padding: 0.75rem;
-    gap: 1.5rem;
+    padding: 0.125rem;
+    gap: 1rem;
   }
 
   .investForm {
-    padding: 1.25rem;
+    padding: 0.75rem;
+    border-radius: 8px;
   }
 
   .formTitle {
@@ -498,6 +500,34 @@
   .buttonIcon {
     width: 18px;
     height: 18px;
+  }
+}
+
+/* Ultra-wide on very small screens */
+@media (max-width: 360px) {
+  .investTab {
+    padding: 0;
+    gap: 0.75rem;
+  }
+
+  .investForm {
+    padding: 0.5rem;
+    border-radius: 4px;
+    margin: 0;
+  }
+
+  .formHeader {
+    margin-bottom: 1rem;
+  }
+
+  .investInfo {
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .inputGroup {
+    gap: 0.75rem;
+    margin-bottom: 1rem;
   }
 }
 
