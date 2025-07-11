@@ -24,6 +24,34 @@
   opacity: 0.9;
 }
 
+.walletActions {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.connectButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 8px;
+  color: #3B82F6;
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.connectButton:hover {
+  background: rgba(255, 255, 255, 1);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
 .walletLinks {
   display: flex;
   justify-content: center;
@@ -32,24 +60,26 @@
   flex-wrap: wrap;
 }
 
-.walletLink {
+.metamaskButton {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
   padding: 0.5rem 1rem;
-  background: rgba(255, 255, 255, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: linear-gradient(135deg, #F6851B, #E2761B);
+  border: 1px solid rgba(246, 133, 27, 0.3);
   border-radius: 8px;
   color: white;
   text-decoration: none;
   font-size: 0.75rem;
-  font-weight: 500;
+  font-weight: 600;
   transition: all 0.2s ease;
+  cursor: pointer;
 }
 
-.walletLink:hover {
-  background: rgba(255, 255, 255, 0.3);
+.metamaskButton:hover {
+  background: linear-gradient(135deg, #E2761B, #CD6116);
   transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(246, 133, 27, 0.3);
 }
 
 .detectedWallet {
@@ -71,11 +101,16 @@
     font-size: 0.8rem;
   }
   
+  .connectButton {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.8rem;
+  }
+  
   .walletLinks {
     gap: 0.5rem;
   }
   
-  .walletLink {
+  .metamaskButton {
     padding: 0.4rem 0.8rem;
     font-size: 0.7rem;
   }

@@ -3,11 +3,12 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { BREAKPOINTS, SCREEN_QUERIES } from '../../shared/constants/breakpoints';
 import { useWeb3 } from '../../shared/providers/Web3Context';
+import { MobileWalletHint } from '../../shared/ui';
 import { BurgerButton, BurgerMenu } from './BurgerMenu';
 import styles from './Header.module.css';
 
 export const Header: React.FC = () => {
-  const { account, connectWallet, disconnectWallet } = useWeb3();
+  const { account, connectWallet, disconnectWallet, isMobileDevice } = useWeb3();
   const navigate = useNavigate();
   
   const [screenWidth, setScreenWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1024);
@@ -69,6 +70,13 @@ export const Header: React.FC = () => {
 
   return (
     <header className={`${styles.header} ${isBurgerMenuOpen ? styles.headerBlurred : ''}`}>
+      {/* Показываем подсказку для мобильных устройств без подключенного кошелька */}
+      {isMobileDevice && !account && (
+        <div className="container">
+          <MobileWalletHint />
+        </div>
+      )}
+      
       <div className='container'>
         <div className={styles.headerContent}>
           <Link className={styles.logo} to="/" aria-label="Главная страница">
