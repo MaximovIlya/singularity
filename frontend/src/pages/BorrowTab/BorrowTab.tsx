@@ -71,9 +71,7 @@ export const BorrowTab: React.FC = () => {
     
     // Примерные коэффициенты обеспечения для разных валют
     const collateralRatios: { [key: string]: number } = {
-      'USDT': 110, // 110% для стейблкоина
-      'ETH': 150,  // 150% для ETH
-      'sepoliaETH': 150 // 150% для sepoliaETH
+      'ETH': 150  // 150% для ETH
     };
     
     const ratio = collateralRatios[collateralCoin] || 150;
