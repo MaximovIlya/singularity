@@ -73,7 +73,7 @@ export const Header: React.FC = () => {
         <div className={styles.headerContent}>
           <Link className={styles.logo} to="/" aria-label="Главная страница">
             <Globe className={styles.logoIcon} />
-            <span className={styles.logoText}>Shave ur balls</span>
+            <span className={styles.logoText}>Astro DeFi</span>
           </Link>
 
           <div className={styles.headerActions}>
