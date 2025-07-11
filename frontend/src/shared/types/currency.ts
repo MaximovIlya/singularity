@@ -6,9 +6,10 @@ export interface Currency {
   icon: string;
 }
 
-export type CurrencyId = 'ETH';
+export type CurrencyId = 'ETH' | 'USDT';
 
 import EthIcon from '../../assets/crypto/ethereum-eth-logo.svg';
+import UsdtIcon from '../../assets/crypto/tether-usdt-logo.svg';
 
 export const CURRENCIES: Currency[] = [
   {
@@ -17,6 +18,13 @@ export const CURRENCIES: Currency[] = [
     symbol: 'ETH',
     description: 'Ethereum',
     icon: EthIcon
+  },
+  {
+    id: 'USDT',
+    name: 'USDT',
+    symbol: 'USDT',
+    description: 'Tether',
+    icon: UsdtIcon
   }
 ];
 

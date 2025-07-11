@@ -12,10 +12,21 @@ import {
   Plus,
   Minus
 } from 'lucide-react';
-import { CurrencySelect, CURRENCIES, CurrencyId, MobileWalletHint } from '../../shared/ui';
+import { CurrencySelect, Currency, CurrencyId, MobileWalletHint, getCurrencyById } from '../../shared/ui';
 
 const MOCK_TOKEN_ADDRESS_ERROR =
   'Mock token address not found in environment variables.';
+
+// Только ETH доступен для обеспечения
+const ETH_CURRENCIES: Currency[] = [
+  {
+    id: 'ETH',
+    name: 'ETH',
+    symbol: 'ETH',
+    description: 'Ethereum',
+    icon: getCurrencyById('ETH')?.icon || ''
+  }
+];
 
 export const BorrowTab: React.FC = () => {
   const [collateralCoin, setCollateralCoin] = useState<CurrencyId>('ETH');
@@ -171,7 +182,12 @@ export const BorrowTab: React.FC = () => {
             </div>
           </div>
           <div className={styles.infoCard}>
-            <Zap className={styles.infoIcon} />
+            <img 
+              src={getCurrencyById('USDT')?.icon} 
+              alt="USDT" 
+              className={styles.infoIcon}
+              style={{ width: '24px', height: '24px' }}
+            />
             <div className={styles.infoContent}>
               <span className={styles.infoLabel}>Получаемая валюта</span>
               <span className={styles.infoValue}>{BORROW_TOKEN}</span>
@@ -185,7 +201,7 @@ export const BorrowTab: React.FC = () => {
             Выберите обеспечение
           </label>
           <CurrencySelect
-            currencies={CURRENCIES}
+            currencies={ETH_CURRENCIES}
             selectedCurrency={collateralCoin}
             onCurrencyChange={setCollateralCoin}
             disabled={loading}
@@ -196,7 +212,12 @@ export const BorrowTab: React.FC = () => {
           <div className={styles.amountInput}>
             <label className={styles.inputLabel}>
               Сумма для получения
-              <Info className={styles.infoIcon} />
+              <span 
+                title="Укажите сумму USDT, которую хотите получить в займ. Под эту сумму будет рассчитано необходимое обеспечение в выбранной криптовалюте"
+                style={{ cursor: 'help' }}
+              >
+                <Info className={styles.infoIcon} />
+              </span>
             </label>
             <div className={styles.inputWrapper}>
               <button
