@@ -10,41 +10,54 @@ import { HomePage } from '../pages/HomePage/HomePage';
 export type TabType = 'borrow' | 'invest' | 'my-investments' | 'my-loans';
 
 function App() {
-  const { connectWallet, account, poolManager, mockToken } = useWeb3();
+  const { connectWallet, account, poolManager } = useWeb3();
 
   return (
     <BrowserRouter>
       <div className={styles.app}>
         <Header />
         <main className={styles.main}>
-          {account && poolManager ? (
-            <Routes>
-              <Route path="/" element={<Navigate to="/borrow" replace />} />
-              <Route path="/borrow" element={<HomePage poolManager={poolManager} mockToken={mockToken} />} />
-              <Route path="/invest" element={<HomePage poolManager={poolManager} mockToken={mockToken} />} />
-              <Route path="/my-investments" element={
+          <Routes>
+            <Route path="/" element={<Navigate to="/borrow" replace />} />
+            <Route path="/borrow" element={<HomePage />} />
+            <Route path="/invest" element={<HomePage />} />
+            <Route path="/my-investments" element={
+              account && poolManager ? (
                 <div className='container'>
                   <MyInvestmentsTab poolManager={poolManager} />
                 </div>
-              } />
-              <Route path="/my-loans" element={
+              ) : (
+                <div className='container'>
+                  <div className={styles.connectWalletContainer}>
+                    <button
+                      className={styles.connectWalletButton}
+                      onClick={connectWallet}
+                    >
+                      Подключить кошелек для просмотра инвестиций
+                    </button>
+                  </div>
+                </div>
+              )
+            } />
+            <Route path="/my-loans" element={
+              account && poolManager ? (
                 <div className='container'>
                   <MyLoansTab />
                 </div>
-              } />
-            </Routes>
-          ) : (
-            <div className='container'>
-              <div className={styles.connectWalletContainer}>
-                <button
-                  className={styles.connectWalletButton}
-                  onClick={connectWallet}
-                >
-                  Подключить кошелек
-                </button>
-              </div>
-            </div>
-          )}
+              ) : (
+                <div className='container'>
+                  <div className={styles.connectWalletContainer}>
+                    <button
+                      className={styles.connectWalletButton}
+                      onClick={connectWallet}
+                    >
+                      Подключить кошелек для просмотра займов
+                    </button>
+                  </div>
+                </div>
+              )
+            } />
+          </Routes>
         </main>
         <ChatAgent />
       </div>

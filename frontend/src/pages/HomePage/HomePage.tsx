@@ -1,21 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { TrendingUp, PiggyBank, Shield, Zap, ArrowRight, Star, Users, DollarSign } from 'lucide-react';
+import { TrendingUp, PiggyBank, Shield, Zap, ArrowRight, Star, Users, DollarSign, Wallet } from 'lucide-react';
 import { LoanForm } from '../../widgets/LoanForm/LoanForm';
 import { PoolManagerContract } from '../../contracts/PoolManager';
 import { MockTokenContract } from '../../contracts/MockToken';
+import { useWeb3 } from '../../shared/providers/Web3Context';
 import styles from './HomePage.module.css';
 
-interface HomePageProps {
-  poolManager: PoolManagerContract;
-  mockToken: MockTokenContract | null;
-}
-
-export const HomePage: React.FC<HomePageProps> = ({
-  poolManager,
-  mockToken,
-}) => {
+export const HomePage: React.FC = () => {
   const navigate = useNavigate();
+  const { account, connectWallet, poolManager, mockToken } = useWeb3();
   const [heroVisible, setHeroVisible] = useState(true); // Показываем сразу при загрузке
   const [tradingVisible, setTradingVisible] = useState(false);
   const heroRef = useRef<HTMLElement>(null);
@@ -79,14 +73,14 @@ export const HomePage: React.FC<HomePageProps> = ({
       title: 'Займы под залог',
       description: 'Мгновенные займы в USDT под обеспечение ETH с прозрачными условиями',
       color: '#8b5cf6',
-      action: scrollToBorrow
+      action: account ? scrollToBorrow : connectWallet
     },
     {
       icon: PiggyBank,
       title: 'Инвестиции',
       description: 'Инвестируйте USDT в пулы ликвидности и получайте стабильную доходность',
       color: '#ec4899',
-      action: scrollToInvest
+      action: account ? scrollToInvest : connectWallet
     },
     {
       icon: Shield,
@@ -124,21 +118,34 @@ export const HomePage: React.FC<HomePageProps> = ({
               высокой доходностью и максимальной безопасностью ваших средств
             </p>
             <div className={styles.heroActions}>
-              <button 
-                className={styles.ctaButton}
-                onClick={scrollToBorrow}
-              >
-                <TrendingUp className={styles.buttonIcon} />
-                Получить займ
-                <ArrowRight className={styles.arrowIcon} />
-              </button>
-              <button 
-                className={styles.secondaryButton}
-                onClick={scrollToInvest}
-              >
-                <PiggyBank className={styles.buttonIcon} />
-                Инвестировать
-              </button>
+              {account ? (
+                <>
+                  <button 
+                    className={styles.ctaButton}
+                    onClick={scrollToBorrow}
+                  >
+                    <TrendingUp className={styles.buttonIcon} />
+                    Получить займ
+                    <ArrowRight className={styles.arrowIcon} />
+                  </button>
+                  <button 
+                    className={styles.secondaryButton}
+                    onClick={scrollToInvest}
+                  >
+                    <PiggyBank className={styles.buttonIcon} />
+                    Инвестировать
+                  </button>
+                </>
+              ) : (
+                <button 
+                  className={styles.ctaButton}
+                  onClick={connectWallet}
+                >
+                  <Wallet className={styles.buttonIcon} />
+                  Подключить кошелек
+                  <ArrowRight className={styles.arrowIcon} />
+                </button>
+              )}
             </div>
           </div>
           
@@ -192,7 +199,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                 <p className={styles.featureDescription}>{feature.description}</p>
                 {(feature.title === 'Займы под залог' || feature.title === 'Инвестиции') && (
                   <div className={styles.featureAction}>
-                    <span>Начать</span>
+                    <span>{account ? 'Начать' : 'Подключить кошелек'}</span>
                     <ArrowRight className={styles.featureArrow} />
                   </div>
                 )}
@@ -204,20 +211,22 @@ export const HomePage: React.FC<HomePageProps> = ({
       </section>
 
       {/* Trading Section */}
-      <section ref={tradingRef} id="trading-section" className={`${styles.trading} ${tradingVisible ? styles.tradingVisible : ''}`}>
-        <div className={styles.tradingInner}>
-          <div className={styles.tradingHeader}>
-            <h2 className={styles.sectionTitle}>Начните торговать</h2>
-            <p className={styles.sectionSubtitle}>
-              Выберите желаемую операцию и начните зарабатывать уже сегодня
-            </p>
+      {account && (
+        <section ref={tradingRef} id="trading-section" className={`${styles.trading} ${tradingVisible ? styles.tradingVisible : ''}`}>
+          <div className={styles.tradingInner}>
+            <div className={styles.tradingHeader}>
+              <h2 className={styles.sectionTitle}>Начните торговать</h2>
+              <p className={styles.sectionSubtitle}>
+                Выберите желаемую операцию и начните зарабатывать уже сегодня
+              </p>
+            </div>
+            
+            <div className={styles.tradingContainer}>
+              <LoanForm />
+            </div>
           </div>
-          
-          <div className={styles.tradingContainer}>
-            <LoanForm poolManager={poolManager} mockToken={mockToken} />
-          </div>
-        </div>
-      </section>
+        </section>
+      )}
     </div>
   );
 }; 
