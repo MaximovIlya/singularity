@@ -3,6 +3,7 @@
   min-height: 100vh;
   overflow-x: hidden;
   position: relative;
+  background: transparent;
 }
 
 .homePage::before {
@@ -15,7 +16,7 @@
   background: url('/galaxy.gif') center/cover;
   background-attachment: fixed;
   opacity: 0.2;
-  z-index: -10;
+  z-index: 0;
   pointer-events: none;
 }
 
@@ -189,17 +190,10 @@
 /* ═══════════════════════  Stats Section  ═══════════════════════ */
 
 .stats {
-  padding: var(--section-padding);
-  background: rgba(26, 26, 36, 0.8);
-  backdrop-filter: blur(20px);
+  padding: 2rem;
   position: relative;
   z-index: 20;
-  margin-top: -100px;
-  margin-left: var(--container-padding);
-  margin-right: var(--container-padding);
-  border-radius: 20px;
-  border: 1px solid rgba(139, 92, 246, 0.2);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  margin-top: 6rem;
 }
 
 .statsGrid {
@@ -467,9 +461,7 @@
   }
 
   .stats {
-    margin-top: -50px;
-    margin-left: 1rem;
-    margin-right: 1rem;
+    margin-top: 2rem;
     padding: 1.5rem;
   }
 
@@ -489,6 +481,18 @@
 
   .featureCard {
     padding: 1.5rem;
+  }
+
+  .trading {
+    padding: 2rem 0.5rem;
+  }
+
+  .tradingInner {
+    padding: 0 0.25rem;
+  }
+
+  .tradingContainer {
+    max-width: 100%;
   }
 }
 
@@ -512,7 +516,16 @@
   }
 
   .trading {
-    padding: 2rem 1rem;
+    padding: 2rem 0rem;
+  }
+
+  .tradingInner {
+    padding: 0;
+  }
+
+  .tradingContainer {
+    max-width: 100%;
+    padding: 0;
   }
 
   .sectionTitle {
@@ -521,6 +534,28 @@
 
   .sectionSubtitle {
     font-size: 1rem;
+  }
+}
+
+/* Ultra-wide for very small screens */
+@media (max-width: 360px) {
+  .trading {
+    padding: 1.5rem 0;
+  }
+
+  .tradingInner {
+    padding: 0;
+  }
+
+  .tradingContainer {
+    max-width: 100%;
+    padding: 0;
+    margin: 0;
+  }
+
+  .tradingHeader {
+    margin-bottom: 2rem;
+    padding: 0 0.5rem;
   }
 }
 

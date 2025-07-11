@@ -47,9 +47,17 @@
 }
 
 @media (max-width: 767px) {
+  .tabsHeader {
+    margin-bottom: 1.5rem;
+  }
+  
   .tabButton {
     padding: 14px 20px;
     font-size: 0.95rem;
+  }
+  
+  .tabContent {
+    padding: 0;
   }
 }
 
@@ -57,11 +65,32 @@
   .tabsHeader {
     flex-direction: column;
     gap: 8px;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
   }
   .tabButton {
     padding: 16px 24px;
     font-size: 1rem;
     border-radius: 10px;
+  }
+  
+  .tabContent {
+    padding: 0;
+  }
+}
+
+/* Ultra-wide for very small screens */
+@media (max-width: 360px) {
+  .tabsHeader {
+    margin-bottom: 0.75rem;
+    gap: 6px;
+  }
+  
+  .tabButton {
+    padding: 14px 20px;
+    font-size: 0.9rem;
+  }
+  
+  .tabContent {
+    padding: 0;
   }
 }

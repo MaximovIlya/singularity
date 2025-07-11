@@ -3,18 +3,8 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { BorrowTab } from '../../pages/BorrowTab/BorrowTab';
 import { InvestTab } from '../../pages/InvestTab/InvestTab';
 import styles from './LoanForm.module.css';
-import { PoolManagerContract } from '../../contracts/PoolManager';
-import { MockTokenContract } from '../../contracts/MockToken';
 
-interface LoanFormProps {
-  poolManager: PoolManagerContract;
-  mockToken: MockTokenContract | null;
-}
-
-export const LoanForm: React.FC<LoanFormProps> = ({
-  poolManager,
-  mockToken,
-}) => {
+export const LoanForm: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   
@@ -41,9 +31,7 @@ export const LoanForm: React.FC<LoanFormProps> = ({
 
       <div className={styles.tabContent}>
         {currentTab === '/borrow' && <BorrowTab />}
-        {currentTab === '/invest' && (
-          <InvestTab poolManager={poolManager} mockToken={mockToken} />
-        )}
+        {currentTab === '/invest' && <InvestTab />}
       </div>
     </div>
   );
